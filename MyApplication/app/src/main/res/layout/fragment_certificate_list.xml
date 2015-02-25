@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackGroundColor"
+
+    tools:context="cms.com.tn_ecs.fragments.CertificateList">
+
+    <LinearLayout
+        android:id="@+id/searchpanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dip">
+
+        <EditText
+            android:id="@+id/txtSearchBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittextborderwhitebackground"
+            android:gravity="center|left"
+            android:hint="Search"
+            android:paddingBottom="3dip"
+            android:paddingLeft="5dip"
+            android:paddingTop="3dip" />
+
+        <TextView
+            android:id="@+id/txtlistSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:paddingLeft="10dip"
+            android:text="number of record"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/certificateList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchpanel"
+        android:background="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="10dp"
+        android:listSelector="@android:color/transparent"
+
+        />
+
+    <RelativeLayout
+        android:id="@+id/panel_emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchpanel"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:visibility="gone">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="NO RECORDS FOUND FOR GIVEN INPUTS"
+            android:textSize="25sp"
+
+            />
+    </RelativeLayout>
+</RelativeLayout>

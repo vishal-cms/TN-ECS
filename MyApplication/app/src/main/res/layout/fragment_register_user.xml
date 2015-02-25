@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackGroundColor"
+    android:orientation="vertical"
+    android:padding="5dip"
+    tools:context="cms.com.tn_ecs.fragments.RegisterFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Enter Full Name"
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Enter Email Address"
+                android:inputType="textEmailAddress"
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtContactNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Contact Number"
+                android:inputType="phone"
+                android:maxLength="13"
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="top"
+                android:hint="Enter Address"
+                android:maxLines="5"
+                android:minLines="5"
+                android:padding="5dip" />
+
+            <RelativeLayout
+                android:id="@+id/radiolayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/txtMotherName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:padding="5dip">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_GenderMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="30dip"
+                        android:checked="true"
+                        android:text="Male"
+                        android:textSize="15dip" />
+
+                    <RadioButton
+                        android:id="@+id/rb_GenderFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="30dip"
+                        android:text="Female"
+                        android:textSize="15dip" />
+                </RadioGroup>
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/btn_selectDOB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="center|left"
+                android:padding="10dip"
+                android:text="Enter Date Of Birth" />
+
+            <EditText
+                android:id="@+id/txtpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtreEnterpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Re-Enter Password"
+                android:inputType="textPassword"
+                android:padding="5dip" />
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dip"
+                android:background="@drawable/button_border"
+                android:text="Register" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

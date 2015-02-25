@@ -1,0 +1,122 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackGroundColor"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+
+    android:scrollbars="horizontal|vertical"
+    tools:context="cms.com.tn_ecs.fragments.CertificateSearch">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/txtChildName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Child Name"
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtFatherName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtChildName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Father Name"
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtMotherName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtFatherName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="Mother Name"
+                android:padding="5dip" />
+
+            <RelativeLayout
+                android:id="@+id/radiolayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/txtMotherName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:padding="5dip">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="30dip"
+                        android:text="Male"
+                        android:textSize="15dip" />
+
+                    <RadioButton
+                        android:id="@+id/rb_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="30dip"
+                        android:text="Female"
+                        android:textSize="15dip" />
+                </RadioGroup>
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/sp_Place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/radiolayout"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"></Spinner>
+
+            <TextView
+                android:id="@+id/btn_selectDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sp_Place"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="center|left"
+                android:padding="5dip"
+                android:text="Enter Date Of Birth" />
+
+            <Button
+                android:id="@+id/btn_Search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dip"
+                android:background="@drawable/button_border"
+                android:text="Search" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,120 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackGroundColor"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+
+    android:scrollbars="horizontal|vertical"
+    tools:context="cms.com.tn_ecs.fragments.CertificateSearch">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/radiolayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/txtMotherName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:padding="5dip">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="15dip"
+                        android:checked="true"
+                        android:clickable="false"
+                        android:text="New Property Tax"
+                        android:textSize="10sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="15dip"
+                        android:clickable="false"
+                        android:text="Old Property tax"
+                        android:textSize="10sp" />
+
+
+                </RadioGroup>
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/sp_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"></Spinner>
+
+            <Spinner
+                android:id="@+id/sp_subDiv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"></Spinner>
+
+
+            <EditText
+                android:id="@+id/txtBillNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtChildName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="left|center"
+                android:hint="New Property Tax Bill No."
+
+                android:padding="5dip" />
+
+            <EditText
+                android:id="@+id/txtSubNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtFatherName"
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:editable="false"
+                android:gravity="left|center"
+                android:hint="Sub No. 000000"
+
+                android:padding="5dip" />
+
+
+            <Button
+                android:id="@+id/btn_getAries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dip"
+                android:background="@drawable/button_border"
+                android:text="Get Arrears And Old Receipt" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

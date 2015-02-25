@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="2dip"
+    android:background="@color/BackGroundColor"
+    android:orientation="vertical"
+    tools:context="cms.com.tn_ecs.fragments.PropertyTaxShow">
+
+
+    <RelativeLayout
+        android:id="@+id/detailsPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_margin="5dip"
+        android:background="@drawable/edittextborderwhitebackground"
+        android:gravity="left|top"
+        android:padding="10dip">
+
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblName"
+            android:gravity="left"
+            android:hint="Name"
+            android:maxWidth="200dip"
+
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/lblDo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtName"
+            android:layout_marginTop="5dip"
+            android:text="Door number and Street"
+
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/txtdoandst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/lblDo"
+            android:gravity="left"
+            android:hint="Door Number"
+            android:maxWidth="200dip"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ListLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsPanel"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/button_border"
+        android:gravity="center"
+        android:hint="Arrears"
+        android:padding="5dip"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/lst_assrers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ListLabel"
+        android:layout_marginTop="5dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+
+        ></ListView>
+
+    <ListView
+        android:id="@+id/lst_oldReceipt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ListLabel"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginRight="5dip"
+        android:visibility="invisible"
+
+        ></ListView>
+  <RelativeLayout
+        android:id="@+id/panel_emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ListLabel"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="NO OLD RECEIPTS FOUND FOR GIVEN INPUTS"
+            android:textSize="25sp"
+
+            />
+    </RelativeLayout>
+
+
+</RelativeLayout>

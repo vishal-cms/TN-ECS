@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dip"
+    android:background="@drawable/bg_card"
+    android:clickable="true"
+    android:gravity="center|left"
+    android:orientation="vertical"
+    android:paddingRight="10dip"
+
+    >
+
+    <View
+        android:id="@+id/sideBar"
+        android:layout_width="5dip"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dip"
+        android:background="#8FE489" />
+
+    <TextView
+        android:id="@+id/txt_Child_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dip"
+        android:hint="Child Name"
+        android:maxWidth="250dip"
+        android:textSize="18sp"
+
+        />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="5dip"
+        android:hint="Date"
+        android:textSize="15sp"
+
+        />
+
+    <TextView
+        android:id="@+id/txt_Father_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_Child_Name"
+        android:layout_marginLeft="10dip"
+        android:hint="Father Name"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/txt_Reg_No"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_Father_Name"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="10dip"
+        android:hint="Registration Number"
+        android:textSize="15sp" />
+
+</RelativeLayout>

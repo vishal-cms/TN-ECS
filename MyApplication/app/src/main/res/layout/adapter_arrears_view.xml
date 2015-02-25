@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lstArrearsListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="5dip"
+    android:background="@color/BackGroundColor"
+    android:clickable="true"
+    android:gravity="center|left"
+    android:orientation="vertical"
+
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="13dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/card_background">
+
+        <View
+            android:id="@+id/sideBar"
+            android:layout_width="4dip"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dip"
+            android:background="#8FE489" />
+
+        <TextView
+            android:id="@+id/lbl_hy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:hint="HY"
+            android:maxWidth="250dip"
+            android:textSize="10sp"
+
+            />
+
+        <TextView
+            android:id="@+id/txt_hy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lbl_hy"
+            android:layout_marginLeft="10dip"
+            android:hint="HY"
+            android:maxWidth="250dip"
+
+            android:textSize="17sp"
+
+            />
+
+
+        <TextView
+            android:id="@+id/lbl_demand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_hy"
+            android:layout_marginBottom="1dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="3dip"
+
+            android:hint="Demand"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/txt_demand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lbl_demand"
+            android:layout_marginBottom="3dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="1dip"
+            android:hint="Demand"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/lbl_coll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="1dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:hint="Coll"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_coll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/lbl_coll"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:hint="Coll"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/lbl_Arrears"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/txt_coll"
+            android:layout_marginBottom="1dip"
+
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:hint="Arrears"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_Arrears"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/lbl_Arrears"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:hint="Arrears"
+            android:textSize="17sp" />
+    </RelativeLayout>
+</RelativeLayout>

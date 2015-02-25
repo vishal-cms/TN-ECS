@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackGroundColor"
+    android:orientation="vertical"
+    tools:context="cms.com.tn_ecs.fragments.SelectServices">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtBirthCertificate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="center|left"
+                android:padding="15dip"
+                android:text="Birth Certificate"
+                android:textSize="20sp"
+
+                />
+
+            <TextView
+                android:id="@+id/txtDeathCertificate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="center|left"
+                android:padding="15dp"
+                android:text="Death Certificate"
+                android:textSize="20sp"
+
+                />
+
+            <TextView
+                android:id="@+id/txtPropertyTax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="center|left"
+                android:padding="15dip"
+                android:text="PropertyTax"
+                android:textSize="20sp"
+
+                />
+
+            <TextView
+                android:id="@+id/txtElectricityBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edittextborderwhitebackground"
+                android:gravity="center|left"
+                android:padding="15dip"
+                android:text="Electricity Bill"
+                android:textSize="20sp"
+
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

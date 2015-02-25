@@ -18,7 +18,7 @@ import cms.com.tn_ecs.fragments.CertificateList;
 import cms.com.tn_ecs.fragments.CertificateSearch;
 import cms.com.tn_ecs.fragments.DatePickerFragment;
 import cms.com.tn_ecs.fragments.DisplayCertificate;
-import cms.com.tn_ecs.fragments.ErrorDialogFragment;
+import cms.com.tn_ecs.fragments.MessageDialogFragment;
 import cms.com.tn_ecs.fragments.PropertyTaxGet;
 import cms.com.tn_ecs.fragments.PropertyTaxShow;
 import cms.com.tn_ecs.fragments.RegisterUser;
@@ -141,9 +141,9 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     }
 
     @Override
-    public void launchErrorDialog(String ErrorMessage) {
-        ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment(ErrorMessage);
-        errorDialogFragment.show(manager, "ErrorDialog");
+    public void launchMessageDialog(String dialogMessage , String dialogTitle) {
+        MessageDialogFragment messageDialogFragment = new MessageDialogFragment(dialogMessage , dialogTitle);
+        messageDialogFragment.show(manager, "ErrorDialog");
     }
 
     @Override

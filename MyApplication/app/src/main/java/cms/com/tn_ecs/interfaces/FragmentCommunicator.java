@@ -40,7 +40,7 @@ public interface FragmentCommunicator {
 
     public void launchPropertyTaxShowScreen();
 
-    public void launchErrorDialog(String ErrorMessage);
+    public void launchMessageDialog(String dialogMessage , String dialogTitle);
 
 
 }

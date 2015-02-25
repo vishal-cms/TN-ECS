@@ -242,7 +242,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             if (result) {
                 communicator.launchPropertyTaxShowScreen();
             } else {
-                communicator.launchErrorDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE);
+                communicator.launchMessageDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE , "Error");
             }
 
         }

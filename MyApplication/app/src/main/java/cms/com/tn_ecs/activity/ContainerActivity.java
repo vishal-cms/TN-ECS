@@ -2,6 +2,7 @@ package cms.com.tn_ecs.activity;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -60,7 +61,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     public void launchPropertyTaxScreen() {
         PropertyTaxGet propertyTaxScreen = new PropertyTaxGet();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment_container, propertyTaxScreen, "PropertyTaxScreen");
+        transaction.replace(R.id.fragment_container, propertyTaxScreen, "PropertyTaxScreen");
         transaction.addToBackStack("PropertyTaxScreen");
 
         transaction.commit();
@@ -77,6 +78,8 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         controller = Controller.getControllerInstance();
         launcgSplashScreen();
+        controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
+        controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
         if (!new File(URLConstants.APPLICATION_BASE_PATH + "/.zone.txt").exists()) {
             copyAssets();
             createApplicationDir();
@@ -109,7 +112,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         SelectServices selectServices = new SelectServices();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, selectServices, "selectServices");
-
+        manager.popBackStack(null , FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction.commitAllowingStateLoss();
     }
 
@@ -217,6 +220,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
                 launchSearchScreen();
                 break;
             case PROPERTY_TAX:
+                controller.setSelectedService(SERVICE_TYPE.PROPERTY_TAX);
                 controller.setRequestedUrl(URLConstants.PROPERTY_TAX_MASTER_URL);
                 launchPropertyTaxScreen();
                 break;

@@ -17,6 +17,8 @@ public class URLConstants {
     public static final String APPLICATION_BASE_PATH = Environment.getExternalStorageDirectory() + "/TN_ECS/";
     public static final String PROPERTY_TAX_MASTER_URL = "http://164.100.134.92:8280/ptis/external/collectionservice?";   
     public static final String USER_REGISTRATION_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/UserRegistration?";
+    public static final String USER_LOGIN_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/UserVerfication?";
+    
 
 
 }

@@ -28,7 +28,6 @@ import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.network.Connection;
 import cms.com.tn_ecs.network.ParseResult;
 import cms.com.tn_ecs.objectholders.ZoneInfo;
-import cms.com.tn_ecs.utils.Messages;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -211,12 +210,18 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
 
 
             String Result = new Connection(getActivity()).getResult(getArrearsService);
-            if (Result.contains("RESP") && new ParseResult(Result).parseGerArriesResult()) {
+            if(!Result.contains("Error")) {
+                if (Result.contains("RESP") && new ParseResult(Result).parseGerArriesResult()) {
 
-                String oldreceiptresult = new Connection(getActivity()).getResult(getRcptsService);
-                new ParseResult(oldreceiptresult).parseOldReceiptResult();
-                result = true;
-            } else {
+                    String oldreceiptresult = new Connection(getActivity()).getResult(getRcptsService);
+                    new ParseResult(oldreceiptresult).parseOldReceiptResult();
+                    result = true;
+                } else {
+                    result = false;
+                }
+            }
+            else
+            {
                 result = false;
             }
             return null;
@@ -242,7 +247,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             if (result) {
                 communicator.launchPropertyTaxShowScreen();
             } else {
-                communicator.launchMessageDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE , "Error");
+                communicator.launchMessageDialog("No Record Found For Given Input." , "Error");
             }
 
         }

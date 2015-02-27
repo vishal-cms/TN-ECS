@@ -27,7 +27,9 @@ public class Controller {
     private String applicationRootPath;
     private ArrayList<ZoneInfo> zoneInfo;
     private ArrayList<String> oldReceiptNumber;
+    private String applicationUserName;
 
+  
 
     private PropertyTaxArrears propertyTaxArrears;
 
@@ -88,8 +90,6 @@ public class Controller {
 
     public void setSelectedDate(String selectedDate) {
         this.selectedDate = selectedDate;
-
-
     }
 
     public CertificateList getCertificateList() {
@@ -131,5 +131,12 @@ public class Controller {
 
     public void setOldReceiptNumber(ArrayList<String> oldReceiptNumber) {
         this.oldReceiptNumber = oldReceiptNumber;
+    }
+    public String getApplicationUserName() {
+        return applicationUserName;
+    }
+
+    public void setApplicationUserName(String applicationUserName) {
+        this.applicationUserName = applicationUserName;
     }
 }

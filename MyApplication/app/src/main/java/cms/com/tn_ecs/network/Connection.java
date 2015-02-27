@@ -10,6 +10,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import cms.com.tn_ecs.controller.Controller;
+import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 import cms.com.tn_ecs.utils.URLConstants;
 
@@ -37,9 +41,11 @@ public class Connection {
     String requestUrl = "";
     SERVICE_TYPE serviceType;
     Controller controller;
+    FragmentCommunicator communicator;
 
     public Connection(Context context) {
         this.context = context;
+        communicator = (FragmentCommunicator)context;
         controller = Controller.getControllerInstance();
         requestUrl = controller.getRequestedUrl();
         requestUrlForDownload = controller.getRequestedDownloadUrl();
@@ -86,7 +92,8 @@ public class Connection {
                 } else {
                     return false;
                 }
-            } catch (Exception e) {
+            } 
+            catch (Exception e) {
                 return false;
             }
         } else {
@@ -112,8 +119,11 @@ public class Connection {
         InputStream inputStream = null;
         String result = null;
         try {
-            HttpClient httpClient = new DefaultHttpClient();
-
+           
+            HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams , 10000);
+            HttpConnectionParams.setSoTimeout(httpParams , 10000);
+            HttpClient httpClient = new DefaultHttpClient(httpParams);
             HttpResponse httpResponse = httpClient.execute(new HttpGet(requestdUrl));
             inputStream = httpResponse.getEntity().getContent();
             if (inputStream != null)

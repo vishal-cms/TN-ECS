@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cms.com.tn_ecs.R;
+import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 
@@ -22,6 +23,10 @@ public class SelectServices extends android.support.v4.app.Fragment implements V
     TextView txtDeathCertificate;
     TextView txtElectricityBill;
     TextView txtPropertyTax;
+    TextView txtUserName;
+    Controller controller;
+            
+    
     FragmentCommunicator communicator;
 
     public SelectServices() {
@@ -41,15 +46,19 @@ public class SelectServices extends android.support.v4.app.Fragment implements V
         super.onActivityCreated(savedInstanceState);
 
         communicator = (FragmentCommunicator) getActivity();
+        controller= Controller.getControllerInstance();
         txtBirthCertificate = (TextView) getActivity().findViewById(R.id.txtBirthCertificate);
         txtDeathCertificate = (TextView) getActivity().findViewById(R.id.txtDeathCertificate);
         txtElectricityBill = (TextView) getActivity().findViewById(R.id.txtElectricityBill);
         txtPropertyTax = (TextView) getActivity().findViewById(R.id.txtPropertyTax);
+        txtUserName =(TextView)getActivity().findViewById(R.id.txtViewUserName);
+      
         txtBirthCertificate.setOnClickListener(this);
         txtDeathCertificate.setOnClickListener(this);
         txtElectricityBill.setOnClickListener(this);
         txtPropertyTax.setOnClickListener(this);
         communicator.actionBarTitle("E-Sevai Services");
+        txtUserName.setText("Welcome : " + controller.getApplicationUserName());    
     }
 
 

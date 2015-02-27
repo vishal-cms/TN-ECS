@@ -20,8 +20,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import cms.com.tn_ecs.R;
+import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.network.Connection;
 import cms.com.tn_ecs.network.ParseResult;
@@ -34,6 +36,8 @@ import cms.com.tn_ecs.utils.Messages;
 public class RegisterUser extends android.support.v4.app.Fragment implements View.OnClickListener {
 
     TextView txtSelectDate;
+    TextView txtCaptchaText;
+
     FragmentCommunicator communicator;
     RadioButton rbMale, rbFemale;
     EditText txtName;
@@ -41,10 +45,13 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     EditText txtPhoneNumber;
     EditText txtAddress;
     EditText txtPassword;
+    EditText txtCaptchaAnswer;
     EditText txtReEnterPassword;
     String sex;
     Button btnRegister;
-
+    Controller controller;
+    String userRegistrationUrl;
+    Captcha captcha;
 
     public RegisterUser() {
         sex = "M";
@@ -71,6 +78,8 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         txtAddress = (EditText) getActivity().findViewById(R.id.txtAddress);
         txtPassword = (EditText) getActivity().findViewById(R.id.txtpassword);
         txtReEnterPassword = (EditText) getActivity().findViewById(R.id.txtreEnterpassword);
+        txtCaptchaAnswer = (EditText) getActivity().findViewById(R.id.txtAnswer);
+        txtCaptchaText = (TextView) getActivity().findViewById(R.id.txtCaptchaText);
         rbMale = (RadioButton) getActivity().findViewById(R.id.rb_GenderMale);
         rbMale.setChecked(true);
         rbFemale = (RadioButton) getActivity().findViewById(R.id.rb_GenderFemale);
@@ -79,7 +88,8 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         rbMale.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         txtSelectDate.setOnClickListener(this);
-
+        controller = Controller.getControllerInstance();
+       showCaptcha();
     }
 
 
@@ -105,20 +115,36 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                         
                         //check if user have entered same password and reenter password. 
                         if(txtPassword.getText().toString().trim().equals(txtReEnterPassword.getText().toString().trim())) {
-                            
-                            //generate parametrized user registration link method written in Connection class.
 
-                            ArrayList<NameValuePair> userDetails  = new ArrayList<NameValuePair>();
-                            
-                           
-                            userDetails.add(new BasicNameValuePair("Userdtls" , getUserJsonObject().toString()));
-                            
-                            String userRegistrationUrl =  new Connection(getActivity()).getParametriseUrl(userDetails);
+                            //checking is captcha is enter properly
+                            if(!txtCaptchaAnswer.getText().toString().trim().equals("")){
+                            int userAnswer =Integer.parseInt(txtCaptchaAnswer.getText().toString().trim());
+                            if(userAnswer == captcha.getAnswer()) {
+                                //generate parametrized user registration link method written in Connection class.
 
-                            Log.d("Url" , userRegistrationUrl);
-                            
-                            new RegisterUserTask(userRegistrationUrl).execute();
+                                ArrayList<NameValuePair> userDetails = new ArrayList<NameValuePair>();
+
+
+                                userDetails.add(new BasicNameValuePair("Userdtls", getUserJsonObject().toString()));
+
+                                userRegistrationUrl = new Connection(getActivity()).getParametriseUrl(userDetails);
+
+                                Log.d("Url", userRegistrationUrl);
+
+                                new RegisterUserTask(userRegistrationUrl).execute();
+                            }
+                            else {
+                                Toast.makeText(getActivity() , "Please Enter Correct  Answer." , Toast.LENGTH_SHORT).show();
+                                txtCaptchaAnswer.setBackgroundResource(R.drawable.text_error_border);
+                            showCaptcha();
+                            }
                         }
+                        else
+                            {
+                                Toast.makeText(getActivity() , "Please Enter Answer." , Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
                         else
                         {
                             Toast.makeText(getActivity() , "Password and ReEntered Password Dose Not Match" , Toast.LENGTH_SHORT).show();
@@ -198,32 +224,96 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (result.equals("false")) {
-                Toast.makeText(getActivity(), " registration failed", Toast.LENGTH_LONG).show();
-            }
             if (progressdialog != null)
             {
                 progressdialog.dismiss();
             }
+           
+          
             
-           if(parseResults != null)
+           if(!result.equalsIgnoreCase("false")||parseResults != null)
            {
                if (parseResults[0].equals("1"))
                {
+                   communicator.launchMessageDialog("User Registration Successfull.","Thank You.");
+                   communicator.detachSplashScreen();
                    
+                   new GeneralUtilities(getActivity()).writeDataToSharedPreferences(txtEmailAddress.getText().toString(), txtName.getText().toString());
+                   controller.setApplicationUserName(parseResults[2].toString().trim());
                    communicator.launchSelectServiceScreen();
                }
                else if(parseResults[0].equals("0"))
                {
-                   Toast.makeText(getActivity() , parseResults[1].toString().toUpperCase(), Toast.LENGTH_LONG).show();
+                   communicator.launchMessageDialog(parseResults[1].toString().toUpperCase(),"Error.");
+                  // Toast.makeText(getActivity() , parseResults[1].toString().toUpperCase(), Toast.LENGTH_LONG).show();
                }
                
            }
             else
            {
-               Toast.makeText(getActivity() , "Registration failed! Please Try After Some Time" , Toast.LENGTH_LONG).show();
-           }
+                   communicator.launchMessageDialog("Registration failed! Please Try After Some Time.", "Error.");
+               
+               }
 
+        }
+    }
+
+    ////Captcha Related Logic
+
+    private void showCaptcha()
+    {
+        captcha = getCaptcha();
+        txtCaptchaText.setText(captcha.getCaptchaText());
+    }
+
+
+    //following function will return Captcha object
+    //contain captcha Text And its Answer
+    private Captcha getCaptcha()
+    {
+        Random random = new Random();
+        Captcha captcha = new Captcha();
+        int firstRandomValue = random.nextInt((9-0)+1)+0;
+        int SecondRandomValue = random.nextInt((9-0)+1)+0;
+        int operations = random.nextInt((2-0)+1)+0;
+
+        switch (operations)
+        {
+            case 0:
+                captcha.setCaptchaText(""+firstRandomValue+"+"+SecondRandomValue + " = ");
+                captcha.setAnswer(firstRandomValue+SecondRandomValue);
+                break;
+            case 1:
+                captcha.setCaptchaText(""+firstRandomValue+"-"+SecondRandomValue + " = ");
+                captcha.setAnswer(firstRandomValue-SecondRandomValue);
+                break;
+            case 2:
+                captcha.setCaptchaText(""+firstRandomValue+"*"+SecondRandomValue + " = ");
+                captcha.setAnswer(firstRandomValue*SecondRandomValue);
+                break;
+        }
+        return  captcha;
+    }
+
+   private class Captcha
+    {
+        String captchaText;
+        int answer;
+
+        public String getCaptchaText() {
+            return captchaText;
+        }
+
+        public void setCaptchaText(String captchaText) {
+            this.captchaText = captchaText;
+        }
+
+        public int getAnswer() {
+            return answer;
+        }
+
+        public void setAnswer(int answer) {
+            this.answer = answer;
         }
     }
 

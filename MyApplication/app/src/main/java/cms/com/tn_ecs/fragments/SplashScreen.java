@@ -3,9 +3,6 @@ package cms.com.tn_ecs.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +16,19 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import cms.com.tn_ecs.R;
 import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.network.Connection;
-import cms.com.tn_ecs.objectholders.ApplicationUser;
+import cms.com.tn_ecs.network.ParseResult;
 import cms.com.tn_ecs.utils.GeneralUtilities;
+import cms.com.tn_ecs.utils.Messages;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 
 /**
@@ -37,6 +41,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     EditText txtUserName;
     EditText txtPassword;
     TextView txtnewuser;
+    Controller controller;
     Button btnLogin;
     ProgressDialog progressdialog;
     ScrollView loginPanel;
@@ -46,7 +51,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     FragmentCommunicator communicator;
     boolean isNetworkStateChecked;
     RelativeLayout progressbarLayout;
-
+    JSONObject userLoginDetailsObject;
     public SplashScreen() {
     }
 
@@ -62,12 +67,13 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         communicator = (FragmentCommunicator) getActivity();
+       String email =  new GeneralUtilities(getActivity()).readDataFromSharedPreferences();
         communicator.actionBarTitle("Tamilnadu E-Sevai");
         txtErrorMessage = (TextView) getActivity().findViewById(R.id.txt_errorMessage);
         txtErrorMessage.setVisibility(View.GONE);
         progressbarLayout = (RelativeLayout) getActivity().findViewById(R.id.relativelayout_progress);
         progressbarLayout.setVisibility(View.GONE);
-       
+       controller = Controller.getControllerInstance();
         txtUserName = (EditText) getActivity().findViewById(R.id.txtUserName);
         txtPassword = (EditText) getActivity().findViewById(R.id.txtPassword);
         btnLogin = (Button) getActivity().findViewById(R.id.btn_login);
@@ -79,35 +85,54 @@ public class SplashScreen extends android.support.v4.app.Fragment {
                 communicator.launchSelectedService(SERVICE_TYPE.REGISTER_USER);
             }
         });
+        
+        if(email != null)
+        {
+            txtUserName.setText(email);
+            txtPassword.requestFocus();
+        }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isValidUserName = GeneralUtilities.validateUserName(txtUserName.getText().toString().trim());
-                if (!isValidUserName) {
-                    Drawable drawable = getActivity().getResources().getDrawable(R.drawable.text_error_border);
-                    txtUserName.setBackground(drawable);
-                    txtErrorMessage.setVisibility(View.VISIBLE);
-                    txtErrorMessage.setText("Please enter valid email address.");
-                } else {
-                    Drawable drawable = getActivity().getResources().getDrawable(R.drawable.edittextborderwhitebackground);
-                    txtUserName.setBackground(drawable);
-                    txtErrorMessage.setVisibility(View.GONE);
-                    validateLogin();
-
-                }
+               if(!txtUserName.getText().toString().trim().equals("") && !txtPassword.getText().toString().trim().equals(""))
+               {
+                   if(new GeneralUtilities(getActivity()).validateUserName(txtUserName.getText().toString().trim()))
+                   {
+                       try {
+                           userLoginDetailsObject = new JSONObject();
+                           userLoginDetailsObject.put("username", txtUserName.getText().toString().trim());
+                           userLoginDetailsObject.put("password", txtPassword.getText().toString().trim());
+                           ArrayList<NameValuePair> loginDetails= new ArrayList<NameValuePair>();
+                           loginDetails.add(new BasicNameValuePair("LoginDtls" , userLoginDetailsObject.toString()));
+                          String loginUrl = new Connection(getActivity()).getParametriseUrl(loginDetails);
+                           Log.d("LoginUrl" , loginUrl);
+                           new ValidateLoginTask(loginUrl).execute();
+                           
+                       }
+                       catch (Exception e)
+                       {
+                           Log.d("Error" , "Login Error");
+                       }
+                   }
+                   else
+                   {
+                       txtErrorMessage.setVisibility(View.VISIBLE);
+                       txtErrorMessage.setText("Please Enter Correct Email Address.");   
+                   }
+               }
+                else
+               {
+                   txtErrorMessage.setVisibility(View.VISIBLE);
+                   txtErrorMessage.setText(Messages.MANDETORY_FIELDS_MESSAGE);
+               }
             }
         });
 
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!isNetworkStateChecked){
-            new CheckNetworkTask().execute();}
-    }
+   
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,64 +151,15 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     
     }
 
-    private boolean validateLogin() {
-        if (isValidUserName && txtUserName.getText().toString().equals("admin@admin.com") && txtPassword.getText().toString() != "" && txtPassword.getText().toString().equals("admin")) {
-            ApplicationUser user = new ApplicationUser();
-            user.setFullName("Vishal Mokal");
-            user.setEmailAddress("admin@admin.com");
-            user.setAddress("2/9 Pandurang Krupa ,LineAli Shivaji Road Panvel");
-            user.setMobileNumber("889870929");
-            user.setSex("Male");
-            user.setDateOfBirth("09/04/1989");
-            user.setPassword("admin");
-            Controller.getControllerInstance().setAppuser(user);
-            writeDataToSharedPreferences(user);
-            communicator.launchSelectServiceScreen();
-            return true;
-        } else {
-            txtErrorMessage.setVisibility(View.VISIBLE);
-            txtErrorMessage.setText("Invalid user.");
-            return false;
+    private class ValidateLoginTask extends AsyncTask<String, Void, String> {
 
+        String requestedUrl;
+        String result;
+        String[] results;
+
+        private ValidateLoginTask(String requestedUrl) {
+            this.requestedUrl = requestedUrl;
         }
-    }
-
-    public void readDataFromSharedPreferences() {
-
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        if (sharedPref.contains("tnecs")) {
-        String email = sharedPref.getString("EmailAddress", null);
-        if (!email.equals(null)) {
-            txtUserName.setText(email);
-            txtPassword.requestFocus();
-        }
-    }
-
-    }
-
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d("Called" , "Saved instance stated called");
-        outState.putBoolean("Checked" , true);
-
-    }
-    public void writeDataToSharedPreferences(ApplicationUser user) {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("tnecs" , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("FullName", user.getFullName());
-        editor.putString("EmailAddress", user.getEmailAddress());
-        editor.putString("Address", user.getAddress());
-        editor.putString("MobileNumber", user.getMobileNumber());
-        editor.putString("Sex", user.getSex());
-        editor.putString("DOB", user.getDateOfBirth());
-        editor.putString("Password", user.getPassword());
-        editor.commit();
-    }
-
-    private class CheckNetworkTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -197,16 +173,11 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-          /*  Connection connection = new Connection(getActivity());
-            isNetWorkAvailable = connection.isNetworkAvailable();
-            if (isNetWorkAvailable) {
-                isHostAvailable = connection.isHostAvailable(isNetWorkAvailable);
-            }*/
-            try {
-                Thread.sleep(3000);
-            } catch (Exception e) {
-                return null;
-            }
+          result =  new Connection(getActivity()).getResult(requestedUrl);
+            
+           results =  new ParseResult().parseUserLoginResult(result);
+            
+         
             return null;
         }
 
@@ -214,16 +185,26 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressbarLayout.setVisibility(View.GONE);
-           /* if (!isNetWorkAvailable) {
-                txtErrorMessage.setVisibility(View.VISIBLE);
-                txtErrorMessage.setText("Sorry! No internet connection available.");
+            if (results != null)
+            {
+                if(results[0].equals("1"))
+                {
+                    new GeneralUtilities(getActivity()).writeDataToSharedPreferences(results[2].toString().trim() , "");
+                    controller.setApplicationUserName(results[2].toString().trim());
+                    communicator.launchSelectServiceScreen();
+                }
+                else if(!results[0].equals("1"))
+                {
+                    txtErrorMessage.setVisibility(View.VISIBLE);
+                    txtErrorMessage.setText(results[1].toString().toUpperCase());
+                }
             }
-            if (!isHostAvailable) {
+            else
+            {
                 txtErrorMessage.setVisibility(View.VISIBLE);
-                txtErrorMessage.setText("Sorry! Host not reachable.");
+                txtErrorMessage.setText("Unable to Login Please Try After Some Time.");
             }
-            ;*/
-            readDataFromSharedPreferences();
+         
         }
     }
 

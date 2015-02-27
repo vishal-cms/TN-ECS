@@ -317,7 +317,24 @@ public class ParseResult {
             return results;
         }
     }
-
+    public String[] parseUserLoginResult(String result)
+    {
+        String [] results = new String[3];
+        try {
+            JSONObject userRegistrationResultObject = new JSONObject(result);
+            String  userRegistrationResultString = (String) userRegistrationResultObject.get("UserVerficationResult");
+            JSONObject userRegistrationResult = new JSONObject(userRegistrationResultString);
+            results[0] =""+userRegistrationResult.getInt("status");
+            results[1] =(String)userRegistrationResult.get("usermessage");
+            results[2] =(String)userRegistrationResult.get("username");
+            return results;
+        }
+        catch (Exception e)
+        {
+            results = null;
+            return results;
+        }
+    }
 
 }
 

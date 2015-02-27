@@ -9,12 +9,12 @@
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/seconderytitles"
+        android:background="@drawable/button_border"
         android:contentDescription="@string/app_name"
         android:gravity="center|left"
         android:paddingLeft="20dip"
         android:text="Error"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
@@ -37,7 +37,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" 
     android:id="@+id/btnOK"
-    android:background="@drawable/button_border"
+    android:background="@color/seconderytitles"
     android:text="OK"
+    android:layout_margin="3dip"
     />
 </LinearLayout>

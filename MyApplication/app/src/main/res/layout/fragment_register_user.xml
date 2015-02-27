@@ -132,7 +132,37 @@
                 android:hint="Re-Enter Password"
                 android:inputType="textPassword"
                 android:padding="5dip" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:layout_margin="5dip"
+                    android:gravity="center"
+                    android:text="Enter Your Answer"
+                    android:textSize="15sp"
+                     android:background="@drawable/edittextborderwhitebackground"
+                    android:id="@+id/txtCaptchaText"
+                    android:layout_alignParentLeft="true"
+                    />
+                <EditText
+                    android:layout_width="100dip"
+                    android:layout_height="wrap_content"
+                    android:hint="Answer"
+                    android:gravity="center"
+                    android:padding="5dip"
+                    android:layout_margin="5dip"
+                    
+                    android:id="@+id/txtAnswer"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/edittextborderwhitebackground"
+                    />
 
+            </RelativeLayout>
             <Button
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
@@ -141,6 +171,7 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/button_border"
                 android:text="Register" />
+
         </LinearLayout>
     </ScrollView>
 

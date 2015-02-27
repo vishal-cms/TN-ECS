@@ -26,6 +26,10 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
     
     //if dateformat = dmy onDateSet method will return date in DD/MM/YYYY format
     //if dateformat = mdy onDateSet method will return date in MM/DD/YYYY format
+
+    public DatePickerFragment() {
+    }
+
     public DatePickerFragment(String dateFormat) {
         controller = Controller.getControllerInstance();
         this.dateFormat = dateFormat;

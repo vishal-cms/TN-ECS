@@ -2,6 +2,6 @@
 <resources>
 
     <color name="PrimaryColor">#009688</color>
-    <color name="BackGroundColor">#ffffff</color>
+    <color name="BackGroundColor">#F1F1F1</color>
     <color name="seconderytitles">#e0f2f1</color>
 </resources>

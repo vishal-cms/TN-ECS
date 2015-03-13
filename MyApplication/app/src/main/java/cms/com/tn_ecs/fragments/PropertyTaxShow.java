@@ -74,10 +74,10 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
         emptyView = (RelativeLayout) getActivity().findViewById(R.id.panel_emptyView);
         lstOld_Receipts.setEmptyView(emptyView);
 
-        if (listFlag == 0) {
+       
             listLabel.setText("Old Receipts");
             lstOld_Receipts.setVisibility(View.INVISIBLE);
-        }
+       
 
         listLabel.setOnClickListener(this);
         lstShowArrears = (ListView) getActivity().findViewById(R.id.lst_assrers);

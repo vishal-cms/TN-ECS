@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
 
     android:layout_margin="5dip"
-    android:background="#ffffff"
+    android:background="#F1F1F1"
     android:clickable="true"
     android:gravity="center|left"
     android:orientation="vertical"
@@ -16,9 +16,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="13dip"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="15dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="8dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:background="@drawable/card_background">
 
         <View

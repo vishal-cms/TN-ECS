@@ -30,6 +30,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
+                android:inputType="textCapCharacters"
                 android:hint="Child Name"
                 android:padding="5dip" />
 
@@ -40,6 +41,7 @@
                 android:layout_below="@id/txtChildName"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
+                android:inputType="textCapCharacters"
                 android:gravity="left|center"
                 android:hint="Father Name"
                 android:padding="5dip" />
@@ -51,6 +53,7 @@
                 android:layout_below="@id/txtFatherName"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
+                android:inputType="textCapCharacters"
                 android:gravity="left|center"
                 android:hint="Mother Name"
                 android:padding="5dip" />

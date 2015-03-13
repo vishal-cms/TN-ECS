@@ -6,6 +6,6 @@ package cms.com.tn_ecs.utils;
 public class Messages {
     
     public static final String MANDETORY_FIELDS_MESSAGE = "All Fields Are Mandatory.";
-    public static final String SERVER_CONNECTIVITY_ERROR_MESSAGE = "Sorry! Problem Connecting To Server Please Try After Some Time.";
+    public static final String SERVER_CONNECTIVITY_ERROR_MESSAGE = "Sorry! Problem Connecting Server Please Try After Some Time.";
     
 }

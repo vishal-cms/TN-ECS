@@ -1,6 +1,7 @@
 package cms.com.tn_ecs.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class CertificateListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
 
         ViewHolder viewHolder;
@@ -100,8 +101,9 @@ public class CertificateListAdapter extends BaseAdapter {
         viewHolder.fullLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.setSelectedCertificate(certificate);
-                communicator.viewCertificate();
+                Log.d("Url" , certificateList.get(position).getEnglishUrl());
+                controller.setSelectedCertificate(certificateList.get(position));
+               communicator.viewCertificate();
             }
         });
         return convertView;

@@ -46,6 +46,7 @@ public class SelectServices extends android.support.v4.app.Fragment implements V
         super.onActivityCreated(savedInstanceState);
 
         communicator = (FragmentCommunicator) getActivity();
+        communicator.showActionBar();
         controller= Controller.getControllerInstance();
         txtBirthCertificate = (TextView) getActivity().findViewById(R.id.txtBirthCertificate);
         txtDeathCertificate = (TextView) getActivity().findViewById(R.id.txtDeathCertificate);

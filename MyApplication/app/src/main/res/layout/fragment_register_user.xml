@@ -25,7 +25,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
-                android:hint="Enter Full Name"
+                android:hint="Enter Full Name *"
                 android:padding="5dip" />
 
             <EditText
@@ -35,7 +35,7 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
-                android:hint="Enter Email Address"
+                android:hint="Enter Email Address *"
                 android:inputType="textEmailAddress"
                 android:padding="5dip" />
 
@@ -46,9 +46,9 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
-                android:hint="Contact Number"
+                android:hint="Contact Number *"
                 android:inputType="phone"
-                android:maxLength="13"
+                android:maxLength="12"
                 android:padding="5dip" />
 
             <EditText
@@ -58,7 +58,7 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="top"
-                android:hint="Enter Address"
+                android:hint="Enter Address *"
                 android:maxLines="5"
                 android:minLines="5"
                 android:padding="5dip" />
@@ -109,7 +109,7 @@
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center|left"
                 android:padding="10dip"
-                android:text="Enter Date Of Birth" />
+                android:text="Enter Date Of Birth *" />
 
             <EditText
                 android:id="@+id/txtpassword"
@@ -118,7 +118,7 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
-                android:hint="Password"
+                android:hint="Password *"
                 android:inputType="textPassword"
                 android:padding="5dip" />
 
@@ -129,7 +129,7 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
-                android:hint="Re-Enter Password"
+                android:hint="Re-Enter Password *"
                 android:inputType="textPassword"
                 android:padding="5dip" />
             <RelativeLayout
@@ -152,7 +152,7 @@
                 <EditText
                     android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                    android:hint="Answer"
+                    android:hint="Answer *"
                     android:gravity="center"
                     android:padding="5dip"
                     android:layout_margin="5dip"

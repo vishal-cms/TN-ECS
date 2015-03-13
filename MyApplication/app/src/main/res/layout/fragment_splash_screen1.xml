@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dip"
         android:layout_marginBottom="10dip"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="15dip"
 
         android:src="@drawable/tamil_nadu_" />
 
@@ -31,7 +31,7 @@
         android:id="@+id/txt_errorMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+       
         android:layout_below="@id/txtAppTitle"
         android:gravity="center"
         android:text="Sorry! No Internet Connecitivity. "
@@ -45,7 +45,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/txtversionNumber"
         android:layout_below="@id/txt_errorMessage"
-        android:layout_marginBottom="20dip"
+        android:layout_marginBottom="5dip"
 
         android:visibility="visible">
 
@@ -95,15 +95,55 @@
                 android:background="@drawable/button_border"
                 android:text="Login" />
 
-            <TextView
-                android:id="@+id/btn_newUser"
+            
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_login"
-                android:clickable="true"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="New User" />
+                android:layout_marginTop="5dip"
+                android:id="@+id/userModulPanel"
+                >
+
+                <TextView
+                    android:id="@+id/btn_ChangePassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dip"
+                    android:text="Change Password" />
+                <TextView
+                    android:id="@+id/btn_ForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="5dip"
+                    android:text="Forgot Password" />
+                
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:layout_below="@id/btn_ChangePassword"
+                    android:textSize="15sp"
+                
+                    android:id="@+id/txtLable"
+                    android:gravity="center"
+                    android:text="-----OR-----"
+                    />
+                <TextView
+                    android:id="@+id/btn_newUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="5dip"
+                    android:layout_below="@id/txtLable"
+                    android:text="Sign Up" />
+                
+                </RelativeLayout>
+            
+           
         </RelativeLayout>
 
     </ScrollView>

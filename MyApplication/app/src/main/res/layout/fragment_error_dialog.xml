@@ -25,12 +25,14 @@
 
         android:id="@+id/txt_errorMessage"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:contentDescription="@string/app_name"
         android:gravity="center|left"
         android:paddingLeft="20dip"
         android:paddingRight="20dip"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
         android:text="Sorry! Problem Connecting Server Please Try After Some Time. "
         android:textSize="15sp" />
 <Button

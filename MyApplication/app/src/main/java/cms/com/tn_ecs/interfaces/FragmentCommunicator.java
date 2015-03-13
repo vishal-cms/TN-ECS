@@ -41,6 +41,11 @@ public interface FragmentCommunicator {
     public void launchPropertyTaxShowScreen();
 
     public void launchMessageDialog(String dialogMessage , String dialogTitle);
-
+    
+    public void showActionBar();
+    
+    public void hideActionBar();
+    
+    public void launchChangePasswordFragment(String emailAddress);
 
 }

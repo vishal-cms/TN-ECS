@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,11 +96,11 @@ public class CertificateList extends android.support.v4.app.Fragment {
     public CertificateList() {
 
         searchedCertificateList = new ArrayList<Certificate>();
-        controller = Controller.getControllerInstance();
+       
         if (controller == null) {
             controller = Controller.getControllerInstance();
         }
-        searchedCertificateList = controller.getCertificateList().getCertificatelist();
+        
         params = new ArrayList<NameValuePair>();
     }
 
@@ -118,8 +119,9 @@ public class CertificateList extends android.support.v4.app.Fragment {
         if (service_type == SERVICE_TYPE.BIRTH_CERTIFICATE) {
             communicator.actionBarTitle("Birth Certificate Search Result");
         } else if (service_type == SERVICE_TYPE.DEATH_CERTIFICATE) {
-            communicator.actionBarTitle("Deth Certificate Search Result");
+            communicator.actionBarTitle("Death Certificate Search Result");
         }
+        searchedCertificateList = controller.getCertificateList().getCertificatelist();
         certificateListView = (ListView) getActivity().findViewById(R.id.certificateList);
         certificateListView.setDivider(null);
         empltyLayout = (RelativeLayout) getActivity().findViewById(R.id.panel_emptyView);
@@ -133,7 +135,8 @@ public class CertificateList extends android.support.v4.app.Fragment {
     }
 
     private String generateDownloadUrl() {
-        String requestedDownloadUrl = null;
+        String requestedDownloadUrl = "";
+        params.clear();
         Certificate certificate = controller.getSelectedCertificate();
         SERVICE_TYPE service_type = controller.getSelectedService();
         if (service_type == SERVICE_TYPE.BIRTH_CERTIFICATE) {
@@ -154,12 +157,13 @@ public class CertificateList extends android.support.v4.app.Fragment {
 
 
     public class downloadCertificate extends AsyncTask<String, Void, String> {
-        String url;
+        String url = null;
         boolean result;
 
         public downloadCertificate() {
 
             this.url = generateDownloadUrl();
+            Log.d("DownloadUrl" ,  url);
         }
 
         @Override

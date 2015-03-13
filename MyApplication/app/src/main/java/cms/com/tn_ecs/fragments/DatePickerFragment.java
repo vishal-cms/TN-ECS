@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.DatePicker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
@@ -65,12 +68,21 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
         
         if(dateFormat.equals("dmy")) {
             date = "" + day.trim() + "/" + month.trim() + "/" + year;
+            
+            
         }
         else if(dateFormat.equals("mdy")) {
             date = "" +month.trim() + "/" +  day.trim() + "/" + year;
         }
-        controller.setSelectedDate(date);
-
+        
+        
+        if(validateDate(date,dateFormat)) {
+            controller.setSelectedDate(date);
+        }
+        else
+        {
+            controller.setSelectedDate("false");
+        }
 
     }
 
@@ -80,5 +92,43 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
         Log.d("Detach", "Detached");
         communicator.showDate();
 
+    }
+    
+    
+    private boolean validateDate(String date , String format)
+    {
+        
+        DateFormat dateformat = null;
+        try {
+            if (format.equals("mdy")) {
+                dateformat = new SimpleDateFormat("MM/dd/yyyy");
+            } else if (format.equals("dmy")) {
+
+                dateformat = new SimpleDateFormat("dd/MM/yyyy");
+            }
+
+            Date selectedDate = dateformat.parse(date);
+            
+            Date currentDate = new Date();
+            
+            if(selectedDate.after(currentDate))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+
+        }
+        catch (Exception e)
+        {
+            Log.d("Date Exception" , e.toString());
+            return false;
+        }
+        
+   
+        
     }
 }

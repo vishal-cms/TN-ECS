@@ -18,6 +18,9 @@ public class URLConstants {
     public static final String PROPERTY_TAX_MASTER_URL = "http://164.100.134.92:8280/ptis/external/collectionservice?";   
     public static final String USER_REGISTRATION_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/UserRegistration?";
     public static final String USER_LOGIN_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/UserVerfication?";
+    public static final String CHANGE_PASSWORD_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/ChangePassword?";  
+    public static final String FORGOT_PASSWORD_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/ForgotPassword?";
+    
     
 
 

@@ -30,6 +30,7 @@ import cms.com.tn_ecs.network.ParseResult;
 import cms.com.tn_ecs.utils.GeneralUtilities;
 import cms.com.tn_ecs.utils.Messages;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
+import cms.com.tn_ecs.utils.URLConstants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +42,9 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     EditText txtUserName;
     EditText txtPassword;
     TextView txtnewuser;
+    TextView btnchangePassword;
+    TextView btnForgotPassword;
+    
     Controller controller;
     Button btnLogin;
     ProgressDialog progressdialog;
@@ -66,7 +70,11 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        
+        
+        
         communicator = (FragmentCommunicator) getActivity();
+        communicator.hideActionBar();
        String email =  new GeneralUtilities(getActivity()).readDataFromSharedPreferences();
         communicator.actionBarTitle("Tamilnadu E-Sevai");
         txtErrorMessage = (TextView) getActivity().findViewById(R.id.txt_errorMessage);
@@ -79,10 +87,52 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         btnLogin = (Button) getActivity().findViewById(R.id.btn_login);
         loginPanel = (ScrollView) getActivity().findViewById(R.id.loginPanel);
         txtnewuser = (TextView) getActivity().findViewById(R.id.btn_newUser);
+        btnchangePassword = (TextView) getActivity().findViewById(R.id.btn_ChangePassword);
+        btnForgotPassword = (TextView) getActivity().findViewById(R.id.btn_ForgotPassword);
         txtnewuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 communicator.launchSelectedService(SERVICE_TYPE.REGISTER_USER);
+            }
+        });
+        btnchangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateUserName(txtUserName.getText().toString().trim())) {
+                    communicator.launchChangePasswordFragment(txtUserName.getText().toString().trim());
+                } else {
+                    txtErrorMessage.setVisibility(View.VISIBLE);
+                    txtErrorMessage.setText("Please Enter Correct Email Address.");
+
+                }
+            }
+        });
+        
+        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateUserName(txtUserName.getText().toString().trim())) {
+                    try {
+                        controller.setSelectedService(SERVICE_TYPE.FORGOT_PASSWORD);
+
+                        controller.setRequestedUrl(URLConstants.FORGOT_PASSWORD_URL);
+                        JSONObject usernamedetails = new JSONObject();
+                        usernamedetails.put("UserName", txtUserName.getText().toString().trim());
+                        ArrayList<NameValuePair> usernamelist = new ArrayList<NameValuePair>();
+                        usernamelist.add(new BasicNameValuePair("UserName", usernamedetails.toString()));
+                        String forgotpasswordUrl = new Connection(getActivity()).getParametriseUrl(usernamelist);
+                        new GetPasswordTask(forgotpasswordUrl).execute();
+                        
+                    }
+                    catch(Exception e)
+                    {
+                        txtErrorMessage.setVisibility(View.VISIBLE);
+                        txtErrorMessage.setText("Some Problem Occured Please Try After Some Time.");
+                    }
+                } else {
+                    txtErrorMessage.setVisibility(View.VISIBLE);
+                    txtErrorMessage.setText("Please Enter Correct Email Address.");
+                }
             }
         });
         
@@ -151,6 +201,14 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
+        controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
+    }
+
     private class ValidateLoginTask extends AsyncTask<String, Void, String> {
 
         String requestedUrl;
@@ -207,5 +265,70 @@ public class SplashScreen extends android.support.v4.app.Fragment {
          
         }
     }
+    
+    
+    
+    
+    
+    ///////Forgot Password Task //////////////////
 
+
+    private class GetPasswordTask extends AsyncTask<String, Void, String> {
+        String forgotPasswordUrl;
+        String result;
+        String[] parseResults;
+        ProgressDialog progressdialog;
+
+        private GetPasswordTask(String registrationUrl) {
+            this.forgotPasswordUrl = registrationUrl;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            result = new Connection(getActivity()).getResult(forgotPasswordUrl);
+            Log.d("result" , result);
+            parseResults = new ParseResult().parseForgotPasswordResult(result);
+            
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressdialog = new ProgressDialog(getActivity());
+            progressdialog.setMessage("Please wait.");
+            progressdialog.setCanceledOnTouchOutside(false);
+            progressdialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (progressdialog != null) {
+                progressdialog.dismiss();
+            }
+            controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
+            controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
+            if (parseResults != null)
+            {
+                if(parseResults[0].equals("1"))
+                {
+                    txtErrorMessage.setVisibility(View.VISIBLE);
+                    txtErrorMessage.setText("Password Is Emailed To Your Email Address.");
+                }
+                else if(!parseResults[0].equals("1"))
+                {
+                    txtErrorMessage.setVisibility(View.VISIBLE);
+                    txtErrorMessage.setText(parseResults[1].toUpperCase());
+                }
+            }
+            else
+            {
+                txtErrorMessage.setVisibility(View.VISIBLE);
+                txtErrorMessage.setText("Unable to Login Please Try After Some Time.");
+            }
+
+        }
+    }
 }

@@ -70,6 +70,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         communicator = (FragmentCommunicator) getActivity();
+        communicator.showActionBar();
         communicator.actionBarTitle("New User Registration");
         txtSelectDate = (TextView) getActivity().findViewById(R.id.btn_selectDOB);
         txtName = (EditText) getActivity().findViewById(R.id.txtName);
@@ -89,6 +90,8 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         btnRegister.setOnClickListener(this);
         txtSelectDate.setOnClickListener(this);
         controller = Controller.getControllerInstance();
+        txtPhoneNumber.getOnFocusChangeListener();
+       
        showCaptcha();
     }
 
@@ -113,6 +116,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                     //check if user have entered correnct email address.
                     if(new GeneralUtilities().validateUserName(txtEmailAddress.getText().toString().trim())) {
                         
+                        
                         //check if user have entered same password and reenter password. 
                         if(txtPassword.getText().toString().trim().equals(txtReEnterPassword.getText().toString().trim())) {
 
@@ -135,7 +139,8 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                             }
                             else {
                                 Toast.makeText(getActivity() , "Please Enter Correct  Answer." , Toast.LENGTH_SHORT).show();
-                                txtCaptchaAnswer.setBackgroundResource(R.drawable.text_error_border);
+                             //   txtCaptchaAnswer.setBackgroundResource(R.drawable.text_error_border);
+                                txtCaptchaAnswer.setText("");
                             showCaptcha();
                             }
                         }
@@ -148,6 +153,8 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                         else
                         {
                             Toast.makeText(getActivity() , "Password and ReEntered Password Dose Not Match" , Toast.LENGTH_SHORT).show();
+                            txtCaptchaAnswer.setText("");
+                            showCaptcha();
                         }
                         }
                     else
@@ -317,4 +324,11 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         }
     }
 
+    
+    /*private boolean validatePhoneNumber(String phoneNumber)
+    {
+        if(phoneNumber.length()<=9 )
+    }*/
+    
+    
 }

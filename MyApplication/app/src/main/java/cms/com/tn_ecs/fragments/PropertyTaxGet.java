@@ -175,7 +175,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
 
                     new getPropertyTaxData().execute();
                 } else {
-                    txtBillNo.setBackground(drawable);
+                
                     Toast.makeText(getActivity(), "Please enter correct bill number ", Toast.LENGTH_LONG).show();
                 }
                 break;
@@ -247,7 +247,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             if (result) {
                 communicator.launchPropertyTaxShowScreen();
             } else {
-                communicator.launchMessageDialog("No Record Found For Given Input." , "Error");
+                communicator.launchMessageDialog("Sorry! No Record Found Or There Is No Connectivity To server Please try After Some Time." , "Error");
             }
 
         }

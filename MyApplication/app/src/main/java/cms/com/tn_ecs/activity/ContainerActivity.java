@@ -3,6 +3,7 @@ package cms.com.tn_ecs.activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,6 +18,7 @@ import cms.com.tn_ecs.R;
 import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.fragments.CertificateList;
 import cms.com.tn_ecs.fragments.CertificateSearch;
+import cms.com.tn_ecs.fragments.ChangePasswordFragment;
 import cms.com.tn_ecs.fragments.DatePickerFragment;
 import cms.com.tn_ecs.fragments.DisplayCertificate;
 import cms.com.tn_ecs.fragments.MessageDialogFragment;
@@ -46,7 +48,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     @Override
     public void showDate() {
         String date = null;
-        if (controller.getSelectedDate() != null) {
+        if (controller.getSelectedDate() != null && !controller.getSelectedDate().equalsIgnoreCase("false")) {
             date = controller.getSelectedDate();
             if (certificateSearch != null) {
                 certificateSearch.showDate(date);
@@ -54,6 +56,10 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
                 registerUser.showDate(date);
             }
 
+        }
+        else
+        {
+            launchMessageDialog("Please Select Correct Date." , "Error" );
         }
     }
 
@@ -72,6 +78,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
         //setActionbarLogo();
+       
         manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this);
 
@@ -88,6 +95,12 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideActionBar();
+        
+    }
 
     public void showUpNavigation() {
         if (manager.getBackStackEntryCount() > 0)
@@ -143,10 +156,25 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         transaction.commit();
     }
 
+
     @Override
     public void launchMessageDialog(String dialogMessage , String dialogTitle) {
         MessageDialogFragment messageDialogFragment = new MessageDialogFragment(dialogMessage , dialogTitle);
+        
+        
         messageDialogFragment.show(manager, "ErrorDialog");
+    }
+
+    @Override
+    public void showActionBar() {
+        android.support.v7.app.ActionBar actionBar = this.getSupportActionBar();
+        actionBar.show();
+    }
+
+    @Override
+    public void hideActionBar() {
+        android.support.v7.app.ActionBar actionBar = this.getSupportActionBar();
+        actionBar.hide();
     }
 
     @Override
@@ -303,5 +331,21 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     @Override
     public void onBackStackChanged() {
         showUpNavigation();
+    }
+
+
+    @Override
+    public void launchChangePasswordFragment(String emailAddress) {
+
+        ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+        FragmentTransaction transaction  = manager.beginTransaction();
+        Bundle arguments = new Bundle();
+        arguments.putString("email" , emailAddress);
+        changePasswordFragment.setArguments(arguments);
+        transaction.replace(R.id.fragment_container , changePasswordFragment , "changepassword");
+        transaction.addToBackStack("changepassword");
+        transaction.commit();
+        
+        
     }
 }

@@ -27,6 +27,7 @@ import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.network.Connection;
 import cms.com.tn_ecs.network.ParseResult;
+import cms.com.tn_ecs.utils.Messages;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 
 /**
@@ -126,7 +127,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
             txtChildName.setHint("Child Name");
             txtSelectDate.setText("Enter Date Of Birth");
         } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
-            communicator.actionBarTitle(" Search Deth Certificate");
+            communicator.actionBarTitle(" Search Death Certificate");
             txtChildName.setHint("Person Name");
             txtSelectDate.setText("Enter Date Of Death");
         }
@@ -173,13 +174,24 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         ArrayList<NameValuePair> parameterlsit = new ArrayList<NameValuePair>();
 
         if (!txtMotherName.getText().toString().trim().equals("")) {
-            parameterlsit.add(new BasicNameValuePair("mothername", txtMotherName.getText().toString()));
+            parameterlsit.add(new BasicNameValuePair("mothername", txtMotherName.getText().toString().toUpperCase()));
         }
         if (!txtFatherName.getText().toString().trim().equals("")) {
-            parameterlsit.add(new BasicNameValuePair("fathername", txtFatherName.getText().toString()));
+            parameterlsit.add(new BasicNameValuePair("fathername", txtFatherName.getText().toString().toUpperCase()));
         }
         if (!txtChildName.getText().toString().trim().equals("")) {
-            parameterlsit.add(new BasicNameValuePair("childname", txtChildName.getText().toString()));
+         
+
+
+            if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
+                parameterlsit.add(new BasicNameValuePair("childname", txtChildName.getText().toString().toUpperCase()));
+            } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+                parameterlsit.add(new BasicNameValuePair("personname", txtChildName.getText().toString().toUpperCase()));
+            }
+            
+            
+            
+            
         }
         place = "" + (placeSpinner.getSelectedItemId() + 1);
 
@@ -187,6 +199,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         parameterlsit.add(new BasicNameValuePair("sex", sex));
 
         if (controller.getSelectedDate() != null) {
+           // parameterlsit.clear();
             if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
                 parameterlsit.add(new BasicNameValuePair("dob", controller.getSelectedDate()));
                 parameterlsit.add(new BasicNameValuePair("birthplace", place));
@@ -221,11 +234,13 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
 
             try {
                 result = new Connection(getActivity()).getResult(requestUrl);
-                if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
-                    new ParseResult(result).parseBirthCertificate();
-                }
-                if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
-                    new ParseResult(result).parseDeathCertificate();
+                if (!result.equalsIgnoreCase("false")) {
+                    if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
+                        new ParseResult(result).parseBirthCertificate();
+                    }
+                    if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+                        new ParseResult(result).parseDeathCertificate();
+                    }
                 }
 
             } catch (Exception e) {
@@ -251,7 +266,13 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
             if (progressdialog != null) {
                 progressdialog.hide();
             }
-            communicator.launchCertificateList();
+            if (!result.equalsIgnoreCase("false")) {
+                communicator.launchCertificateList();
+            }
+            else
+            {
+                communicator.launchMessageDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE , "Error");
+            }
         }
     }
 }

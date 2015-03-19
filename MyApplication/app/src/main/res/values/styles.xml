@@ -8,7 +8,7 @@
 
     <style name="AppTheme.BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/PrimaryColor</item>
-        
+
     </style>
 
 </resources>

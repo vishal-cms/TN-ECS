@@ -128,7 +128,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             String[] subdivlist = subDivisionStringList.get(sp_zone.getSelectedItemPosition() - 1).split(",");
             communicator = (FragmentCommunicator) getActivity();
             zoneId = "" + zoneID.get(sp_zone.getSelectedItemPosition() - 1);
-            Toast.makeText(getActivity(), zoneName, Toast.LENGTH_SHORT).show();
+           
             selectedzonesubdivisionlist = new ArrayList<String>(Arrays.asList(subdivlist));
             selectedzonesubdivisionlist.add(0, "Select Sub Division");
             ArrayAdapter<String> subDivListView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, selectedzonesubdivisionlist);
@@ -155,8 +155,15 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
                 channelID = "3";
                 ZONE = zoneId;
                 if (!ZONE.equals("-1")) {
-                    DIV_CD = "" + selectedzonesubdivisionlist.get(sp_subDivision.getSelectedItemPosition());
-                } else {
+                    if(sp_subDivision.getSelectedItemPosition() == 0)
+                    {
+                        Toast.makeText(getActivity() , "please Select Sub Division" , Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    else {
+                        DIV_CD = "" + selectedzonesubdivisionlist.get(sp_subDivision.getSelectedItemPosition());
+                    }
+                    } else {
                     Toast.makeText(getActivity(), "Please select Zone And Sub Division", Toast.LENGTH_LONG).show();
                     break;
                 }
@@ -175,7 +182,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
 
                     new getPropertyTaxData().execute();
                 } else {
-                
+
                     Toast.makeText(getActivity(), "Please enter correct bill number ", Toast.LENGTH_LONG).show();
                 }
                 break;
@@ -210,7 +217,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
 
 
             String Result = new Connection(getActivity()).getResult(getArrearsService);
-            if(!Result.contains("Error")) {
+            if (!Result.contains("Error")) {
                 if (Result.contains("RESP") && new ParseResult(Result).parseGerArriesResult()) {
 
                     String oldreceiptresult = new Connection(getActivity()).getResult(getRcptsService);
@@ -219,9 +226,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
                 } else {
                     result = false;
                 }
-            }
-            else
-            {
+            } else {
                 result = false;
             }
             return null;
@@ -247,7 +252,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             if (result) {
                 communicator.launchPropertyTaxShowScreen();
             } else {
-                communicator.launchMessageDialog("Sorry! No Record Found Or There Is No Connectivity To server Please try After Some Time." , "Error");
+                communicator.launchMessageDialog("Sorry! No Record Found Or There Is No Connectivity To server Please try After Some Time.", "Error");
             }
 
         }

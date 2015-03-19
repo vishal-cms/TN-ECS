@@ -30,8 +30,10 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
-                android:inputType="textCapCharacters"
+
                 android:hint="Child Name"
+                android:inputType="textCapCharacters"
+                android:minLines="1"
                 android:padding="5dip" />
 
             <EditText
@@ -41,9 +43,10 @@
                 android:layout_below="@id/txtChildName"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
-                android:inputType="textCapCharacters"
                 android:gravity="left|center"
                 android:hint="Father Name"
+                android:inputType="textCapCharacters"
+                android:minLines="1"
                 android:padding="5dip" />
 
             <EditText
@@ -53,9 +56,10 @@
                 android:layout_below="@id/txtFatherName"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
-                android:inputType="textCapCharacters"
                 android:gravity="left|center"
                 android:hint="Mother Name"
+                android:inputType="textCapCharacters"
+                android:minLines="1"
                 android:padding="5dip" />
 
             <RelativeLayout
@@ -109,14 +113,15 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center|left"
-                android:padding="5dip"
-                android:text="Enter Date Of Birth" />
+                android:padding="10dip"
+                android:text="Enter Date Of Birth *" />
 
             <Button
                 android:id="@+id/btn_Search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+
                 android:layout_margin="5dip"
                 android:background="@drawable/button_border"
                 android:text="Search" />

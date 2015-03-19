@@ -12,7 +12,7 @@
         android:id="@+id/detailsPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      
+
         android:layout_margin="5dip"
         android:background="@drawable/edittextborderwhitebackground"
         android:gravity="left|top"
@@ -78,41 +78,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ListLabel"
-        android:divider="@null"
-        android:layout_marginTop="5dip"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
+        android:layout_marginTop="5dip"
+        android:divider="@null"
 
         ></ListView>
 
-    <ListView
+   <!-- <ListView
         android:id="@+id/lst_oldReceipt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ListLabel"
-        android:divider="@null"
         android:layout_marginLeft="5dip"
-        android:layout_marginTop="5dip"
         android:layout_marginRight="5dip"
-        android:visibility="invisible"
+        android:layout_marginTop="5dip"
+        android:divider="@null"
+        android:visibility="gone"
 
-        ></ListView>
-  <RelativeLayout
+        ></ListView>-->
+
+    <RelativeLayout
         android:id="@+id/panel_emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ListLabel"
         android:background="#ffffff"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
+            android:id="@+id/txtmainlabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="NO OLD RECEIPTS FOUND FOR GIVEN INPUTS"
             android:textSize="25sp"
-
+            /><TextView
+            android:id="@+id/txtsecondlabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/txtmainlabel"
+            android:text="This Might Because Low Internet Connectivity Please Try After Some Time."
+            android:textSize="15sp"
             />
     </RelativeLayout>
 

@@ -45,7 +45,7 @@ public class Connection {
 
     public Connection(Context context) {
         this.context = context;
-        communicator = (FragmentCommunicator)context;
+        communicator = (FragmentCommunicator) context;
         controller = Controller.getControllerInstance();
         requestUrl = controller.getRequestedUrl();
         requestUrlForDownload = controller.getRequestedDownloadUrl();
@@ -92,8 +92,7 @@ public class Connection {
                 } else {
                     return false;
                 }
-            } 
-            catch (Exception e) {
+            } catch (Exception e) {
                 return false;
             }
         } else {
@@ -119,10 +118,10 @@ public class Connection {
         InputStream inputStream = null;
         String result = null;
         try {
-           
+
             HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams , 10000);
-            HttpConnectionParams.setSoTimeout(httpParams , 10000);
+            HttpConnectionParams.setConnectionTimeout(httpParams, 20000);
+            HttpConnectionParams.setSoTimeout(httpParams, 10000);
             HttpClient httpClient = new DefaultHttpClient(httpParams);
             HttpResponse httpResponse = httpClient.execute(new HttpGet(requestdUrl));
             inputStream = httpResponse.getEntity().getContent();

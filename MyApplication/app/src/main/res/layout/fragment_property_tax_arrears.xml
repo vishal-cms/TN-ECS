@@ -89,6 +89,7 @@
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
                 android:hint="New Property Tax Bill No."
+                android:inputType="number"
 
                 android:padding="5dip" />
 

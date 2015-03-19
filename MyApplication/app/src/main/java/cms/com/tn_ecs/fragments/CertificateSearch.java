@@ -27,6 +27,7 @@ import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.network.Connection;
 import cms.com.tn_ecs.network.ParseResult;
+import cms.com.tn_ecs.utils.GeneralUtilities;
 import cms.com.tn_ecs.utils.Messages;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 
@@ -55,12 +56,19 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
 
 
     public CertificateSearch() {
+        controller = Controller.getControllerInstance();
         //Adding birth or death place to places array list 
         places = new ArrayList<String>();
+
         places.add("Hospital");
         places.add("Home");
         // by default "Male gender is selected" here M stands for Male And F stands for Female 
         sex = "M";
+        if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
+            places.add(0, "Select Birth Place *");
+        } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+            places.add(0, "Select Death Place *");
+        }
     }
 
 
@@ -79,7 +87,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         //getting interface object for fragment communication. 
         communicator = (FragmentCommunicator) getActivity();
         //getting controller instance to store and retrice object from context (singaltone pattern)
-        controller = Controller.getControllerInstance();
+
 
         //initializing control from fragment 
         txtMotherName = (EditText) getActivity().findViewById(R.id.txtMotherName);
@@ -89,6 +97,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         txtSelectDate = (TextView) getActivity().findViewById(R.id.btn_selectDate);
         //txt_SearchTitle = (TextView) getActivity().findViewById(R.id.txt_SearchTitle);
         rbMale = (RadioButton) getActivity().findViewById(R.id.rb_male);
+        rbMale.setChecked(true);
         rbFemale = (RadioButton) getActivity().findViewById(R.id.rb_female);
         btn_search = (Button) getActivity().findViewById(R.id.btn_Search);
 
@@ -101,6 +110,8 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         txtSelectDate.setOnClickListener(this);
         btn_search.setOnClickListener(this);
 
+        setPageTitle();
+
         //Creating ArrayAdapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_dropdown_item, places);
@@ -109,8 +120,21 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         placeSpinner.setAdapter(adapter);
 
         //Changing page title as per selected service.
-        setPageTitle();
-
+        /*txtChildName.setRawInputType(Configuration.KEYBOARD_QWERTY);
+        txtChildName.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    public CharSequence filter(CharSequence src, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if(src.equals("")){ // for backspace
+                            return src;
+                        }
+                        if(src.toString().matches("[a-zA-Z ]+")){
+                            return src;
+                        }
+                        return "";
+                    }
+                }
+        });*/
 
     }
 
@@ -125,11 +149,13 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
             communicator.actionBarTitle(" Search Birth Certificate");
             txtChildName.setHint("Child Name");
-            txtSelectDate.setText("Enter Date Of Birth");
+            txtSelectDate.setText("Enter Date Of Birth *");
+
         } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
             communicator.actionBarTitle(" Search Death Certificate");
             txtChildName.setHint("Person Name");
-            txtSelectDate.setText("Enter Date Of Death");
+            txtSelectDate.setText("Enter Date Of Death *");
+
         }
 
     }
@@ -153,12 +179,14 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
             case R.id.btn_Search:
                 requestUrl = generateRequestUrl();
                 if (!requestUrl.equals("false")) {
+
+
                     new GetSearchresult(requestUrl).execute();
+
                 }
                 break;
 
         }
-        Toast.makeText(getActivity(), sex, Toast.LENGTH_LONG).show();
 
     }
 
@@ -173,50 +201,72 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         String requestedUrl = null;
         ArrayList<NameValuePair> parameterlsit = new ArrayList<NameValuePair>();
 
-        if (!txtMotherName.getText().toString().trim().equals("")) {
-            parameterlsit.add(new BasicNameValuePair("mothername", txtMotherName.getText().toString().toUpperCase()));
+
+        if (!txtChildName.getText().toString().trim().equals("")) {
+            if (GeneralUtilities.validateUserName(txtChildName.getText().toString().trim())) {
+                if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
+                    parameterlsit.add(new BasicNameValuePair("childname", txtChildName.getText().toString().toUpperCase()));
+                } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+                    parameterlsit.add(new BasicNameValuePair("personname", txtChildName.getText().toString().toUpperCase()));
+                }
+            } else {
+                txtChildName.setError("Please Enter Valid Name");
+                txtChildName.requestFocus();
+                return "false";
+            }
         }
         if (!txtFatherName.getText().toString().trim().equals("")) {
-            parameterlsit.add(new BasicNameValuePair("fathername", txtFatherName.getText().toString().toUpperCase()));
-        }
-        if (!txtChildName.getText().toString().trim().equals("")) {
-         
-
-
-            if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
-                parameterlsit.add(new BasicNameValuePair("childname", txtChildName.getText().toString().toUpperCase()));
-            } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
-                parameterlsit.add(new BasicNameValuePair("personname", txtChildName.getText().toString().toUpperCase()));
+            if (GeneralUtilities.validateUserName(txtFatherName.getText().toString().trim())) {
+                parameterlsit.add(new BasicNameValuePair("fathername", txtFatherName.getText().toString().toUpperCase()));
+            } else {
+                txtFatherName.setError("Please Enter Valid Name");
+                txtFatherName.requestFocus();
+                return "false";
             }
-            
-            
-            
-            
         }
-        place = "" + (placeSpinner.getSelectedItemId() + 1);
 
+
+        if (!txtMotherName.getText().toString().trim().equals("")) {
+            if (GeneralUtilities.validateUserName(txtMotherName.getText().toString().trim())) {
+                parameterlsit.add(new BasicNameValuePair("mothername", txtMotherName.getText().toString().toUpperCase()));
+            } else {
+                txtMotherName.setError("Please Enter Valid Name");
+                txtMotherName.requestFocus();
+                return "false";
+            }
+        }
+
+
+        place = "" + (placeSpinner.getSelectedItemId());
+
+        Log.d("position", place);
 
         parameterlsit.add(new BasicNameValuePair("sex", sex));
-
-        if (controller.getSelectedDate() != null) {
-           // parameterlsit.clear();
-            if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
-                parameterlsit.add(new BasicNameValuePair("dob", controller.getSelectedDate()));
-                parameterlsit.add(new BasicNameValuePair("birthplace", place));
-                requestedUrl = connection.getParametriseUrl(parameterlsit);
-                Log.d("Url new ", requestedUrl);
-                return requestedUrl;
-            } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
-                parameterlsit.add(new BasicNameValuePair("dod", controller.getSelectedDate()));
-                parameterlsit.add(new BasicNameValuePair("deathplace", place));
-                requestedUrl = connection.getParametriseUrl(parameterlsit);
-                Log.d("Url new ", requestedUrl);
-                return requestedUrl;
+        if (!place.equals("0")) {
+            if (controller.getSelectedDate() != null) {
+                // parameterlsit.clear();
+                if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
+                    parameterlsit.add(new BasicNameValuePair("dob", controller.getSelectedDate()));
+                    parameterlsit.add(new BasicNameValuePair("birthplace", place));
+                    requestedUrl = connection.getParametriseUrl(parameterlsit);
+                    Log.d("Url new ", requestedUrl);
+                    return requestedUrl;
+                } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+                    parameterlsit.add(new BasicNameValuePair("dod", controller.getSelectedDate()));
+                    parameterlsit.add(new BasicNameValuePair("deathplace", place));
+                    requestedUrl = connection.getParametriseUrl(parameterlsit);
+                    Log.d("Url new ", requestedUrl);
+                    return requestedUrl;
+                }
+            } else {
+                Toast.makeText(getActivity(), "Please select date", Toast.LENGTH_LONG).show();
+                return "false";
             }
         } else {
-            Toast.makeText(getActivity(), "Please select date", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Please select Place Hospital/Home", Toast.LENGTH_LONG).show();
             return "false";
         }
+
         return requestedUrl;
     }
 
@@ -268,13 +318,13 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
             }
             if (!result.equalsIgnoreCase("false")) {
                 communicator.launchCertificateList();
-            }
-            else
-            {
-                communicator.launchMessageDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE , "Error");
+            } else {
+                communicator.launchMessageDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE, "Error");
             }
         }
     }
+
+
 }
     
    

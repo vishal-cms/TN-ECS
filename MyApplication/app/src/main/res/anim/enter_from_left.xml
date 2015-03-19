@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set  xmlns:android="http://schemas.android.com/apk/res/android"
+<set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="false">
-    
-    <translate 
+
+    <translate
+        android:duration="5000"
         android:fromXDelta="-100%"
-        android:toXDelta="0%"
         android:fromYDelta="0%"
-        android:toYDelta="0%"
-        android:duration="5000"></translate>
-    
-    </set> 
+        android:toXDelta="0%"
+        android:toYDelta="0%"></translate>
+
+</set> 

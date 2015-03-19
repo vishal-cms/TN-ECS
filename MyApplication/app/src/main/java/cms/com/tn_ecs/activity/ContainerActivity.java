@@ -56,10 +56,8 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
                 registerUser.showDate(date);
             }
 
-        }
-        else
-        {
-            launchMessageDialog("Please Select Correct Date." , "Error" );
+        } else {
+            launchMessageDialog("Please Select Correct Date.", "Error");
         }
     }
 
@@ -78,7 +76,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
         //setActionbarLogo();
-       
+
         manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this);
 
@@ -98,13 +96,13 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     @Override
     protected void onResume() {
         super.onResume();
-        hideActionBar();
-        
+        //hideActionBar();
+
     }
 
     public void showUpNavigation() {
         if (manager.getBackStackEntryCount() > 0)
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP|ActionBar.DISPLAY_SHOW_TITLE);
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         else if (manager.getBackStackEntryCount() == 0)
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
     }
@@ -125,7 +123,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         SelectServices selectServices = new SelectServices();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, selectServices, "selectServices");
-        manager.popBackStack(null , FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction.commitAllowingStateLoss();
     }
 
@@ -158,10 +156,10 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
 
 
     @Override
-    public void launchMessageDialog(String dialogMessage , String dialogTitle) {
-        MessageDialogFragment messageDialogFragment = new MessageDialogFragment(dialogMessage , dialogTitle);
-        
-        
+    public void launchMessageDialog(String dialogMessage, String dialogTitle) {
+        MessageDialogFragment messageDialogFragment = new MessageDialogFragment(dialogMessage, dialogTitle);
+
+
         messageDialogFragment.show(manager, "ErrorDialog");
     }
 
@@ -201,7 +199,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         certificateSearch = new CertificateSearch();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, certificateSearch, "certificateSearch");
-        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left, 0 , 0);
+        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left, 0, 0);
         transaction.addToBackStack("certificateSearch");
         transaction.commit();
     }
@@ -338,14 +336,14 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     public void launchChangePasswordFragment(String emailAddress) {
 
         ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
-        FragmentTransaction transaction  = manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         Bundle arguments = new Bundle();
-        arguments.putString("email" , emailAddress);
+        arguments.putString("email", emailAddress);
         changePasswordFragment.setArguments(arguments);
-        transaction.replace(R.id.fragment_container , changePasswordFragment , "changepassword");
+        transaction.replace(R.id.fragment_container, changePasswordFragment, "changepassword");
         transaction.addToBackStack("changepassword");
         transaction.commit();
-        
-        
+
+
     }
 }

@@ -141,24 +141,17 @@ public class ParseResult {
 
                     if (resultItemElement.getNodeName().equalsIgnoreCase("REGNO")) {
                         this.certificate_object.setRegNo(resultItemElement.getTextContent());
-                    }
-
-                    else if (resultItemElement.getNodeName().equalsIgnoreCase("DEATHPERSONNAME")) {
+                    } else if (resultItemElement.getNodeName().equalsIgnoreCase("DEATHPERSONNAME")) {
                         this.certificate_object.setName(resultItemElement.getTextContent());
-                    }
-                   else if (resultItemElement.getNodeName().equalsIgnoreCase("SEX")) {
+                    } else if (resultItemElement.getNodeName().equalsIgnoreCase("SEX")) {
                         this.certificate_object.setSex(resultItemElement.getTextContent());
-                    }
-                    else if (resultItemElement.getNodeName().equalsIgnoreCase("FATHERNAME")) {
+                    } else if (resultItemElement.getNodeName().equalsIgnoreCase("FATHERNAME")) {
                         this.certificate_object.setFatherName(resultItemElement.getTextContent());
-                    }
-                    else if (resultItemElement.getNodeName().equalsIgnoreCase("MOTHERNAME")) {
+                    } else if (resultItemElement.getNodeName().equalsIgnoreCase("MOTHERNAME")) {
                         this.certificate_object.setMotherName(resultItemElement.getTextContent());
-                    }
-                    else if (resultItemElement.getNodeName().equalsIgnoreCase("DOD")) {
+                    } else if (resultItemElement.getNodeName().equalsIgnoreCase("DOD")) {
                         this.certificate_object.setDate(resultItemElement.getTextContent());
-                    }
-                    else if (resultItemElement.getNodeName().equalsIgnoreCase("ENGLISHURL")) {
+                    } else if (resultItemElement.getNodeName().equalsIgnoreCase("ENGLISHURL")) {
                         this.certificate_object.setEnglishUrl(resultItemElement.getTextContent());
                     }
 
@@ -296,80 +289,68 @@ public class ParseResult {
         }
 
     }
-    
-    
-    
-    public String[] parseUserRegistrationResult(String result)
-    {
-        String [] results = new String[3]; 
+
+
+    public String[] parseUserRegistrationResult(String result) {
+        String[] results = new String[3];
         try {
             JSONObject userRegistrationResultObject = new JSONObject(result);
-            String  userRegistrationResultString = (String) userRegistrationResultObject.get("UserRegistrationResult");
+            String userRegistrationResultString = (String) userRegistrationResultObject.get("UserRegistrationResult");
             JSONObject userRegistrationResult = new JSONObject(userRegistrationResultString);
-                 results[0] =""+userRegistrationResult.getInt("status");
-                 results[1] =(String)userRegistrationResult.get("usermessage");
-                 results[2] =(String)userRegistrationResult.get("username");
-                 return results;
-        }
-        catch (Exception e)
-        {
+            results[0] = "" + userRegistrationResult.getInt("status");
+            results[1] = (String) userRegistrationResult.get("usermessage");
+            results[2] = (String) userRegistrationResult.get("username");
+            return results;
+        } catch (Exception e) {
             results = null;
             return results;
         }
     }
-    public String[] parseUserLoginResult(String result)
-    {
-        String [] results = new String[3];
+
+    public String[] parseUserLoginResult(String result) {
+        String[] results = new String[3];
         try {
             JSONObject userRegistrationResultObject = new JSONObject(result);
-            String  userRegistrationResultString = (String) userRegistrationResultObject.get("UserVerficationResult");
+            String userRegistrationResultString = (String) userRegistrationResultObject.get("UserVerficationResult");
             JSONObject userRegistrationResult = new JSONObject(userRegistrationResultString);
-            results[0] =""+userRegistrationResult.getInt("status");
-            results[1] =(String)userRegistrationResult.get("usermessage");
-            results[2] =(String)userRegistrationResult.get("username");
+            results[0] = "" + userRegistrationResult.getInt("status");
+            results[1] = (String) userRegistrationResult.get("usermessage");
+            results[2] = (String) userRegistrationResult.get("username");
             return results;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             results = null;
             return results;
         }
     }
 
 
-    public String[] parseChangePasswordResult(String result)
-    {
-        String [] results = new String[3];
+    public String[] parseChangePasswordResult(String result) {
+        String[] results = new String[3];
         try {
             JSONObject userRegistrationResultObject = new JSONObject(result);
-            String  userRegistrationResultString = (String) userRegistrationResultObject.get("ChangePasswordResult");
+            String userRegistrationResultString = (String) userRegistrationResultObject.get("ChangePasswordResult");
             JSONObject userRegistrationResult = new JSONObject(userRegistrationResultString);
-            results[0] =""+userRegistrationResult.getInt("status");
-            results[1] =(String)userRegistrationResult.get("usermessage");
-            results[2] =(String)userRegistrationResult.get("username");
+            results[0] = "" + userRegistrationResult.getInt("status");
+            results[1] = (String) userRegistrationResult.get("usermessage");
+            results[2] = (String) userRegistrationResult.get("username");
             return results;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             results = null;
             return results;
         }
     }
 
-    public String[] parseForgotPasswordResult(String result)
-    {
-        String [] results = new String[3];
+    public String[] parseForgotPasswordResult(String result) {
+        String[] results = new String[3];
         try {
             JSONObject userRegistrationResultObject = new JSONObject(result);
-            String  userRegistrationResultString = (String) userRegistrationResultObject.get("ForgotPasswordResult");
+            String userRegistrationResultString = (String) userRegistrationResultObject.get("ForgotPasswordResult");
             JSONObject userRegistrationResult = new JSONObject(userRegistrationResultString);
-            results[0] =""+userRegistrationResult.getInt("status");
-            results[1] =(String)userRegistrationResult.get("usermessage");
-            results[2] =(String)userRegistrationResult.get("username");
+            results[0] = "" + userRegistrationResult.getInt("status");
+            results[1] = (String) userRegistrationResult.get("usermessage");
+            results[2] = (String) userRegistrationResult.get("username");
             return results;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             results = null;
             return results;
         }

@@ -24,6 +24,11 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
     public ViewOldReceiptAdapter(Context context, ArrayList<String> oldreceipts) {
 
         this.oldreceipts = oldreceipts;
+        if(oldreceipts == null)
+        {
+            this.oldreceipts = new ArrayList<String>();
+            this.oldreceipts.clear();
+        }
         this.context = context;
         inflater = LayoutInflater.from(context);
     }

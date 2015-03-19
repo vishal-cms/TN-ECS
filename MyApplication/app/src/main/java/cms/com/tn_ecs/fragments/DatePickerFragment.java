@@ -26,7 +26,7 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
     Controller controller;
     String dateFormat;
 
-    
+
     //if dateformat = dmy onDateSet method will return date in DD/MM/YYYY format
     //if dateformat = mdy onDateSet method will return date in MM/DD/YYYY format
 
@@ -65,22 +65,19 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
             day = "0" + dayOfMonth;
         }
         String date = null;
-        
-        if(dateFormat.equals("dmy")) {
+
+        if (dateFormat.equals("dmy")) {
             date = "" + day.trim() + "/" + month.trim() + "/" + year;
-            
-            
+
+
+        } else if (dateFormat.equals("mdy")) {
+            date = "" + month.trim() + "/" + day.trim() + "/" + year;
         }
-        else if(dateFormat.equals("mdy")) {
-            date = "" +month.trim() + "/" +  day.trim() + "/" + year;
-        }
-        
-        
-        if(validateDate(date,dateFormat)) {
+
+
+        if (validateDate(date, dateFormat)) {
             controller.setSelectedDate(date);
-        }
-        else
-        {
+        } else {
             controller.setSelectedDate("false");
         }
 
@@ -93,11 +90,10 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
         communicator.showDate();
 
     }
-    
-    
-    private boolean validateDate(String date , String format)
-    {
-        
+
+
+    private boolean validateDate(String date, String format) {
+
         DateFormat dateformat = null;
         try {
             if (format.equals("mdy")) {
@@ -108,27 +104,21 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
             }
 
             Date selectedDate = dateformat.parse(date);
-            
+
             Date currentDate = new Date();
-            
-            if(selectedDate.after(currentDate))
-            {
+
+            if (selectedDate.after(currentDate)) {
                 return false;
-            }
-            else
-            {
+            } else {
                 return true;
             }
-            
 
-        }
-        catch (Exception e)
-        {
-            Log.d("Date Exception" , e.toString());
+
+        } catch (Exception e) {
+            Log.d("Date Exception", e.toString());
             return false;
         }
-        
-   
-        
+
+
     }
 }

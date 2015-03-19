@@ -74,6 +74,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         communicator.actionBarTitle("New User Registration");
         txtSelectDate = (TextView) getActivity().findViewById(R.id.btn_selectDOB);
         txtName = (EditText) getActivity().findViewById(R.id.txtName);
+
         txtEmailAddress = (EditText) getActivity().findViewById(R.id.txtEmailAddress);
         txtPhoneNumber = (EditText) getActivity().findViewById(R.id.txtContactNumber);
         txtAddress = (EditText) getActivity().findViewById(R.id.txtAddress);
@@ -91,8 +92,8 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         txtSelectDate.setOnClickListener(this);
         controller = Controller.getControllerInstance();
         txtPhoneNumber.getOnFocusChangeListener();
-       
-       showCaptcha();
+
+        showCaptcha();
     }
 
 
@@ -104,67 +105,85 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                 communicator.launchDateDialog("mdy");
                 break;
             case R.id.btn_register:
-                
-                //check if all fields are entered properly
-                if (!txtName.getText().toString().trim().equalsIgnoreCase("")&&
-                        !txtEmailAddress.getText().toString().trim().equalsIgnoreCase("")&&
-                        !txtAddress.getText().toString().trim().equalsIgnoreCase("")&&
-                        !txtSelectDate.getText().toString().trim().equalsIgnoreCase("")&&
-                        !txtPhoneNumber.getText().toString().trim().equalsIgnoreCase("")&&
-                        !txtPassword.getText().toString().trim().equalsIgnoreCase("")) {
-                    
-                    //check if user have entered correnct email address.
-                    if(new GeneralUtilities().validateUserName(txtEmailAddress.getText().toString().trim())) {
-                        
-                        
-                        //check if user have entered same password and reenter password. 
-                        if(txtPassword.getText().toString().trim().equals(txtReEnterPassword.getText().toString().trim())) {
+                try {
+                    //check if all fields are entered properly
+                    if (!txtName.getText().toString().trim().equalsIgnoreCase("") &&
+                            !txtEmailAddress.getText().toString().trim().equalsIgnoreCase("") &&
+                            !txtAddress.getText().toString().trim().equalsIgnoreCase("") &&
+                            !txtSelectDate.getText().toString().trim().equalsIgnoreCase("") &&
+                            !txtPhoneNumber.getText().toString().trim().equalsIgnoreCase("") &&
+                            !txtPassword.getText().toString().trim().equalsIgnoreCase("")) {
 
-                            //checking is captcha is enter properly
-                            if(!txtCaptchaAnswer.getText().toString().trim().equals("")){
-                            int userAnswer =Integer.parseInt(txtCaptchaAnswer.getText().toString().trim());
-                            if(userAnswer == captcha.getAnswer()) {
-                                //generate parametrized user registration link method written in Connection class.
-
-                                ArrayList<NameValuePair> userDetails = new ArrayList<NameValuePair>();
+                        if (GeneralUtilities.validateUserName(txtName.getText().toString().trim())) {
+                            //check if user have entered correnct email address.
+                            if (new GeneralUtilities().validateEmailAddress(txtEmailAddress.getText().toString().trim())) {
 
 
-                                userDetails.add(new BasicNameValuePair("Userdtls", getUserJsonObject().toString()));
+                                //check if user have entered same password and reenter password. 
+                                if (txtPassword.getText().toString().trim().equals(txtReEnterPassword.getText().toString().trim())) {
 
-                                userRegistrationUrl = new Connection(getActivity()).getParametriseUrl(userDetails);
+                                    //checking is captcha is enter properly
+                                    if (!txtCaptchaAnswer.getText().toString().trim().equals("")) {
+                                        int userAnswer = Integer.parseInt(txtCaptchaAnswer.getText().toString().trim());
+                                        if (userAnswer == captcha.getAnswer()) {
+                                            //generate parametrized user registration link method written in Connection class.
+                                            if (new GeneralUtilities(getActivity()).validatePhoneNumber(txtPhoneNumber.getText().toString().trim())) {
+                                                ArrayList<NameValuePair> userDetails = new ArrayList<NameValuePair>();
 
-                                Log.d("Url", userRegistrationUrl);
 
-                                new RegisterUserTask(userRegistrationUrl).execute();
-                            }
-                            else {
-                                Toast.makeText(getActivity() , "Please Enter Correct  Answer." , Toast.LENGTH_SHORT).show();
-                             //   txtCaptchaAnswer.setBackgroundResource(R.drawable.text_error_border);
+                                                userDetails.add(new BasicNameValuePair("Userdtls", getUserJsonObject().toString()));
+
+                                                userRegistrationUrl = new Connection(getActivity()).getParametriseUrl(userDetails);
+
+                                                Log.d("Url", userRegistrationUrl);
+
+                                                new RegisterUserTask(userRegistrationUrl).execute();
+                                            } else {
+                                                txtPhoneNumber.setError("Please Enter Correct PhoneNumber");
+                                                txtPhoneNumber.requestFocus();
+                                                txtCaptchaAnswer.setText("");
+                                                showCaptcha();
+
+                                            }
+                                        } else {
+                                            txtCaptchaAnswer.setError("Please Enter Correct Answer");
+                                            ;
+                                            //   txtCaptchaAnswer.setBackgroundResource(R.drawable.text_error_border);
+                                            txtCaptchaAnswer.requestFocus();
+                                            txtCaptchaAnswer.setText("");
+                                            showCaptcha();
+                                        }
+                                    } else {
+                                        txtCaptchaAnswer.setError("Please Enter Correct Answer");
+
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), "Password and ReEntered Password Dose Not Match", Toast.LENGTH_SHORT).show();
+                                    txtCaptchaAnswer.setText("");
+                                    showCaptcha();
+                                }
+                            } else {
+                                txtEmailAddress.setError("Please Enter Correct Email Address");
+                                txtEmailAddress.requestFocus();
                                 txtCaptchaAnswer.setText("");
-                            showCaptcha();
+                                showCaptcha();
                             }
-                        }
-                        else
-                            {
-                                Toast.makeText(getActivity() , "Please Enter Answer." , Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        else
-                        {
-                            Toast.makeText(getActivity() , "Password and ReEntered Password Dose Not Match" , Toast.LENGTH_SHORT).show();
+                        } else {
+                            txtName.setError("Please Enter Correct Name");
+                            txtName.requestFocus();
                             txtCaptchaAnswer.setText("");
                             showCaptcha();
                         }
-                        }
-                    else
-                    {
-                        Toast.makeText(getActivity() , "Please Enter Correct Email Address" , Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), Messages.MANDETORY_FIELDS_MESSAGE, Toast.LENGTH_LONG).show();
+                        txtCaptchaAnswer.setText("");
+                        showCaptcha();
                     }
-                    }
-                else
-                {
-                    Toast.makeText(getActivity() , Messages.MANDETORY_FIELDS_MESSAGE  ,Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Please Enter Correct Data.", Toast.LENGTH_LONG).show();
+                    txtCaptchaAnswer.setText("");
+                    showCaptcha();
                 }
                 break;
             case R.id.rb_GenderMale:
@@ -181,15 +200,15 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     private JSONObject getUserJsonObject() {
         JSONObject userObject;
         try {
-          
-                userObject = new JSONObject();
-                userObject.put("name", txtName.getText());
-                userObject.put("email", txtEmailAddress.getText());
-                userObject.put("address", txtAddress.getText());
-                userObject.put("mobile" , txtPhoneNumber.getText());
-                userObject.put("sex", sex);
-                userObject.put("Dob", txtSelectDate.getText());
-                userObject.put("password", txtPassword.getText());
+
+            userObject = new JSONObject();
+            userObject.put("name", txtName.getText());
+            userObject.put("email", txtEmailAddress.getText());
+            userObject.put("address", txtAddress.getText());
+            userObject.put("mobile", txtPhoneNumber.getText());
+            userObject.put("sex", sex);
+            userObject.put("Dob", txtSelectDate.getText());
+            userObject.put("password", txtPassword.getText());
             return userObject;
         } catch (Exception e) {
             userObject = null;
@@ -201,12 +220,45 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         txtSelectDate.setText(date);
     }
 
+    private void showCaptcha() {
+        captcha = getCaptcha();
+        txtCaptchaText.setText(captcha.getCaptchaText());
+    }
+
+    ////Captcha Related Logic
+
+    //following function will return Captcha object
+    //contain captcha Text And its Answer
+    private Captcha getCaptcha() {
+        Random random = new Random();
+        Captcha captcha = new Captcha();
+        int firstRandomValue = random.nextInt((9 - 0) + 1) + 0;
+        int SecondRandomValue = random.nextInt((9 - 0) + 1) + 0;
+        int operations = random.nextInt((2 - 0) + 1) + 0;
+
+        switch (operations) {
+            case 0:
+                captcha.setCaptchaText("" + firstRandomValue + "+" + SecondRandomValue + " = ");
+                captcha.setAnswer(firstRandomValue + SecondRandomValue);
+                break;
+            case 1:
+                captcha.setCaptchaText("" + firstRandomValue + "-" + SecondRandomValue + " = ");
+                captcha.setAnswer(firstRandomValue - SecondRandomValue);
+                break;
+            case 2:
+                captcha.setCaptchaText("" + firstRandomValue + "*" + SecondRandomValue + " = ");
+                captcha.setAnswer(firstRandomValue * SecondRandomValue);
+                break;
+        }
+        return captcha;
+    }
 
     private class RegisterUserTask extends AsyncTask<String, Void, String> {
         String registrationUrl;
         String result;
         String[] parseResults;
         ProgressDialog progressdialog;
+
         private RegisterUserTask(String registrationUrl) {
             this.registrationUrl = registrationUrl;
         }
@@ -231,79 +283,33 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (progressdialog != null)
-            {
+            if (progressdialog != null) {
                 progressdialog.dismiss();
             }
-           
-          
-            
-           if(!result.equalsIgnoreCase("false")||parseResults != null)
-           {
-               if (parseResults[0].equals("1"))
-               {
-                   communicator.launchMessageDialog("User Registration Successfull.","Thank You.");
-                   communicator.detachSplashScreen();
-                   
-                   new GeneralUtilities(getActivity()).writeDataToSharedPreferences(txtEmailAddress.getText().toString(), txtName.getText().toString());
-                   controller.setApplicationUserName(parseResults[2].toString().trim());
-                   communicator.launchSelectServiceScreen();
-               }
-               else if(parseResults[0].equals("0"))
-               {
-                   communicator.launchMessageDialog(parseResults[1].toString().toUpperCase(),"Error.");
-                  // Toast.makeText(getActivity() , parseResults[1].toString().toUpperCase(), Toast.LENGTH_LONG).show();
-               }
-               
-           }
-            else
-           {
-                   communicator.launchMessageDialog("Registration failed! Please Try After Some Time.", "Error.");
-               
-               }
+
+
+            if (!result.equalsIgnoreCase("false") || parseResults != null) {
+                if (parseResults[0].equals("1")) {
+                    communicator.launchMessageDialog("User Registration Successfull.", "Thank You.");
+                    communicator.detachSplashScreen();
+
+                    new GeneralUtilities(getActivity()).writeDataToSharedPreferences(txtEmailAddress.getText().toString(), txtName.getText().toString());
+                    controller.setApplicationUserName(parseResults[2].toString().trim());
+                    communicator.launchSelectServiceScreen();
+                } else if (parseResults[0].equals("0")) {
+                    communicator.launchMessageDialog(parseResults[1].toString().toUpperCase(), "Error.");
+                    // Toast.makeText(getActivity() , parseResults[1].toString().toUpperCase(), Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                communicator.launchMessageDialog("Registration failed! Please Try After Some Time.", "Error.");
+
+            }
 
         }
     }
 
-    ////Captcha Related Logic
-
-    private void showCaptcha()
-    {
-        captcha = getCaptcha();
-        txtCaptchaText.setText(captcha.getCaptchaText());
-    }
-
-
-    //following function will return Captcha object
-    //contain captcha Text And its Answer
-    private Captcha getCaptcha()
-    {
-        Random random = new Random();
-        Captcha captcha = new Captcha();
-        int firstRandomValue = random.nextInt((9-0)+1)+0;
-        int SecondRandomValue = random.nextInt((9-0)+1)+0;
-        int operations = random.nextInt((2-0)+1)+0;
-
-        switch (operations)
-        {
-            case 0:
-                captcha.setCaptchaText(""+firstRandomValue+"+"+SecondRandomValue + " = ");
-                captcha.setAnswer(firstRandomValue+SecondRandomValue);
-                break;
-            case 1:
-                captcha.setCaptchaText(""+firstRandomValue+"-"+SecondRandomValue + " = ");
-                captcha.setAnswer(firstRandomValue-SecondRandomValue);
-                break;
-            case 2:
-                captcha.setCaptchaText(""+firstRandomValue+"*"+SecondRandomValue + " = ");
-                captcha.setAnswer(firstRandomValue*SecondRandomValue);
-                break;
-        }
-        return  captcha;
-    }
-
-   private class Captcha
-    {
+    private class Captcha {
         String captchaText;
         int answer;
 
@@ -329,6 +335,6 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     {
         if(phoneNumber.length()<=9 )
     }*/
-    
-    
+
+
 }

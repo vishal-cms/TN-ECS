@@ -31,7 +31,7 @@
         android:id="@+id/txt_errorMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       
+
         android:layout_below="@id/txtAppTitle"
         android:gravity="center"
         android:text="Sorry! No Internet Connecitivity. "
@@ -52,11 +52,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:orientation="vertical"
-            android:padding="2dp"
-            >
+            android:padding="2dp">
 
             <EditText
                 android:id="@+id/txtUserName"
@@ -95,55 +94,55 @@
                 android:background="@drawable/button_border"
                 android:text="Login" />
 
-            
+
             <RelativeLayout
+                android:id="@+id/userModulPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_login"
-                android:layout_marginTop="5dip"
-                android:id="@+id/userModulPanel"
-                >
+                android:layout_marginTop="5dip">
 
                 <TextView
                     android:id="@+id/btn_ChangePassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
                     android:layout_alignParentLeft="true"
+                    android:clickable="true"
                     android:padding="5dip"
                     android:text="Change Password" />
+
                 <TextView
                     android:id="@+id/btn_ForgotPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
                     android:layout_alignParentRight="true"
+                    android:clickable="true"
                     android:padding="5dip"
                     android:text="Forgot Password" />
-                
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" 
-                    android:layout_below="@id/btn_ChangePassword"
-                    android:textSize="15sp"
-                
                     android:id="@+id/txtLable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_ChangePassword"
+
                     android:gravity="center"
                     android:text="-----OR-----"
-                    />
+                    android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/btn_newUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/txtLable"
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="5dip"
-                    android:layout_below="@id/txtLable"
                     android:text="Sign Up" />
-                
-                </RelativeLayout>
-            
-           
+
+            </RelativeLayout>
+
+
         </RelativeLayout>
 
     </ScrollView>
@@ -167,19 +166,19 @@
         android:visibility="gone">
 
         <ProgressBar
+            android:id="@+id/pgloader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:id="@+id/pgloader"
             android:indeterminateOnly="true" />
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:text="Please Wait Checking Details."
-    android:textColor="#ffffff"
-    android:layout_below="@id/pgloader"
-    android:layout_marginTop="3dip"
-    android:gravity="center"
-    />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pgloader"
+            android:layout_marginTop="3dip"
+            android:gravity="center"
+            android:text="Please Wait Checking Details."
+            android:textColor="#ffffff" />
     </RelativeLayout>
 </RelativeLayout>

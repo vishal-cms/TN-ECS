@@ -78,13 +78,14 @@
 
         </LinearLayout>
     </ScrollView>
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
         android:id="@+id/txtViewUserName"
-        android:text="message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        
+        android:text="message"
+
         />
 
 </RelativeLayout>

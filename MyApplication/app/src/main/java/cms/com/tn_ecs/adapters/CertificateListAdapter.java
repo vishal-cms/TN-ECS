@@ -101,9 +101,9 @@ public class CertificateListAdapter extends BaseAdapter {
         viewHolder.fullLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Url" , certificateList.get(position).getEnglishUrl());
+                Log.d("Url", certificateList.get(position).getEnglishUrl());
                 controller.setSelectedCertificate(certificateList.get(position));
-               communicator.viewCertificate();
+                communicator.viewCertificate();
             }
         });
         return convertView;

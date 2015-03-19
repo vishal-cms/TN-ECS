@@ -44,7 +44,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     TextView txtnewuser;
     TextView btnchangePassword;
     TextView btnForgotPassword;
-    
+
     Controller controller;
     Button btnLogin;
     ProgressDialog progressdialog;
@@ -56,6 +56,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     boolean isNetworkStateChecked;
     RelativeLayout progressbarLayout;
     JSONObject userLoginDetailsObject;
+
     public SplashScreen() {
     }
 
@@ -70,18 +71,17 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        
-        
-        
+
+
         communicator = (FragmentCommunicator) getActivity();
         communicator.hideActionBar();
-       String email =  new GeneralUtilities(getActivity()).readDataFromSharedPreferences();
+        String email = new GeneralUtilities(getActivity()).readDataFromSharedPreferences();
         communicator.actionBarTitle("Tamilnadu E-Sevai");
         txtErrorMessage = (TextView) getActivity().findViewById(R.id.txt_errorMessage);
         txtErrorMessage.setVisibility(View.GONE);
         progressbarLayout = (RelativeLayout) getActivity().findViewById(R.id.relativelayout_progress);
         progressbarLayout.setVisibility(View.GONE);
-       controller = Controller.getControllerInstance();
+        controller = Controller.getControllerInstance();
         txtUserName = (EditText) getActivity().findViewById(R.id.txtUserName);
         txtPassword = (EditText) getActivity().findViewById(R.id.txtPassword);
         btnLogin = (Button) getActivity().findViewById(R.id.btn_login);
@@ -98,7 +98,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         btnchangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateUserName(txtUserName.getText().toString().trim())) {
+                if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
                     communicator.launchChangePasswordFragment(txtUserName.getText().toString().trim());
                 } else {
                     txtErrorMessage.setVisibility(View.VISIBLE);
@@ -107,11 +107,11 @@ public class SplashScreen extends android.support.v4.app.Fragment {
                 }
             }
         });
-        
+
         btnForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateUserName(txtUserName.getText().toString().trim())) {
+                if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
                     try {
                         controller.setSelectedService(SERVICE_TYPE.FORGOT_PASSWORD);
 
@@ -122,10 +122,8 @@ public class SplashScreen extends android.support.v4.app.Fragment {
                         usernamelist.add(new BasicNameValuePair("UserName", usernamedetails.toString()));
                         String forgotpasswordUrl = new Connection(getActivity()).getParametriseUrl(usernamelist);
                         new GetPasswordTask(forgotpasswordUrl).execute();
-                        
-                    }
-                    catch(Exception e)
-                    {
+
+                    } catch (Exception e) {
                         txtErrorMessage.setVisibility(View.VISIBLE);
                         txtErrorMessage.setText("Some Problem Occured Please Try After Some Time.");
                     }
@@ -135,9 +133,8 @@ public class SplashScreen extends android.support.v4.app.Fragment {
                 }
             }
         });
-        
-        if(email != null)
-        {
+
+        if (email != null) {
             txtUserName.setText(email);
             txtPassword.requestFocus();
         }
@@ -145,60 +142,48 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(!txtUserName.getText().toString().trim().equals("") && !txtPassword.getText().toString().trim().equals(""))
-               {
-                   if(new GeneralUtilities(getActivity()).validateUserName(txtUserName.getText().toString().trim()))
-                   {
-                       try {
-                           userLoginDetailsObject = new JSONObject();
-                           userLoginDetailsObject.put("username", txtUserName.getText().toString().trim());
-                           userLoginDetailsObject.put("password", txtPassword.getText().toString().trim());
-                           ArrayList<NameValuePair> loginDetails= new ArrayList<NameValuePair>();
-                           loginDetails.add(new BasicNameValuePair("LoginDtls" , userLoginDetailsObject.toString()));
-                          String loginUrl = new Connection(getActivity()).getParametriseUrl(loginDetails);
-                           Log.d("LoginUrl" , loginUrl);
-                           new ValidateLoginTask(loginUrl).execute();
-                           
-                       }
-                       catch (Exception e)
-                       {
-                           Log.d("Error" , "Login Error");
-                       }
-                   }
-                   else
-                   {
-                       txtErrorMessage.setVisibility(View.VISIBLE);
-                       txtErrorMessage.setText("Please Enter Correct Email Address.");   
-                   }
-               }
-                else
-               {
-                   txtErrorMessage.setVisibility(View.VISIBLE);
-                   txtErrorMessage.setText(Messages.MANDETORY_FIELDS_MESSAGE);
-               }
+                if (!txtUserName.getText().toString().trim().equals("") && !txtPassword.getText().toString().trim().equals("")) {
+                    if (new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
+                        try {
+                            userLoginDetailsObject = new JSONObject();
+                            userLoginDetailsObject.put("username", txtUserName.getText().toString().trim());
+                            userLoginDetailsObject.put("password", txtPassword.getText().toString().trim());
+                            ArrayList<NameValuePair> loginDetails = new ArrayList<NameValuePair>();
+                            loginDetails.add(new BasicNameValuePair("LoginDtls", userLoginDetailsObject.toString()));
+                            String loginUrl = new Connection(getActivity()).getParametriseUrl(loginDetails);
+                            Log.d("LoginUrl", loginUrl);
+                            new ValidateLoginTask(loginUrl).execute();
+
+                        } catch (Exception e) {
+                            Log.d("Error", "Login Error");
+                        }
+                    } else {
+                        txtErrorMessage.setVisibility(View.VISIBLE);
+                        txtErrorMessage.setText("Please Enter Correct Email Address.");
+                    }
+                } else {
+                    txtErrorMessage.setVisibility(View.VISIBLE);
+                    txtErrorMessage.setText(Messages.MANDETORY_FIELDS_MESSAGE);
+                }
             }
         });
 
 
     }
 
-   
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        if(savedInstanceState == null)
-        {
-            isNetworkStateChecked = false;            
-        }
-        else if (savedInstanceState.getBoolean("Checked"))
-        {
+        if (savedInstanceState == null) {
+            isNetworkStateChecked = false;
+        } else if (savedInstanceState.getBoolean("Checked")) {
             isNetworkStateChecked = true;
         }
-       
-    
+
+
     }
 
 
@@ -225,17 +210,16 @@ public class SplashScreen extends android.support.v4.app.Fragment {
             progressbarLayout.setVisibility(View.VISIBLE);
 
         }
-        
-        
+
 
         @Override
         protected String doInBackground(String... params) {
 
-          result =  new Connection(getActivity()).getResult(requestedUrl);
-            
-           results =  new ParseResult().parseUserLoginResult(result);
-            
-         
+            result = new Connection(getActivity()).getResult(requestedUrl);
+
+            results = new ParseResult().parseUserLoginResult(result);
+
+
             return null;
         }
 
@@ -243,33 +227,24 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressbarLayout.setVisibility(View.GONE);
-            if (results != null)
-            {
-                if(results[0].equals("1"))
-                {
-                    new GeneralUtilities(getActivity()).writeDataToSharedPreferences(results[2].toString().trim() , "");
+            if (results != null) {
+                if (results[0].equals("1")) {
+                    new GeneralUtilities(getActivity()).writeDataToSharedPreferences(results[2].toString().trim(), "");
                     controller.setApplicationUserName(results[2].toString().trim());
                     communicator.launchSelectServiceScreen();
-                }
-                else if(!results[0].equals("1"))
-                {
+                } else if (!results[0].equals("1")) {
                     txtErrorMessage.setVisibility(View.VISIBLE);
                     txtErrorMessage.setText(results[1].toString().toUpperCase());
                 }
-            }
-            else
-            {
+            } else {
                 txtErrorMessage.setVisibility(View.VISIBLE);
                 txtErrorMessage.setText("Unable to Login Please Try After Some Time.");
             }
-         
+
         }
     }
-    
-    
-    
-    
-    
+
+
     ///////Forgot Password Task //////////////////
 
 
@@ -287,9 +262,9 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         protected String doInBackground(String... params) {
 
             result = new Connection(getActivity()).getResult(forgotPasswordUrl);
-            Log.d("result" , result);
+            Log.d("result", result);
             parseResults = new ParseResult().parseForgotPasswordResult(result);
-            
+
             return null;
         }
 
@@ -310,21 +285,15 @@ public class SplashScreen extends android.support.v4.app.Fragment {
             }
             controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
             controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
-            if (parseResults != null)
-            {
-                if(parseResults[0].equals("1"))
-                {
+            if (parseResults != null) {
+                if (parseResults[0].equals("1")) {
                     txtErrorMessage.setVisibility(View.VISIBLE);
                     txtErrorMessage.setText("Password Is Emailed To Your Email Address.");
-                }
-                else if(!parseResults[0].equals("1"))
-                {
+                } else if (!parseResults[0].equals("1")) {
                     txtErrorMessage.setVisibility(View.VISIBLE);
                     txtErrorMessage.setText(parseResults[1].toUpperCase());
                 }
-            }
-            else
-            {
+            } else {
                 txtErrorMessage.setVisibility(View.VISIBLE);
                 txtErrorMessage.setText("Unable to Login Please Try After Some Time.");
             }

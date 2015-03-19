@@ -96,11 +96,11 @@ public class CertificateList extends android.support.v4.app.Fragment {
     public CertificateList() {
 
         searchedCertificateList = new ArrayList<Certificate>();
-       
+
         if (controller == null) {
             controller = Controller.getControllerInstance();
         }
-        
+
         params = new ArrayList<NameValuePair>();
     }
 
@@ -163,7 +163,7 @@ public class CertificateList extends android.support.v4.app.Fragment {
         public downloadCertificate() {
 
             this.url = generateDownloadUrl();
-            Log.d("DownloadUrl" ,  url);
+            Log.d("DownloadUrl", url);
         }
 
         @Override

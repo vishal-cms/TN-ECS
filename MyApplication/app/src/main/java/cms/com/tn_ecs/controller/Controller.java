@@ -29,7 +29,6 @@ public class Controller {
     private ArrayList<String> oldReceiptNumber;
     private String applicationUserName;
 
-  
 
     private PropertyTaxArrears propertyTaxArrears;
 
@@ -132,6 +131,7 @@ public class Controller {
     public void setOldReceiptNumber(ArrayList<String> oldReceiptNumber) {
         this.oldReceiptNumber = oldReceiptNumber;
     }
+
     public String getApplicationUserName() {
         return applicationUserName;
     }

@@ -25,8 +25,8 @@ public class SelectServices extends android.support.v4.app.Fragment implements V
     TextView txtPropertyTax;
     TextView txtUserName;
     Controller controller;
-            
-    
+
+
     FragmentCommunicator communicator;
 
     public SelectServices() {
@@ -47,19 +47,19 @@ public class SelectServices extends android.support.v4.app.Fragment implements V
 
         communicator = (FragmentCommunicator) getActivity();
         communicator.showActionBar();
-        controller= Controller.getControllerInstance();
+        controller = Controller.getControllerInstance();
         txtBirthCertificate = (TextView) getActivity().findViewById(R.id.txtBirthCertificate);
         txtDeathCertificate = (TextView) getActivity().findViewById(R.id.txtDeathCertificate);
         txtElectricityBill = (TextView) getActivity().findViewById(R.id.txtElectricityBill);
         txtPropertyTax = (TextView) getActivity().findViewById(R.id.txtPropertyTax);
-        txtUserName =(TextView)getActivity().findViewById(R.id.txtViewUserName);
-      
+        txtUserName = (TextView) getActivity().findViewById(R.id.txtViewUserName);
+
         txtBirthCertificate.setOnClickListener(this);
         txtDeathCertificate.setOnClickListener(this);
         txtElectricityBill.setOnClickListener(this);
         txtPropertyTax.setOnClickListener(this);
         communicator.actionBarTitle("E-Sevai Services");
-        txtUserName.setText("Welcome : " + controller.getApplicationUserName());    
+        txtUserName.setText("Welcome : " + controller.getApplicationUserName());
     }
 
 

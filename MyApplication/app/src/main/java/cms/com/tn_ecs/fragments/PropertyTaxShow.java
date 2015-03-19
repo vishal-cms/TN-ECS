@@ -30,6 +30,8 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
     ListView lstOld_Receipts;
     TextView listLabel;
     RelativeLayout emptyView;
+    ArrayList<String> oldReciptNumbers;
+    ArrayList<HalfYear> halfyeardata;
 
     //listFlag =0 showing arrears //listFlaf =1 old receipt shown; 
     int listFlag;
@@ -70,35 +72,30 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
         txtName = (TextView) getActivity().findViewById(R.id.txtName);
         txtdoorNo = (TextView) getActivity().findViewById(R.id.txtdoandst);
         listLabel = (TextView) getActivity().findViewById(R.id.ListLabel);
-        lstOld_Receipts = (ListView) getActivity().findViewById(R.id.lst_oldReceipt);
-        emptyView = (RelativeLayout) getActivity().findViewById(R.id.panel_emptyView);
-        lstOld_Receipts.setEmptyView(emptyView);
-
-       
-            listLabel.setText("Old Receipts");
-            lstOld_Receipts.setVisibility(View.INVISIBLE);
-       
-
-        listLabel.setOnClickListener(this);
+        //lstOld_Receipts = (ListView) getActivity().findViewById(R.id.lst_oldReceipt);
         lstShowArrears = (ListView) getActivity().findViewById(R.id.lst_assrers);
+        
+      
+      //  lstOld_Receipts.setVisibility(View.GONE);
+       
+        emptyView = (RelativeLayout) getActivity().findViewById(R.id.panel_emptyView);
+       // lstOld_Receipts.setEmptyView(emptyView);
+        listLabel.setText("View Old Receipts");
+        
+        listLabel.setOnClickListener(this);
+       
+       //setting data to arrears list
         PropertyTaxArrears propertyTaxArrears = controller.getPropertyTaxArrears();
-
-        ArrayList<HalfYear> halfyeardata = propertyTaxArrears.getHalfYear();
-
+         halfyeardata = propertyTaxArrears.getHalfYear();
         ShowArrearsAdapter showArrearsAdapter = new ShowArrearsAdapter(getActivity(), halfyeardata);
-
         lstShowArrears.setAdapter(showArrearsAdapter);
-        
-        
-        
-        ArrayList<String> oldReciptNumbers = controller.getOldReceiptNumber();
-
-        ViewOldReceiptAdapter oldreceiptsAdapter = new ViewOldReceiptAdapter(getActivity(), oldReciptNumbers);
-        lstOld_Receipts.setAdapter(oldreceiptsAdapter);
-
+        lstShowArrears.setEmptyView(emptyView);
+        // setting data to oldreceipt list.
+        oldReciptNumbers = controller.getOldReceiptNumber();       
+      
         txtName.setText(propertyTaxArrears.getName());
         txtdoorNo.setText(propertyTaxArrears.getOd() + " , " + propertyTaxArrears.getSt());
-       
+
 
     }
 
@@ -108,16 +105,31 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
             case R.id.ListLabel:
                 if (listFlag == 0) {
                     listFlag = 1;
-                    listLabel.setText("View Arrears");
-                    lstOld_Receipts.setVisibility(View.VISIBLE);
-                    lstShowArrears.setVisibility(View.INVISIBLE);
+                    listLabel.setText("View Property Arrears");
+                    ViewOldReceiptAdapter oldreceiptsAdapter = new ViewOldReceiptAdapter(getActivity(), null);
+                    lstShowArrears.setAdapter(oldreceiptsAdapter);
                 } else if (listFlag == 1) {
                     listFlag = 0;
                     listLabel.setText("View Old Receipts");
-                    lstOld_Receipts.setVisibility(View.INVISIBLE);
-                    lstShowArrears.setVisibility(View.VISIBLE);
+                    ShowArrearsAdapter showArrearsAdapter = new ShowArrearsAdapter(getActivity(), halfyeardata);
+                    lstShowArrears.setAdapter(showArrearsAdapter);
                 }
                 break;
         }
     }
+    
+    private void showLists(int listFlag)
+    {
+        if(listFlag == 0)
+        {
+           // lstOld_Receipts.setVisibility(View.GONE);
+        }
+        else if(listFlag == 1)
+        {
+            lstShowArrears.setVisibility(View.VISIBLE);
+        }
+    }
+    
+    
+    
 }

@@ -29,18 +29,18 @@
         android:background="#ffffff"
         android:contentDescription="@string/app_name"
         android:gravity="center|left"
+        android:paddingBottom="10dip"
         android:paddingLeft="20dip"
         android:paddingRight="20dip"
         android:paddingTop="10dip"
-        android:paddingBottom="10dip"
         android:text="Sorry! Problem Connecting Server Please Try After Some Time. "
         android:textSize="15sp" />
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:id="@+id/btnOK"
-    android:background="@color/seconderytitles"
-    android:text="OK"
-    android:layout_margin="3dip"
-    />
+
+    <Button
+        android:id="@+id/btnOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dip"
+        android:background="@color/seconderytitles"
+        android:text="OK" />
 </LinearLayout>

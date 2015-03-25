@@ -120,8 +120,8 @@ public class Connection {
         try {
 
             HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, 20000);
-            HttpConnectionParams.setSoTimeout(httpParams, 10000);
+            HttpConnectionParams.setConnectionTimeout(httpParams, 45000);
+            HttpConnectionParams.setSoTimeout(httpParams, 45000);
             HttpClient httpClient = new DefaultHttpClient(httpParams);
             HttpResponse httpResponse = httpClient.execute(new HttpGet(requestdUrl));
             inputStream = httpResponse.getEntity().getContent();

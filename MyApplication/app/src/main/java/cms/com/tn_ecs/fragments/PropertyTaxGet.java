@@ -103,7 +103,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
         txtSubNo = (EditText) getActivity().findViewById(R.id.txtSubNo);
         if (zoneDetailList.size() > 0) {
             zoneList = new ArrayList<String>();
-            zoneList.add("Please Select Zone");
+            zoneList.add("Please Select Zone *");
             subDivisionStringList = new ArrayList<String>();
             zoneID = new ArrayList<String>();
 
@@ -130,7 +130,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             zoneId = "" + zoneID.get(sp_zone.getSelectedItemPosition() - 1);
            
             selectedzonesubdivisionlist = new ArrayList<String>(Arrays.asList(subdivlist));
-            selectedzonesubdivisionlist.add(0, "Select Sub Division");
+            selectedzonesubdivisionlist.add(0, "Select Sub Division *");
             ArrayAdapter<String> subDivListView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, selectedzonesubdivisionlist);
 
             sp_subDivision.setAdapter(subDivListView);

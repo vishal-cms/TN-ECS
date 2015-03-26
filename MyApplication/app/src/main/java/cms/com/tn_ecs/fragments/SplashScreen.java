@@ -112,21 +112,8 @@ public class SplashScreen extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
-                    try {
-                        controller.setSelectedService(SERVICE_TYPE.FORGOT_PASSWORD);
-
-                        controller.setRequestedUrl(URLConstants.FORGOT_PASSWORD_URL);
-                        JSONObject usernamedetails = new JSONObject();
-                        usernamedetails.put("UserName", txtUserName.getText().toString().trim());
-                        ArrayList<NameValuePair> usernamelist = new ArrayList<NameValuePair>();
-                        usernamelist.add(new BasicNameValuePair("UserName", usernamedetails.toString()));
-                        String forgotpasswordUrl = new Connection(getActivity()).getParametriseUrl(usernamelist);
-                        new GetPasswordTask(forgotpasswordUrl).execute();
-
-                    } catch (Exception e) {
-                        txtErrorMessage.setVisibility(View.VISIBLE);
-                        txtErrorMessage.setText("Some Problem Occured Please Try After Some Time.");
-                    }
+                    controller.setSelectedService(SERVICE_TYPE.FORGOT_PASSWORD);
+                    communicator.launchMessageDialog(txtUserName.getText().toString().trim() , "");
                 } else {
                     txtErrorMessage.setVisibility(View.VISIBLE);
                     txtErrorMessage.setText("Please Enter Correct Email Address.");
@@ -248,56 +235,4 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     ///////Forgot Password Task //////////////////
 
 
-    private class GetPasswordTask extends AsyncTask<String, Void, String> {
-        String forgotPasswordUrl;
-        String result;
-        String[] parseResults;
-        ProgressDialog progressdialog;
-
-        private GetPasswordTask(String registrationUrl) {
-            this.forgotPasswordUrl = registrationUrl;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            result = new Connection(getActivity()).getResult(forgotPasswordUrl);
-            Log.d("result", result);
-            parseResults = new ParseResult().parseForgotPasswordResult(result);
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressdialog = new ProgressDialog(getActivity());
-            progressdialog.setMessage("Please wait.");
-            progressdialog.setCanceledOnTouchOutside(false);
-            progressdialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (progressdialog != null) {
-                progressdialog.dismiss();
-            }
-            controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
-            controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
-            if (parseResults != null) {
-                if (parseResults[0].equals("1")) {
-                    txtErrorMessage.setVisibility(View.VISIBLE);
-                    txtErrorMessage.setText("Password Is Emailed To Your Email Address.");
-                } else if (!parseResults[0].equals("1")) {
-                    txtErrorMessage.setVisibility(View.VISIBLE);
-                    txtErrorMessage.setText(parseResults[1].toUpperCase());
-                }
-            } else {
-                txtErrorMessage.setVisibility(View.VISIBLE);
-                txtErrorMessage.setText("Unable to Login Please Try After Some Time.");
-            }
-
-        }
-    }
 }

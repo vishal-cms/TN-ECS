@@ -157,8 +157,11 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
 
     @Override
     public void launchMessageDialog(String dialogMessage, String dialogTitle) {
-        MessageDialogFragment messageDialogFragment = new MessageDialogFragment(dialogMessage, dialogTitle);
-
+        MessageDialogFragment messageDialogFragment = new MessageDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("dialogMessage" ,dialogMessage);
+        bundle.putString("dialogTitle" ,dialogTitle);
+        messageDialogFragment.setArguments(bundle);
 
         messageDialogFragment.show(manager, "ErrorDialog");
     }

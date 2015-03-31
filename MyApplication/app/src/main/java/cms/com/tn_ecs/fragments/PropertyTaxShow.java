@@ -106,7 +106,7 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
                 if (listFlag == 0) {
                     listFlag = 1;
                     listLabel.setText("View Property Arrears");
-                    ViewOldReceiptAdapter oldreceiptsAdapter = new ViewOldReceiptAdapter(getActivity(), null);
+                    ViewOldReceiptAdapter oldreceiptsAdapter = new ViewOldReceiptAdapter(getActivity(), oldReciptNumbers);
                     lstShowArrears.setAdapter(oldreceiptsAdapter);
                 } else if (listFlag == 1) {
                     listFlag = 0;

@@ -28,8 +28,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_margin="5dp"
+                
+
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
+                android:maxLength="50"
 
                 android:hint="Child Name"
                 android:inputType="textCapCharacters"
@@ -47,6 +50,8 @@
                 android:hint="Father Name"
                 android:inputType="textCapCharacters"
                 android:minLines="1"
+                android:maxLength="50"
+
                 android:padding="5dip" />
 
             <EditText
@@ -69,6 +74,8 @@
                 android:layout_below="@id/txtMotherName"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
+                android:maxLength="50"
+
                 android:padding="5dip">
 
                 <RadioGroup

@@ -5,12 +5,15 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +55,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     Controller controller;
     String userRegistrationUrl;
     Captcha captcha;
-
+    ImageButton btnRefresh;
     public RegisterUser() {
         sex = "M";
 
@@ -92,7 +95,44 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         txtSelectDate.setOnClickListener(this);
         controller = Controller.getControllerInstance();
         txtPhoneNumber.getOnFocusChangeListener();
-
+        txtCaptchaAnswer.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("-?[0-9]{0,10}")) {
+                            txtCaptchaAnswer.setError(null);
+                            return chr;
+                        }
+                        txtCaptchaAnswer.setError("Please Enter Valid Name");
+                        txtCaptchaAnswer.requestFocus();
+                        txtCaptchaAnswer.setText("");
+                        return "";
+                    }
+                }
+        });
+        btnRefresh = (ImageButton)getActivity().findViewById(R.id.btn_refresh);
+        txtName.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z .]*$")) {
+                            txtName.setError(null);
+                            return chr;
+                        }
+                        txtName.setError("Please Enter Valid Name");
+                        txtName.requestFocus();
+                        txtName.setText("");
+                        return "";
+                    }
+                }
+        });
+        btnRefresh.setOnClickListener(this);
         showCaptcha();
     }
 
@@ -192,6 +232,10 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                 break;
             case R.id.rb_GenderFemale:
                 sex = "F";
+                break;
+            case R.id.btn_refresh:
+                txtCaptchaAnswer.setText("");
+                showCaptcha();
                 break;
         }
 
@@ -335,6 +379,6 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     {
         if(phoneNumber.length()<=9 )
     }*/
-
+    
 
 }

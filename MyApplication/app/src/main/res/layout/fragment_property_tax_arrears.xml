@@ -90,6 +90,8 @@
                 android:gravity="left|center"
                 android:hint="New Property Tax Bill No."
                 android:inputType="number"
+                android:maxLength="50"
+
 
                 android:padding="5dip" />
 

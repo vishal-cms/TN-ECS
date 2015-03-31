@@ -64,6 +64,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center"
+                android:maxLength="50"
                 android:hint="Email Address"
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
@@ -79,6 +80,8 @@
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center"
                 android:hint="Password"
+                android:maxLength="50"
+
                 android:inputType="textPassword"
                 android:padding="5dp" />
 

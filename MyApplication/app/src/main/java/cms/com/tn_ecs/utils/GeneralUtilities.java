@@ -26,7 +26,7 @@ public class GeneralUtilities {
     }
 
     public static boolean validateUserName(String name) {
-        String ePattern = "[a-zA-Z.]+";
+        String ePattern = "^[a-zA-Z /.]*$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(name);
         return m.matches();
@@ -59,15 +59,18 @@ public class GeneralUtilities {
         boolean isValidPhoneNumber;
 
         if (phonenumber.length() == 10 || phonenumber.length() == 12) {
-            if (!phonenumber.contains("#") || !phonenumber.contains("*")) {
-                if (phonenumber.startsWith("91") || phonenumber.startsWith("0") || phonenumber.startsWith("7") || phonenumber.startsWith("8") || phonenumber.startsWith("9")) {
-                    return true;
+           
+                if (phonenumber.startsWith("91") || phonenumber.startsWith("7") || phonenumber.startsWith("8") || phonenumber.startsWith("9")) {
+
+                    String ePattern = "^[0-9]*$";
+                    java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+                    java.util.regex.Matcher m = p.matcher(phonenumber);
+                    return m.matches();
+                    
                 } else {
                     return false;
                 }
-            } else {
-                return false;
-            }
+            
 
         } else {
             return false;

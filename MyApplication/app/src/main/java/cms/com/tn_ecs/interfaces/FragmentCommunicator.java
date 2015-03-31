@@ -12,7 +12,7 @@ public interface FragmentCommunicator {
 
     public void actionBarTitle(String title);
 
-    public void launcgSplashScreen();
+    public void launchSplashScreen();
 
     public void launchSearchScreen();
 
@@ -47,5 +47,7 @@ public interface FragmentCommunicator {
     public void hideActionBar();
 
     public void launchChangePasswordFragment(String emailAddress);
+    
+    public void cleareBackStack();
 
 }

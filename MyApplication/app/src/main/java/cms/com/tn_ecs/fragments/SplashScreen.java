@@ -74,6 +74,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
 
 
         communicator = (FragmentCommunicator) getActivity();
+        
         communicator.hideActionBar();
         String email = new GeneralUtilities(getActivity()).readDataFromSharedPreferences();
         communicator.actionBarTitle("Tamilnadu E-Sevai");
@@ -164,11 +165,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        if (savedInstanceState == null) {
-            isNetworkStateChecked = false;
-        } else if (savedInstanceState.getBoolean("Checked")) {
-            isNetworkStateChecked = true;
-        }
+       
 
 
     }
@@ -179,6 +176,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         super.onResume();
         controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
         controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
+      
     }
 
     private class ValidateLoginTask extends AsyncTask<String, Void, String> {

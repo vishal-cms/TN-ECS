@@ -3,41 +3,34 @@
     android:id="@+id/lstArrearsListItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:layout_margin="5dip"
     android:background="@color/BackGroundColor"
+    android:layout_margin="5dip"
+    
     android:clickable="true"
     android:gravity="center|left"
     android:orientation="vertical"
-
-
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="13dip"
+        android:layout_marginBottom="8dip"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
+        android:layout_marginTop="5dip"
         android:background="@drawable/card_background">
 
-        <View
-            android:id="@+id/sideBar"
-            android:layout_width="4dip"
-            android:layout_height="match_parent"
-            android:layout_marginRight="1dip"
-            android:background="#8FE489" />
+     
 
         <TextView
             android:id="@+id/txt_Receipt_Number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="1dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginTop="10dip"
+           android:layout_marginTop="5dip"
+            android:padding="10dip"
             android:gravity="center"
             android:hint="Old Receipt Number "
-            android:maxWidth="250dip"
+            
             android:textSize="20sp"
 
             />

@@ -61,15 +61,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         }
     }
 
-    @Override
-    public void launchPropertyTaxScreen() {
-        PropertyTaxGet propertyTaxScreen = new PropertyTaxGet();
-        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_container, propertyTaxScreen, "PropertyTaxScreen");
-        transaction.addToBackStack("PropertyTaxScreen");
-
-        transaction.commit();
-    }
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,21 +74,22 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
 
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         controller = Controller.getControllerInstance();
-        launcgSplashScreen();
+        
         controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
         controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
         if (!new File(URLConstants.APPLICATION_BASE_PATH + "/.zone.txt").exists()) {
             copyAssets();
             createApplicationDir();
         }
-
+        launchSplashScreen();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //hideActionBar();
+       
+        
 
     }
 
@@ -136,12 +129,13 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     }
 
     @Override
-    public void launcgSplashScreen() {
+    public void launchSplashScreen() {
         splashscreenfragment = new SplashScreen();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
 
         transaction.add(R.id.fragment_container, splashscreenfragment, "splashscreen");
         actionBarTitle("Tamilnadu E-Seva");
+       
         transaction.commit();
     }
 
@@ -348,5 +342,18 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         transaction.commit();
 
 
+    }
+    @Override
+    public void launchPropertyTaxScreen() {
+        PropertyTaxGet propertyTaxScreen = new PropertyTaxGet();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, propertyTaxScreen, "PropertyTaxScreen");
+        transaction.addToBackStack("PropertyTaxScreen");
+
+        transaction.commit();
+    }
+    @Override
+    public void cleareBackStack() {
+        
     }
 }

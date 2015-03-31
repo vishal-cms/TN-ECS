@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,8 +93,62 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
 
         //initializing control from fragment 
         txtMotherName = (EditText) getActivity().findViewById(R.id.txtMotherName);
+        txtMotherName.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z .]*$")) {
+                            txtMotherName.setError(null);
+                            return chr;
+                        }
+                        txtMotherName.setError("Please Enter Valid Name");
+                        txtMotherName.requestFocus();
+                        txtMotherName.setText("");
+                        return "";
+                    }
+                }
+        });
         txtFatherName = (EditText) getActivity().findViewById(R.id.txtFatherName);
+        txtFatherName.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z .]*$")) {
+                            txtFatherName.setError(null);
+                            return chr;
+                        }
+                        txtFatherName.setError("Please Enter Valid Name");
+                        txtFatherName.requestFocus();
+                        txtFatherName.setText("");
+                        return "";
+                    }
+                }
+        });
         txtChildName = (EditText) getActivity().findViewById(R.id.txtChildName);
+        txtChildName.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z .]*$")) {
+                            txtChildName.setError(null);
+                            return chr;
+                        }
+                        txtChildName.setError("Please Enter Valid Name");
+                        txtChildName.requestFocus();
+                        txtChildName.setText("");
+                        return "";
+                    }
+                }
+        });
         placeSpinner = (Spinner) getActivity().findViewById(R.id.sp_Place);
         txtSelectDate = (TextView) getActivity().findViewById(R.id.btn_selectDate);
         //txt_SearchTitle = (TextView) getActivity().findViewById(R.id.txt_SearchTitle);

@@ -26,9 +26,12 @@
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
                 android:hint="Enter Full Name *"
-                android:inputType="text"
+                android:inputType="textPersonName|none"
                 android:minLines="1"
-                android:padding="5dip" />
+                android:maxLength="50"
+
+                android:padding="5dip"
+        />
 
             <EditText
                 android:id="@+id/txtEmailAddress"
@@ -40,6 +43,8 @@
                 android:hint="Enter Email Address *"
                 android:inputType="textEmailAddress"
                 android:minLines="1"
+                android:maxLength="50"
+
                 android:padding="5dip" />
 
             <EditText
@@ -61,10 +66,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
+                android:scrollbars="horizontal|vertical"
                 android:gravity="top"
                 android:hint="Enter Address *"
                 android:maxLines="5"
                 android:minLines="5"
+                android:maxLength="150"
+
                 android:padding="5dip" />
 
             <RelativeLayout
@@ -112,7 +120,7 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center|left"
-                android:padding="10dip"
+                android:padding="7dip"
                 android:text="Enter Date Of Birth *" />
 
             <EditText
@@ -122,6 +130,8 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
+                android:maxLength="50"
+
                 android:hint="Password *"
                 android:inputType="textPassword"
                 android:padding="5dip" />
@@ -133,15 +143,31 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="left|center"
+                android:maxLength="50"
+
                 android:hint="Re-Enter Password *"
                 android:inputType="textPassword"
                 android:padding="5dip" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
+                <ImageButton
+                    android:id="@+id/btn_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
 
+                    android:paddingTop="5dip"
+                    android:paddingRight="3dip"
+                    android:paddingLeft="3dip"
+                    android:layout_weight="1"
+                    android:paddingBottom="5dip"
+
+                    android:background="@drawable/button_border"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_action_refresh" />
                 <TextView
                     android:id="@+id/txtCaptchaText"
                     android:layout_width="wrap_content"
@@ -152,21 +178,27 @@
                     android:gravity="center"
                     android:padding="10dip"
                     android:text="Enter Your Answer"
+                    android:layout_weight="1"
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/txtAnswer"
                     android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                   
                     android:layout_margin="5dip"
                     android:background="@drawable/edittextborderwhitebackground"
                     android:gravity="center"
                     android:hint="Answer *"
-                    android:minLines="1"
-                    android:padding="5dip" />
+                    android:maxLines="1"
+                    android:inputType="phone"
+                    android:maxLength="5"
+                    android:layout_weight="1"
 
-            </RelativeLayout>
+                    android:padding="10dip" />
+               
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_register"

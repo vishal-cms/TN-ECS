@@ -36,7 +36,7 @@
             android:layout_marginBottom="1dip"
             android:layout_marginLeft="10dip"
             android:layout_marginTop="10dip"
-            android:hint="HY"
+            android:hint="Installment"
             android:maxWidth="250dip"
             android:textSize="10sp"
 
@@ -88,7 +88,7 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_marginTop="10dip"
-            android:hint="Coll"
+            android:hint="Collection"
             android:textSize="12sp" />
 
         <TextView
@@ -100,6 +100,7 @@
             android:layout_marginBottom="5dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
+            android:gravity="center"
             android:hint="Coll"
             android:textSize="17sp" />
 
@@ -125,6 +126,7 @@
             android:layout_marginBottom="5dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
+            android:gravity="center"
             android:hint="Arrears"
             android:textSize="17sp" />
     </RelativeLayout>

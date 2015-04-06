@@ -6,6 +6,8 @@ import cms.com.tn_ecs.objectholders.ApplicationUser;
 import cms.com.tn_ecs.objectholders.Certificate;
 import cms.com.tn_ecs.objectholders.CertificateList;
 import cms.com.tn_ecs.objectholders.PropertyTaxArrears;
+import cms.com.tn_ecs.objectholders.PropertyTaxSearchDetails;
+import cms.com.tn_ecs.objectholders.ReceiptDetails;
 import cms.com.tn_ecs.objectholders.ZoneInfo;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 
@@ -28,6 +30,12 @@ public class Controller {
     private ArrayList<ZoneInfo> zoneInfo;
     private ArrayList<String> oldReceiptNumber;
     private String applicationUserName;
+    private PropertyTaxSearchDetails proprtyPropertyTaxSearchDetails;
+    private String receiptUrl;
+    private ReceiptDetails receiptDetails;
+    private String selectedReceiptFilePath;
+    
+    
 
 
     private PropertyTaxArrears propertyTaxArrears;
@@ -138,5 +146,37 @@ public class Controller {
 
     public void setApplicationUserName(String applicationUserName) {
         this.applicationUserName = applicationUserName;
+    }
+
+    public PropertyTaxSearchDetails getProprtyPropertyTaxSearchDetails() {
+        return proprtyPropertyTaxSearchDetails;
+    }
+
+    public void setProprtyPropertyTaxSearchDetails(PropertyTaxSearchDetails proprtyPropertyTaxSearchDetails) {
+        this.proprtyPropertyTaxSearchDetails = proprtyPropertyTaxSearchDetails;
+    }
+
+    public String getReceiptUrl() {
+        return receiptUrl;
+    }
+
+    public void setReceiptUrl(String receiptUrl) {
+        this.receiptUrl = receiptUrl;
+    }
+
+    public ReceiptDetails getReceiptDetails() {
+        return receiptDetails;
+    }
+
+    public void setReceiptDetails(ReceiptDetails receiptDetails) {
+        this.receiptDetails = receiptDetails;
+    }
+
+    public String getSelectedReceiptFilePath() {
+        return selectedReceiptFilePath;
+    }
+
+    public void setSelectedReceiptFilePath(String selectedReceiptFilePath) {
+        this.selectedReceiptFilePath = selectedReceiptFilePath;
     }
 }

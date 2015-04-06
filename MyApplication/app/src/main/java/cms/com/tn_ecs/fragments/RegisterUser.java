@@ -125,10 +125,12 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                             txtName.setError(null);
                             return chr;
                         }
-                        txtName.setError("Please Enter Valid Name");
-                        txtName.requestFocus();
-                        txtName.setText("");
-                        return "";
+                        else {
+                            txtName.setError("Please Enter Valid Name");
+                            txtName.requestFocus();
+                            //  txtName.setText("");
+                            return "";
+                        }
                     }
                 }
         });

@@ -27,6 +27,7 @@ import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.interfaces.FragmentCommunicator;
 import cms.com.tn_ecs.network.Connection;
 import cms.com.tn_ecs.network.ParseResult;
+import cms.com.tn_ecs.objectholders.PropertyTaxSearchDetails;
 import cms.com.tn_ecs.objectholders.ZoneInfo;
 
 /**
@@ -193,15 +194,24 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
 
 
     private String getRequeastUrls(String ServiceId) {
+        
+        PropertyTaxSearchDetails propertyTaxSearchDetails = new PropertyTaxSearchDetails();
+        
         parameterlsit = new ArrayList<NameValuePair>();
         parameterlsit.add(new BasicNameValuePair("channelID", channelID.trim()));
+        propertyTaxSearchDetails.setChannelID(channelID.trim());
         parameterlsit.add(new BasicNameValuePair("ZONE", ZONE.trim()));
+        propertyTaxSearchDetails.setZONE(ZONE.trim());
         parameterlsit.add(new BasicNameValuePair("DIV_CD", DIV_CD.trim()));
+        propertyTaxSearchDetails.setDIV_CD(DIV_CD.trim());
         parameterlsit.add(new BasicNameValuePair("OLD_BILL", OLD_BILL.trim()));
+        propertyTaxSearchDetails.setOLD_BILL(OLD_BILL.trim());
         parameterlsit.add(new BasicNameValuePair("OLD_SUB", OLD_SUB.trim()));
+        propertyTaxSearchDetails.setOLD_SUB(OLD_SUB.trim());
         parameterlsit.add(new BasicNameValuePair("serviceId", ServiceId));
-
+        
         String result = new Connection(getActivity()).getParametriseUrl(parameterlsit);
+        controller.setProprtyPropertyTaxSearchDetails(propertyTaxSearchDetails);
 
         return result;
 

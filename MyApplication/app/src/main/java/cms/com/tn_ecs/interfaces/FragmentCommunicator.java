@@ -49,5 +49,7 @@ public interface FragmentCommunicator {
     public void launchChangePasswordFragment(String emailAddress);
     
     public void cleareBackStack();
+    
+    public void launchViewReceiptFragment();
 
 }

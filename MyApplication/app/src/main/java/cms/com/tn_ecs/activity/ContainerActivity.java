@@ -24,6 +24,7 @@ import cms.com.tn_ecs.fragments.DisplayCertificate;
 import cms.com.tn_ecs.fragments.MessageDialogFragment;
 import cms.com.tn_ecs.fragments.PropertyTaxGet;
 import cms.com.tn_ecs.fragments.PropertyTaxShow;
+import cms.com.tn_ecs.fragments.PropertyTaxShowReceiptFragment;
 import cms.com.tn_ecs.fragments.RegisterUser;
 import cms.com.tn_ecs.fragments.SelectServices;
 import cms.com.tn_ecs.fragments.SplashScreen;
@@ -67,7 +68,7 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
-        //setActionbarLogo();
+        hideActionBar();
 
         manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this);
@@ -78,11 +79,12 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
         controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
         if (!new File(URLConstants.APPLICATION_BASE_PATH + "/.zone.txt").exists()) {
-            copyAssets();
             createApplicationDir();
+            copyAssets();
+            
         }
-        launchSplashScreen();
-
+      launchSplashScreen();
+        //launchViewReceiptFragment();
     }
 
     @Override
@@ -132,8 +134,15 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     public void launchSplashScreen() {
         splashscreenfragment = new SplashScreen();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-
-        transaction.add(R.id.fragment_container, splashscreenfragment, "splashscreen");
+        
+        int backstacksize = manager.getBackStackEntryCount();
+        Log.d("count screen" , ""+backstacksize);
+        if(backstacksize>0)
+        {
+            manager.popBackStack(null , FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        
+        transaction.replace(R.id.fragment_container, splashscreenfragment, "splashscreen");
         actionBarTitle("Tamilnadu E-Seva");
        
         transaction.commit();
@@ -275,43 +284,40 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
 
     private void copyAssets() {
         AssetManager assetManager = getAssets();
-        String rootPath = null;
-        String files[] = null;
+        String[] files = null;
         try {
-            rootPath = URLConstants.APPLICATION_BASE_PATH;
-            Log.d("Root path", rootPath);
-            Controller.getControllerInstance().setApplicationRootPath(rootPath);
             files = assetManager.list("");
-        } catch (Exception e) {
+        } catch (IOException e) {
             Log.e("tag", "Failed to get asset file list.", e);
         }
-
-        InputStream in = null;
-        OutputStream out = null;
-        try {
-            in = assetManager.open("zone.txt");
-            File outFile = new File(rootPath, "/.zone.txt");
-            out = new FileOutputStream(outFile);
-            copyFile(in, out);
-        } catch (IOException e) {
-            Log.e("tag", "Failed to copy asset file: " + "/.zone.txt", e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    // NOOP
-                }
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
+                File outFile = new File(URLConstants.APPLICATION_BASE_PATH, "."+filename);
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + filename, e);
             }
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    // NOOP
+            finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
                 }
             }
         }
-
     }
 
     private void copyFile(InputStream in, OutputStream out) throws IOException {
@@ -333,6 +339,8 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     public void launchChangePasswordFragment(String emailAddress) {
 
         ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+        int backstacksize = manager.getBackStackEntryCount();
+        Log.d("count screen" , ""+backstacksize);
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle arguments = new Bundle();
         arguments.putString("email", emailAddress);
@@ -354,6 +362,17 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     }
     @Override
     public void cleareBackStack() {
+        
+    }
+    
+    @Override
+    public void launchViewReceiptFragment()
+    {
+        PropertyTaxShowReceiptFragment propertyTaxShowReceiptFragment = new PropertyTaxShowReceiptFragment();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container , propertyTaxShowReceiptFragment , "Receiptfrgment");
+        transaction.addToBackStack("Receiptfrgment");
+        transaction.commit();
         
     }
 }

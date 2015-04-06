@@ -24,6 +24,7 @@ import cms.com.tn_ecs.objectholders.Certificate;
 import cms.com.tn_ecs.objectholders.CertificateList;
 import cms.com.tn_ecs.objectholders.HalfYear;
 import cms.com.tn_ecs.objectholders.PropertyTaxArrears;
+import cms.com.tn_ecs.objectholders.ReceiptDetails;
 import cms.com.tn_ecs.objectholders.ZoneInfo;
 import cms.com.tn_ecs.utils.SERVICE_TYPE;
 import cms.com.tn_ecs.utils.URLConstants;
@@ -355,7 +356,73 @@ public class ParseResult {
             return results;
         }
     }
-
+       
+    public ReceiptDetails parsePropertyTaxReceiptDetails()
+    {
+        ReceiptDetails receiptDetails = new ReceiptDetails();
+        try {
+            factory = DocumentBuilderFactory.newInstance();
+            documentBuilder = factory.newDocumentBuilder();
+            Document document = documentBuilder.parse(inputStream);
+            Element rootElemtnt = document.getDocumentElement();
+            String rootElementName = rootElemtnt.getTagName();
+            NodeList mainresultItemList = rootElemtnt.getElementsByTagName("ADJARR");
+            for (int k = 0 ; k <mainresultItemList.getLength() ; k++) {
+                NodeList resultItemList = mainresultItemList.item(k).getChildNodes();
+                int nodeCount = resultItemList.getLength();
+                for (int i = 0; i < nodeCount; i++) {
+                    Node receipt = resultItemList.item(i);
+                    if (receipt.getNodeName().equalsIgnoreCase("RCPTNO")) {
+                        receiptDetails.setReceptNo(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("OLDBILLNO")) {
+                        receiptDetails.setOldBillNumber(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("NEWBILLNO")) {
+                        receiptDetails.setNewBillNumber(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("ASNAME")) {
+                        receiptDetails.setAsName(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("DOORNO")) {
+                        receiptDetails.setDoorNo(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("STNAME")) {
+                        receiptDetails.setStreetName(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("PAYMENTMODE")) {
+                        receiptDetails.setPaymentMode(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("RCPTDT")) {
+                        receiptDetails.setReceipt_date(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("RCPTAMT")) {
+                        receiptDetails.setReceipt_payment(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("CHQDDNO")) {
+                        receiptDetails.setCheque_number(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("CHQDDDT")) {
+                        receiptDetails.setCheque_date(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("BANK")) {
+                        receiptDetails.setBane_name(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("BRANCH")) {
+                        receiptDetails.setBane_branch(receipt.getTextContent());
+                    } else if (receipt.getNodeName().equalsIgnoreCase("HY")) {
+                        NodeList installmentList = receipt.getChildNodes();
+                        for (int j = 0; j < installmentList.getLength(); j++) {
+                            Node installment = installmentList.item(j);
+                            if (installment.getNodeName().equals("HALFYR")) {
+                                receiptDetails.setHalf_year(installment.getTextContent());
+                            } else if (installment.getNodeName().equals("ADJAMT")) {
+                                receiptDetails.setAdjistment(installment.getTextContent());
+                            }
+                        }
+                    } else if (receipt.getNodeName().equalsIgnoreCase("BAL")) {
+                        receiptDetails.setBalance(receipt.getTextContent());
+                    }
+                }
+            }
+            return receiptDetails;
+            
+        }
+        catch(Exception e)
+        {
+            receiptDetails = null;
+            return receiptDetails;
+        }
+            
+    }
 }
 
 

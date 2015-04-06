@@ -144,21 +144,47 @@ public class Connection {
             HttpURLConnection httpConnection = (HttpURLConnection) downloadCertificateUrl.openConnection();
             httpConnection.setRequestMethod("GET");
             httpConnection.setDoOutput(true);
-            String certificateDirectory = URLConstants.APPLICATION_BASE_PATH;
-            File file = new File(certificateDirectory, controller.getSelectedCertificate().getName().toString().trim() + ".pdf");
-            FileOutputStream fileOutput = new FileOutputStream(file);
-            InputStream inputStream = httpConnection.getInputStream();
-            int totalSize = httpConnection.getContentLength();
-            byte[] buffer = new byte[1024];
-            int bufferLength = 0;
-            while ((bufferLength = inputStream.read(buffer)) > 0) {
-                fileOutput.write(buffer, 0, bufferLength);
-                totalSize += bufferLength;
+            String certificateDirectory = "";
+            
+            String fileName = "";
+            if(controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE)
+            {
+                certificateDirectory = URLConstants.APPLICATION_BASE_PATH + "BirthCertificate/";
             }
-            fileOutput.close();
+            else if(controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE)
+            {
+                certificateDirectory = URLConstants.APPLICATION_BASE_PATH + "DeathCertificate/";
+            }
+            fileName = controller.getSelectedCertificate().getName().toString().trim() + "_" + controller.getSelectedCertificate().getRegNo().toString().trim().replace("/" ,"-") + ".pdf";
+            
+            File certificate_dir = new File(certificateDirectory);
+            if (!certificate_dir.exists())
+            {
+                certificate_dir.mkdir();
+            }
+            
+            File file = new File(certificateDirectory, fileName);
+            if(!file.exists()) {
+
+                FileOutputStream fileOutput = new FileOutputStream(file);
+                InputStream inputStream = httpConnection.getInputStream();
+                int totalSize = httpConnection.getContentLength();
+                byte[] buffer = new byte[1024];
+                int bufferLength = 0;
+                while ((bufferLength = inputStream.read(buffer)) > 0) {
+                    fileOutput.write(buffer, 0, bufferLength);
+                    totalSize += bufferLength;
+                }
+                fileOutput.close();
+                return true;
+            }
+            else
+            {
+                return true;
+            }
 
 
-            return true;
+            
         } catch (Exception e) {
             return false;
         }

@@ -15,11 +15,14 @@ public class URLConstants {
     public static final String PUBLIC_URL = "http://218.248.24.70:8080/callcenter/";
     public static final String VIEW_PDF_URL = "http://docs.google.com/gview?embedded=true&url=";
     public static final String APPLICATION_BASE_PATH = Environment.getExternalStorageDirectory() + "/TN_ECS/";
-    public static final String PROPERTY_TAX_MASTER_URL = "http://164.100.134.92:8280/ptis/external/collectionservice?";
+    public static final String PROPERTY_TAX_MASTER_URL = "http://182.74.137.194:8280/ptis/external/collectionservice?";
+    public static final String PROPERTT_TAX_VIEW_RECEIPT_URL = "http://182.74.160.158/TNAPP/Services/PropertyReceipt.aspx?";
     public static final String USER_REGISTRATION_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/UserRegistration?";
     public static final String USER_LOGIN_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/UserVerfication?";
     public static final String CHANGE_PASSWORD_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/ChangePassword?";
     public static final String FORGOT_PASSWORD_URL = "http://182.74.160.158/MobileRegistration/RegistrationDetails/ForgotPassword?";
+    
+    
 
 
 }

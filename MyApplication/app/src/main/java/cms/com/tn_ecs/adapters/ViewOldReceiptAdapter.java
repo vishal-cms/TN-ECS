@@ -39,18 +39,18 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
     Controller controller;
     FragmentCommunicator communicator;
     ProgressDialog progressdialog;
+
     public ViewOldReceiptAdapter(Context context, ArrayList<String> oldreceipts) {
 
         this.oldreceipts = oldreceipts;
-        if(oldreceipts == null)
-        {
+        if (oldreceipts == null) {
             this.oldreceipts = new ArrayList<String>();
             this.oldreceipts.clear();
         }
         this.context = context;
         inflater = LayoutInflater.from(context);
         controller = Controller.getControllerInstance();
-        communicator = (FragmentCommunicator)context;
+        communicator = (FragmentCommunicator) context;
     }
 
     @Override
@@ -87,23 +87,21 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
             public void onClick(View v) {
                 controller.setRequestedUrl(URLConstants.PROPERTY_TAX_MASTER_URL);
                 String result = getRequeastUrls(viewholder.txtoldreceiptview.getText().toString().trim());
-                Log.d("receiptUrl" , result);
-                
-                String fileName = viewholder.txtoldreceiptview.getText().toString().trim().replace("/" , "-");
-                
-                File file = new File(URLConstants.APPLICATION_BASE_PATH + "/PropertyTax/" + fileName +".html");
-                
-                if(file.exists())
-                {
+                Log.d("receiptUrl", result);
+
+                String fileName = viewholder.txtoldreceiptview.getText().toString().trim().replace("/", "-");
+
+                File file = new File(URLConstants.APPLICATION_BASE_PATH + "/PropertyTax/" + fileName + ".html");
+
+                if (file.exists()) {
                     controller.setSelectedReceiptFilePath(file.getPath());
                     communicator.launchViewReceiptFragment();
-                }
-                else {
+                } else {
                     new GetReceiptData(result).execute();
-                   
+
                 }
 
-                
+
             }
         });
 
@@ -114,7 +112,6 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
     class viewHolder {
         TextView txtoldreceiptview;
     }
-
 
 
     private String getRequeastUrls(String receiptNo) {
@@ -130,16 +127,14 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
         parameterlsit.add(new BasicNameValuePair("OLD_SUB", propertyTaxSearchDetails.getOLD_SUB()));
         parameterlsit.add(new BasicNameValuePair("RCPT_NO", receiptNo));
         parameterlsit.add(new BasicNameValuePair("serviceId", "reprintRcpt"));
-       
+
 
         String result = new Connection(context).getParametriseUrl(parameterlsit);
-        
+
         controller.setReceiptUrl(result);
         return result;
 
     }
-
-
 
 
     private class GetReceiptData extends AsyncTask<String, Void, String> {
@@ -156,16 +151,13 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
 
             try {
                 result = new Connection(context).getResult(requestUrl);
-                Log.d("receiptData" , result);
-                if(result.contentEquals("ERROR"))
-                {
-                    communicator.launchMessageDialog("Error" , "Sorry ! No Record Found This might Because Low Internet Connectivity Please Try After Some Time.");
-                }
-                else
-                {
+                Log.d("receiptData", result);
+                if (result.contentEquals("ERROR")) {
+                    communicator.launchMessageDialog("Error", "Sorry ! No Record Found This might Because Low Internet Connectivity Please Try After Some Time.");
+                } else {
                     ReceiptDetails receiptDetails = new ParseResult(result).parsePropertyTaxReceiptDetails();
                     controller.setReceiptDetails(receiptDetails);
-                   isReceiptFileGenerated = new ViewFileGenerator().generatePropertyTaxReceiptHTML();
+                    isReceiptFileGenerated = new ViewFileGenerator().generatePropertyTaxReceiptHTML();
                 }
 
             } catch (Exception e) {
@@ -188,23 +180,19 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            
-            
+
+
             if (progressdialog != null) {
                 progressdialog.hide();
             }
-            
-            if(!isReceiptFileGenerated)
-            {
-                Toast.makeText(context , "Sorry! Problem Generating Receipt Please Try After Some Time." , Toast.LENGTH_LONG).show();
-            }
-            else
-            {
+
+            if (!isReceiptFileGenerated) {
+                Toast.makeText(context, "Sorry! Problem Generating Receipt Please Try After Some Time.", Toast.LENGTH_LONG).show();
+            } else {
                 communicator.launchViewReceiptFragment();
             }
-            
-          
-           
+
+
         }
     }
 

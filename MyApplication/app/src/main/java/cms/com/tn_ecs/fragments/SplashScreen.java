@@ -72,11 +72,11 @@ public class SplashScreen extends android.support.v4.app.Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        
-        Log.d("splash screen" , "onActivityCreated");
-        
+
+        Log.d("splash screen", "onActivityCreated");
+
         communicator = (FragmentCommunicator) getActivity();
-        
+
         communicator.hideActionBar();
         String email = new GeneralUtilities(getActivity()).readDataFromSharedPreferences();
         communicator.actionBarTitle("Tamilnadu E-Sevai");
@@ -116,7 +116,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 if (!txtUserName.getText().toString().trim().equals("") && new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
                     controller.setSelectedService(SERVICE_TYPE.FORGOT_PASSWORD);
-                    communicator.launchMessageDialog(txtUserName.getText().toString().trim() , "");
+                    communicator.launchMessageDialog(txtUserName.getText().toString().trim(), "");
                 } else {
                     txtErrorMessage.setVisibility(View.VISIBLE);
                     txtErrorMessage.setText("Please Enter Correct Email Address.");
@@ -133,24 +133,33 @@ public class SplashScreen extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 if (!txtUserName.getText().toString().trim().equals("") && !txtPassword.getText().toString().trim().equals("")) {
-                    if (new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
-                        try {
-                            userLoginDetailsObject = new JSONObject();
-                            userLoginDetailsObject.put("username", txtUserName.getText().toString().trim());
-                            userLoginDetailsObject.put("password", txtPassword.getText().toString().trim());
-                            ArrayList<NameValuePair> loginDetails = new ArrayList<NameValuePair>();
-                            loginDetails.add(new BasicNameValuePair("LoginDtls", userLoginDetailsObject.toString()));
-                            String loginUrl = new Connection(getActivity()).getParametriseUrl(loginDetails);
-                            Log.d("LoginUrl", loginUrl);
-                            new ValidateLoginTask(loginUrl).execute();
+                    if (GeneralUtilities.validatePassword(txtPassword.getText().toString().trim())) {
 
-                        } catch (Exception e) {
-                            Log.d("Error", "Login Error");
+                        if (new GeneralUtilities(getActivity()).validateEmailAddress(txtUserName.getText().toString().trim())) {
+                            try {
+                                userLoginDetailsObject = new JSONObject();
+                                userLoginDetailsObject.put("username", txtUserName.getText().toString().trim());
+                                userLoginDetailsObject.put("password", txtPassword.getText().toString().trim());
+                                ArrayList<NameValuePair> loginDetails = new ArrayList<NameValuePair>();
+                                loginDetails.add(new BasicNameValuePair("LoginDtls", userLoginDetailsObject.toString()));
+                                String loginUrl = new Connection(getActivity()).getParametriseUrl(loginDetails);
+                                Log.d("LoginUrl", loginUrl);
+                                new ValidateLoginTask(loginUrl).execute();
+
+                            } catch (Exception e) {
+                                Log.d("Error", "Login Error");
+                            }
+                        } else {
+                            txtErrorMessage.setVisibility(View.VISIBLE);
+                            txtErrorMessage.setText("Please Enter Correct Email Address.");
                         }
                     } else {
                         txtErrorMessage.setVisibility(View.VISIBLE);
-                        txtErrorMessage.setText("Please Enter Correct Email Address.");
+                        txtErrorMessage.setText("Please Enter Valid Characters");
+                        txtPassword.setError("Min 4 Character Max 8 Character");
+                        txtPassword.requestFocus();
                     }
+                    ////////////////
                 } else {
                     txtErrorMessage.setVisibility(View.VISIBLE);
                     txtErrorMessage.setText(Messages.MANDETORY_FIELDS_MESSAGE);
@@ -167,7 +176,6 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-       
 
 
     }
@@ -178,7 +186,7 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         super.onResume();
         controller.setSelectedService(SERVICE_TYPE.USER_LOGIN);
         controller.setRequestedUrl(URLConstants.USER_LOGIN_URL);
-      
+
     }
 
     private class ValidateLoginTask extends AsyncTask<String, Void, String> {

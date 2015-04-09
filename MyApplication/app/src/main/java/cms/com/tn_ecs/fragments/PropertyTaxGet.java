@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import cms.com.tn_ecs.R;
 import cms.com.tn_ecs.controller.Controller;
@@ -39,8 +41,10 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
     EditText txtSubNo;
     EditText txtOldPropTaxNo;
     Drawable drawable;
+    RadioButton rb_NewProperty , rb_OldProperty;
     Spinner sp_zone;
     Spinner sp_subDivision;
+    Spinner sp_localBody;
     Button btn_getArries;
 
     String requestUrlForGetArrears;
@@ -58,6 +62,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
     String OLD_BILL;
     String OLD_SUB;
     String getArrearsService;
+    boolean isOldPreperty;
     String getRcptsService;
     ProgressDialog progressdialog;
     private ArrayList<ZoneInfo> zoneDetailList;
@@ -68,6 +73,9 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
     private String zoneName;
     private String zoneId = "-1";
     private String subDivision;
+    
+    private ArrayList<String> localBodyDisplayList;
+    private ArrayList<String> localBodyValueList;
 
     public PropertyTaxGet() {
 
@@ -76,8 +84,10 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
         if (zoneDetailList == null) {
             new ParseResult().ParseZonalDetails();
             zoneDetailList = controller.getZoneInfo();
-
+            
         }
+        localBodyDisplayList = new ArrayList<String>();
+        localBodyValueList = new ArrayList<String>();
     }
 
 
@@ -94,8 +104,18 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
         super.onActivityCreated(savedInstanceState);
         communicator = (FragmentCommunicator) getActivity();
         communicator.actionBarTitle("Search Property Tax Details.");
+        Collections.addAll(localBodyDisplayList , getActivity().getResources().getStringArray(R.array.local_body_displya_name));       
+        Collections.addAll(localBodyValueList , getActivity().getResources().getStringArray(R.array.local_body_displya_value));
         sp_zone = (Spinner) getActivity().findViewById(R.id.sp_zone);
         sp_subDivision = (Spinner) getActivity().findViewById(R.id.sp_subDiv);
+        sp_localBody = (Spinner) getActivity().findViewById(R.id.sp_localBody);
+        
+        rb_NewProperty = (RadioButton)getActivity().findViewById(R.id.rb_newProperty);
+        rb_OldProperty = (RadioButton)getActivity().findViewById(R.id.rb_oldProperty);
+        
+        rb_NewProperty.setOnClickListener(this);
+        rb_OldProperty.setOnClickListener(this);
+        
         sp_zone.setOnItemSelectedListener(this);
         btn_getArries = (Button) getActivity().findViewById(R.id.btn_getAries);
         btn_getArries.setOnClickListener(this);
@@ -115,11 +135,18 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             }
 
             ArrayAdapter<String> zoneAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, zoneList);
-
+            
+            
             sp_zone.setAdapter(zoneAdapter);
             drawable = getActivity().getResources().getDrawable(R.drawable.text_error_border);
 
+            ArrayAdapter<String> localBodyAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item , localBodyDisplayList);
+            sp_localBody.setAdapter(localBodyAdapter);
 
+        }
+        if(isOldPreperty)
+        {
+            sp_localBody.setVisibility(View.VISIBLE);
         }
     }
 
@@ -129,7 +156,7 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
             String[] subdivlist = subDivisionStringList.get(sp_zone.getSelectedItemPosition() - 1).split(",");
             communicator = (FragmentCommunicator) getActivity();
             zoneId = "" + zoneID.get(sp_zone.getSelectedItemPosition() - 1);
-           
+
             selectedzonesubdivisionlist = new ArrayList<String>(Arrays.asList(subdivlist));
             selectedzonesubdivisionlist.add(0, "Select Sub Division *");
             ArrayAdapter<String> subDivListView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, selectedzonesubdivisionlist);
@@ -156,37 +183,62 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
                 channelID = "3";
                 ZONE = zoneId;
                 if (!ZONE.equals("-1")) {
-                    if(sp_subDivision.getSelectedItemPosition() == 0)
-                    {
-                        Toast.makeText(getActivity() , "please Select Sub Division" , Toast.LENGTH_LONG).show();
+                    if (sp_subDivision.getSelectedItemPosition() == 0) {
+                        Toast.makeText(getActivity(), "please Select Sub Division", Toast.LENGTH_LONG).show();
                         break;
-                    }
-                    else {
+                    } else {
                         DIV_CD = "" + selectedzonesubdivisionlist.get(sp_subDivision.getSelectedItemPosition());
                     }
-                    } else {
+                } else {
                     Toast.makeText(getActivity(), "Please select Zone And Sub Division", Toast.LENGTH_LONG).show();
                     break;
                 }
                 if (!txtBillNo.getText().toString().trim().equals("")) {
-                    OLD_BILL = txtBillNo.getText().toString().trim();
-                    OLD_SUB = "000000";
-                    getArrearsService = getRequeastUrls("GetArrears");
+                    if( rb_OldProperty.isChecked()) {
 
-                    if (!getArrearsService.equalsIgnoreCase("Some parameter are missing.")) {
-
-                        getRcptsService = getRequeastUrls("getRcpts");
-                    } else {
-                        Toast.makeText(getActivity(), "Please enter correct data. ", Toast.LENGTH_LONG).show();
+                        if (sp_localBody.getSelectedItemPosition() == 0) {
+                            Toast.makeText(getActivity(), "Please Select Local Body", Toast.LENGTH_LONG).show();
+                            break;
+                        }
                     }
+                        OLD_BILL = txtBillNo.getText().toString().trim();
+                        OLD_SUB = "000000";
+                        getArrearsService = getRequeastUrls("GetArrears");
 
+                        if (!getArrearsService.equalsIgnoreCase("Some parameter are missing.")) {
 
-                    new getPropertyTaxData().execute();
+                            getRcptsService = getRequeastUrls("getRcpts");
+                        } else {
+                            Toast.makeText(getActivity(), "Please enter correct data. ", Toast.LENGTH_LONG).show();
+                        }
+
+                            
+                        new getPropertyTaxData().execute();
+                     
+                   
                 } else {
 
                     Toast.makeText(getActivity(), "Please enter correct bill number ", Toast.LENGTH_LONG).show();
                 }
                 break;
+            case R.id.rb_newProperty:
+                if (sp_localBody.getVisibility() == View.VISIBLE)
+                {
+                    sp_localBody.setVisibility(View.GONE);
+                    controller.getProprtyPropertyTaxSearchDetails().setLocalBody("no");
+                    isOldPreperty = false;
+                }
+                break;
+            case  R.id.rb_oldProperty:
+            {
+                if (sp_localBody.getVisibility() != View.VISIBLE)
+                {
+                    sp_localBody.setVisibility(View.VISIBLE);
+                    isOldPreperty = true;
+                }
+            }
+                break;
+            
         }
 
 
@@ -194,9 +246,9 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
 
 
     private String getRequeastUrls(String ServiceId) {
-        
+
         PropertyTaxSearchDetails propertyTaxSearchDetails = new PropertyTaxSearchDetails();
-        
+
         parameterlsit = new ArrayList<NameValuePair>();
         parameterlsit.add(new BasicNameValuePair("channelID", channelID.trim()));
         propertyTaxSearchDetails.setChannelID(channelID.trim());
@@ -210,6 +262,8 @@ public class PropertyTaxGet extends android.support.v4.app.Fragment implements A
         propertyTaxSearchDetails.setOLD_SUB(OLD_SUB.trim());
         parameterlsit.add(new BasicNameValuePair("serviceId", ServiceId));
         
+        propertyTaxSearchDetails.setLocalBody(localBodyValueList.get(sp_localBody.getSelectedItemPosition()));
+
         String result = new Connection(getActivity()).getParametriseUrl(parameterlsit);
         controller.setProprtyPropertyTaxSearchDetails(propertyTaxSearchDetails);
 

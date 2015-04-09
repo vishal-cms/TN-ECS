@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="AppTheme.BaseTheme">
         <item name="android:colorPrimary">@color/PrimaryColor</item>
         <item name="android:colorBackground">@color/BackGroundColor</item>
+        <item name="android:colorAccent">#4db6ac</item>
+
     </style>
 
 </resources>

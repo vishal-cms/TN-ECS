@@ -145,26 +145,22 @@ public class Connection {
             httpConnection.setRequestMethod("GET");
             httpConnection.setDoOutput(true);
             String certificateDirectory = "";
-            
+
             String fileName = "";
-            if(controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE)
-            {
+            if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
                 certificateDirectory = URLConstants.APPLICATION_BASE_PATH + "BirthCertificate/";
-            }
-            else if(controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE)
-            {
+            } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
                 certificateDirectory = URLConstants.APPLICATION_BASE_PATH + "DeathCertificate/";
             }
-            fileName = controller.getSelectedCertificate().getName().toString().trim() + "_" + controller.getSelectedCertificate().getRegNo().toString().trim().replace("/" ,"-") + ".pdf";
-            
+            fileName = controller.getSelectedCertificate().getName().toString().trim() + "_" + controller.getSelectedCertificate().getRegNo().toString().trim().replace("/", "-") + ".pdf";
+
             File certificate_dir = new File(certificateDirectory);
-            if (!certificate_dir.exists())
-            {
+            if (!certificate_dir.exists()) {
                 certificate_dir.mkdir();
             }
-            
+
             File file = new File(certificateDirectory, fileName);
-            if(!file.exists()) {
+            if (!file.exists()) {
 
                 FileOutputStream fileOutput = new FileOutputStream(file);
                 InputStream inputStream = httpConnection.getInputStream();
@@ -177,14 +173,11 @@ public class Connection {
                 }
                 fileOutput.close();
                 return true;
-            }
-            else
-            {
+            } else {
                 return true;
             }
 
 
-            
         } catch (Exception e) {
             return false;
         }

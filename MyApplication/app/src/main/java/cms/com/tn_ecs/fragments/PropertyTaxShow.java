@@ -32,6 +32,7 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
     RelativeLayout emptyView;
     ArrayList<String> oldReciptNumbers;
     ArrayList<HalfYear> halfyeardata;
+    TextView txtTotalArrears;
 
     //listFlag =0 showing arrears //listFlaf =1 old receipt shown; 
     int listFlag;
@@ -72,27 +73,35 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
         txtName = (TextView) getActivity().findViewById(R.id.txtName);
         txtdoorNo = (TextView) getActivity().findViewById(R.id.txtdoandst);
         listLabel = (TextView) getActivity().findViewById(R.id.ListLabel);
+        txtTotalArrears = (TextView) getActivity().findViewById(R.id.txttotalArears);
+
         //lstOld_Receipts = (ListView) getActivity().findViewById(R.id.lst_oldReceipt);
         lstShowArrears = (ListView) getActivity().findViewById(R.id.lst_assrers);
-        
-      
-      //  lstOld_Receipts.setVisibility(View.GONE);
-       
+
+
+        //  lstOld_Receipts.setVisibility(View.GONE);
+
         emptyView = (RelativeLayout) getActivity().findViewById(R.id.panel_emptyView);
-       // lstOld_Receipts.setEmptyView(emptyView);
+        // lstOld_Receipts.setEmptyView(emptyView);
         listLabel.setText("View Old Receipts");
-        
+
         listLabel.setOnClickListener(this);
-       
-       //setting data to arrears list
+
+        //setting data to arrears list
         PropertyTaxArrears propertyTaxArrears = controller.getPropertyTaxArrears();
-         halfyeardata = propertyTaxArrears.getHalfYear();
+        halfyeardata = propertyTaxArrears.getHalfYear();
         ShowArrearsAdapter showArrearsAdapter = new ShowArrearsAdapter(getActivity(), halfyeardata);
+       /* double totalArrears = getTotalPropertyTaxArrears();
+        if(!(totalArrears <=0.0))
+        {
+           *//* txtTotalArrears.setVisibility(View.VISIBLE);
+            txtTotalArrears.setText("Total Arrears : " + totalArrears);*//*
+        }*/
         lstShowArrears.setAdapter(showArrearsAdapter);
         lstShowArrears.setEmptyView(emptyView);
         // setting data to oldreceipt list.
-        oldReciptNumbers = controller.getOldReceiptNumber();       
-      
+        oldReciptNumbers = controller.getOldReceiptNumber();
+
         txtName.setText(propertyTaxArrears.getName());
         txtdoorNo.setText(propertyTaxArrears.getOd() + " , " + propertyTaxArrears.getSt());
 
@@ -117,19 +126,24 @@ public class PropertyTaxShow extends android.support.v4.app.Fragment implements 
                 break;
         }
     }
-    
-    private void showLists(int listFlag)
-    {
-        if(listFlag == 0)
-        {
-           // lstOld_Receipts.setVisibility(View.GONE);
-        }
-        else if(listFlag == 1)
-        {
+
+    private void showLists(int listFlag) {
+        if (listFlag == 0) {
+            // lstOld_Receipts.setVisibility(View.GONE);
+        } else if (listFlag == 1) {
             lstShowArrears.setVisibility(View.VISIBLE);
         }
     }
-    
-    
-    
+
+
+    private double getTotalPropertyTaxArrears() {
+        double total = 0.0;
+        for (int i = 0; i < halfyeardata.size(); i++) {
+            total = total + Double.parseDouble(halfyeardata.get(i).getDemand());
+        }
+        return total;
+
+    }
+
+
 }

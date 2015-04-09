@@ -22,6 +22,7 @@ public class ShowArrearsAdapter extends BaseAdapter {
     ArrayList<HalfYear> halfyear;
     LayoutInflater inflater;
     Context context;
+    float totalArrears = 0;
 
     public ShowArrearsAdapter(Context context, ArrayList<HalfYear> halfyear) {
         controller = Controller.getControllerInstance();
@@ -62,9 +63,11 @@ public class ShowArrearsAdapter extends BaseAdapter {
         _viewHolder.txtHy = (TextView) convertView.findViewById(R.id.txt_hy);
 
         _viewHolder.txtArrears.setText(_haHalfYear.getArrears().toString());
+
         _viewHolder.txtColl.setText(_haHalfYear.getColl());
         _viewHolder.txtDemand.setText(_haHalfYear.getDemand());
         _viewHolder.txtHy.setText(_haHalfYear.getHy());
+     
         return convertView;
     }
 

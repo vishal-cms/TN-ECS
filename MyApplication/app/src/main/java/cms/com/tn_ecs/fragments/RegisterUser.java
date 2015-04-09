@@ -56,6 +56,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     String userRegistrationUrl;
     Captcha captcha;
     ImageButton btnRefresh;
+
     public RegisterUser() {
         sex = "M";
 
@@ -113,7 +114,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                     }
                 }
         });
-        btnRefresh = (ImageButton)getActivity().findViewById(R.id.btn_refresh);
+        btnRefresh = (ImageButton) getActivity().findViewById(R.id.btn_refresh);
         txtName.setFilters(new InputFilter[]{
                 new InputFilter() {
                     public CharSequence filter(CharSequence chr, int start,
@@ -124,8 +125,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                         if (chr.toString().matches("^[a-zA-Z .]*$")) {
                             txtName.setError(null);
                             return chr;
-                        }
-                        else {
+                        } else {
                             txtName.setError("Please Enter Valid Name");
                             txtName.requestFocus();
                             //  txtName.setText("");
@@ -170,16 +170,25 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                                         if (userAnswer == captcha.getAnswer()) {
                                             //generate parametrized user registration link method written in Connection class.
                                             if (new GeneralUtilities(getActivity()).validatePhoneNumber(txtPhoneNumber.getText().toString().trim())) {
-                                                ArrayList<NameValuePair> userDetails = new ArrayList<NameValuePair>();
+                                                if (GeneralUtilities.validatePassword(txtPassword.getText().toString()) || GeneralUtilities.validateEmailAddress(txtPassword.getText().toString())) {
+
+                                                    ArrayList<NameValuePair> userDetails = new ArrayList<NameValuePair>();
 
 
-                                                userDetails.add(new BasicNameValuePair("Userdtls", getUserJsonObject().toString()));
+                                                    userDetails.add(new BasicNameValuePair("Userdtls", getUserJsonObject().toString()));
 
-                                                userRegistrationUrl = new Connection(getActivity()).getParametriseUrl(userDetails);
+                                                    userRegistrationUrl = new Connection(getActivity()).getParametriseUrl(userDetails);
 
-                                                Log.d("Url", userRegistrationUrl);
+                                                    Log.d("Url", userRegistrationUrl);
 
-                                                new RegisterUserTask(userRegistrationUrl).execute();
+                                                    new RegisterUserTask(userRegistrationUrl).execute();
+                                                } else {
+                                                    txtPassword.setText("");
+                                                    txtReEnterPassword.setText("");
+                                                    communicator.launchMessageDialog("Please Enter Valid Password Min 4 Character Max 8 Character.", "Error");
+                                                }
+
+                                                ///////////
                                             } else {
                                                 txtPhoneNumber.setError("Please Enter Correct PhoneNumber");
                                                 txtPhoneNumber.requestFocus();
@@ -381,6 +390,6 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     {
         if(phoneNumber.length()<=9 )
     }*/
-    
+
 
 }

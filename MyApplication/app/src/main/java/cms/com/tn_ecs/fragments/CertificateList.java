@@ -192,15 +192,12 @@ public class CertificateList extends android.support.v4.app.Fragment {
                 progressdialog.hide();
             }
             String certificateDirectory = "";
-            if(controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE)
-            {
+            if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
                 certificateDirectory = URLConstants.APPLICATION_BASE_PATH + "BirthCertificate/";
-            }
-            else if(controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE)
-            {
+            } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
                 certificateDirectory = URLConstants.APPLICATION_BASE_PATH + "DeathCertificate/";
             }
-            String fileName = certificateDirectory + controller.getSelectedCertificate().getName().toString().trim() + "_" + controller.getSelectedCertificate().getRegNo().toString().trim().replace("/" ,"-") + ".pdf";
+            String fileName = certificateDirectory + controller.getSelectedCertificate().getName().toString().trim() + "_" + controller.getSelectedCertificate().getRegNo().toString().trim().replace("/", "-") + ".pdf";
             File pdffile = new File(fileName);
 
             if (pdffile.exists()) {

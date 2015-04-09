@@ -356,9 +356,8 @@ public class ParseResult {
             return results;
         }
     }
-       
-    public ReceiptDetails parsePropertyTaxReceiptDetails()
-    {
+
+    public ReceiptDetails parsePropertyTaxReceiptDetails() {
         ReceiptDetails receiptDetails = new ReceiptDetails();
         try {
             factory = DocumentBuilderFactory.newInstance();
@@ -367,7 +366,7 @@ public class ParseResult {
             Element rootElemtnt = document.getDocumentElement();
             String rootElementName = rootElemtnt.getTagName();
             NodeList mainresultItemList = rootElemtnt.getElementsByTagName("ADJARR");
-            for (int k = 0 ; k <mainresultItemList.getLength() ; k++) {
+            for (int k = 0; k < mainresultItemList.getLength(); k++) {
                 NodeList resultItemList = mainresultItemList.item(k).getChildNodes();
                 int nodeCount = resultItemList.getLength();
                 for (int i = 0; i < nodeCount; i++) {
@@ -414,14 +413,12 @@ public class ParseResult {
                 }
             }
             return receiptDetails;
-            
-        }
-        catch(Exception e)
-        {
+
+        } catch (Exception e) {
             receiptDetails = null;
             return receiptDetails;
         }
-            
+
     }
 }
 

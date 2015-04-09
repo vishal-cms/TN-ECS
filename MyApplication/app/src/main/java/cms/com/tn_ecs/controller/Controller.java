@@ -34,8 +34,7 @@ public class Controller {
     private String receiptUrl;
     private ReceiptDetails receiptDetails;
     private String selectedReceiptFilePath;
-    
-    
+    private float totalArrears;
 
 
     private PropertyTaxArrears propertyTaxArrears;
@@ -178,5 +177,13 @@ public class Controller {
 
     public void setSelectedReceiptFilePath(String selectedReceiptFilePath) {
         this.selectedReceiptFilePath = selectedReceiptFilePath;
+    }
+
+    public float getTotalArrears() {
+        return totalArrears;
+    }
+
+    public void setTotalArrears(float totalArrears) {
+        this.totalArrears = totalArrears;
     }
 }

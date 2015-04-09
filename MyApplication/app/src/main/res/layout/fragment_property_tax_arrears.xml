@@ -39,7 +39,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:id="@+id/rb_female"
+                        android:id="@+id/rb_newProperty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -50,12 +50,11 @@
                         android:textSize="10sp" />
 
                     <RadioButton
-                        android:id="@+id/rb_male"
+                        android:id="@+id/rb_oldProperty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_marginRight="15dip"
-                        android:clickable="false"
                         android:text="Old Property tax"
                         android:textSize="10sp" />
 
@@ -76,6 +75,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
+                android:layout_margin="5dip"
+                android:background="@drawable/edittextborderwhitebackground"></Spinner> 
+            <Spinner
+                android:id="@+id/sp_localBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"></Spinner>
 

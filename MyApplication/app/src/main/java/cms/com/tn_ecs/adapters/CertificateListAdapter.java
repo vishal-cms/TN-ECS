@@ -103,7 +103,7 @@ public class CertificateListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.d("Url", certificateList.get(position).getEnglishUrl());
                 controller.setSelectedCertificate(certificateList.get(position));
-                    communicator.viewCertificate();
+                communicator.viewCertificate();
             }
         });
         return convertView;

@@ -7,5 +7,105 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_pdfviewer">PDFViewerActivity</string>
     <string name="title_activity_certificate_viewer">CertificateViewer</string>
+    
+    
+    
+    <string-array name="local_body_displya_value">
+       <item>	no	</item>
+        <item>	COC	</item>
+        <item>	KAT	</item>
+        <item>	TVT	</item>
+        <item>	MAN	</item>
+        <item>	MDV	</item>
+        <item>	AMB	</item>
+        <item>	MAD	</item>
+        <item>	VAL	</item>
+        <item>	ALN	</item>
+        <item>	ULG	</item>
+        <item>	CHS	</item>
+        <item>	PUZ	</item>
+        <item>	POR	</item>
+        <item>	NBK	</item>
+        <item>	MBK	</item>
+        <item>	PGD	</item>
+        <item>	PKI	</item>
+        <item>	CHL	</item>
+        <item>	IDC	</item>
+        <item>	SDK	</item>
+        <item>	KDP	</item>
+        <item>	TBK	</item>
+        <item>	MAT	</item>
+        <item>	VPK	</item>
+        <item>	SPU	</item>
+        <item>	KVU	</item>
+        <item>	PGM	</item>
+        <item>	NBR	</item>
+        <item>	KBK	</item>
+        <item>	NKM	</item>
+        <item>	RPM	</item>
+        <item>	MUG	</item>
+        <item>	MKM	</item>
+        <item>	KVM	</item>
+        <item>	PVM	</item>
+        <item>	NKI	</item>
+        <item>	EBK	</item>
+        <item>	KPK	</item>
+        <item>	OKT	</item>
+        <item>	MPK	</item>
+        <item>	JLD	</item>
+        <item>	SEM	</item>
+        <item>	UTH	</item>
+
+    </string-array>
+
+    <string-array name="local_body_displya_name">
+        <item>	Select Local Body *	</item>
+        <item>	Corporation Of Chennai	</item>
+        <item>	Kathivakkam	</item>
+        <item>	Tiruvottiyur	</item>
+        <item>	Manali	</item>
+        <item>	Madhavaram	</item>
+        <item>	Ambathur	</item>
+        <item>	Madhuravoil	</item>
+        <item>	Valasaravakkam	</item>
+        <item>	Alandur	</item>
+        <item>	Ullagaram Puzhithivakkam	</item>
+        <item>	Chinna Sekkadu	</item>
+        <item>	Puzhal	</item>
+        <item>	Porur	</item>
+        <item>	Nandhambakkam	</item>
+        <item>	Meenambakkam	</item>
+        <item>	Perungudi	</item>
+        <item>	Pallikaranai	</item>
+        <item>	Cholinganallur	</item>
+        <item>	Idayanchavadi	</item>
+        <item>	Sadayankuppam	</item>
+        <item>	Kadapakkam	</item>
+        <item>	Theeyambakkam	</item>
+        <item>	Mathur	</item>
+        <item>	Vadaperumbakkam	</item>
+        <item>	Surapattu	</item>
+        <item>	Kathirvedu	</item>
+        <item>	Puthagaram	</item>
+        <item>	Nolambur	</item>
+        <item>	Karambakkam	</item>
+        <item>	Nerkundram	</item>
+        <item>	Ramapuram	</item>
+        <item>	Mugalivakkam	</item>
+        <item>	Manapakkam	</item>
+        <item>	Kottivakkam	</item>
+        <item>	Palavakkam	</item>
+        <item>	Neelankarai	</item>
+        <item>	Enjambakkam	</item>
+        <item>	Karapakkam	</item>
+        <item>	Okkium Thuraipakkam	</item>
+        <item>	Madipakkam	</item>
+        <item>	Jalladampettai	</item>
+        <item>	Semmanchery	</item>
+        <item>	Uthandi	</item>
+
+    </string-array>
+
+
 
 </resources>

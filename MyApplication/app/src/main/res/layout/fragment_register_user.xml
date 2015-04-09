@@ -185,16 +185,15 @@
                     android:id="@+id/txtAnswer"
                     android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                   
+                    
                     android:layout_margin="5dip"
                     android:background="@drawable/edittextborderwhitebackground"
                     android:gravity="center"
                     android:hint="Answer *"
                     android:maxLines="1"
                     android:inputType="phone"
-                    android:maxLength="5"
+                    android:maxLength="4"
                     android:layout_weight="1"
-
                     android:padding="10dip" />
                
 

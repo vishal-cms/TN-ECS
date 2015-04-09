@@ -59,19 +59,27 @@ public class GeneralUtilities {
         boolean isValidPhoneNumber;
 
         if (phonenumber.length() == 10 || phonenumber.length() == 12) {
-           
-                if (phonenumber.startsWith("91") || phonenumber.startsWith("7") || phonenumber.startsWith("8") || phonenumber.startsWith("9")) {
 
-                    String ePattern = "^[0-9]*$";
-                    java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-                    java.util.regex.Matcher m = p.matcher(phonenumber);
-                    return m.matches();
-                    
-                } else {
-                    return false;
-                }
-            
+            if (phonenumber.startsWith("91") || phonenumber.startsWith("7") || phonenumber.startsWith("8") || phonenumber.startsWith("9")) {
 
+                String ePattern = "^[0-9]*$";
+                java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+                java.util.regex.Matcher m = p.matcher(phonenumber);
+                return m.matches();
+
+            } else {
+                return false;
+            }
+
+
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean validatePassword(String password) {
+        if (!(password.length() > 8) && !(password.length() < 4)) {
+            return true;
         } else {
             return false;
         }

@@ -47,9 +47,9 @@ public interface FragmentCommunicator {
     public void hideActionBar();
 
     public void launchChangePasswordFragment(String emailAddress);
-    
+
     public void cleareBackStack();
-    
+
     public void launchViewReceiptFragment();
 
 }

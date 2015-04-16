@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +89,36 @@ public class SplashScreen extends android.support.v4.app.Fragment {
         controller = Controller.getControllerInstance();
         txtUserName = (EditText) getActivity().findViewById(R.id.txtUserName);
         txtPassword = (EditText) getActivity().findViewById(R.id.txtPassword);
+        txtPassword.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z0-9]")) {
+                            CharSequence number ;
+
+                            if(txtPassword.length() < 20 ){
+                                txtPassword.setError(null);
+                                return chr;}
+                            else
+                            {
+                                txtPassword.setError("Password Should Not Be More Then 20 Character.");
+                                txtPassword.requestFocus();
+                                txtPassword.setText("");
+                                return "";
+                            }
+                        }
+                        else{
+                            txtPassword.setError("Password Should Not Contain Any Special Character.");
+                            txtPassword.requestFocus();
+                            txtPassword.setText("");
+                            return "";}
+                    }
+                }
+        });
         btnLogin = (Button) getActivity().findViewById(R.id.btn_login);
         loginPanel = (ScrollView) getActivity().findViewById(R.id.loginPanel);
         txtnewuser = (TextView) getActivity().findViewById(R.id.btn_newUser);
@@ -154,9 +186,9 @@ public class SplashScreen extends android.support.v4.app.Fragment {
                             txtErrorMessage.setText("Please Enter Correct Email Address.");
                         }
                     } else {
-                        txtErrorMessage.setVisibility(View.VISIBLE);
-                        txtErrorMessage.setText("Please Enter Valid Characters");
-                        txtPassword.setError("Min 4 Character Max 8 Character");
+                    
+                      
+                        txtPassword.setError("Please Enter Valid Password Min 8 Character Max 20 Character");
                         txtPassword.requestFocus();
                     }
                     ////////////////

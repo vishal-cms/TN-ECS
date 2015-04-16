@@ -120,8 +120,9 @@
                 android:layout_margin="5dip"
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center|left"
-                android:padding="7dip"
-                android:text="Enter Date Of Birth *" />
+                android:padding="8dip"
+                android:textSize="15sp"
+                android:hint="Enter Date Of Birth *" />
 
             <EditText
                 android:id="@+id/txtpassword"

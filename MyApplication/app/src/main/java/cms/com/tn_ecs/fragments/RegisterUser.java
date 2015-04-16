@@ -83,7 +83,75 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         txtPhoneNumber = (EditText) getActivity().findViewById(R.id.txtContactNumber);
         txtAddress = (EditText) getActivity().findViewById(R.id.txtAddress);
         txtPassword = (EditText) getActivity().findViewById(R.id.txtpassword);
+        
+        txtPassword.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z0-9]")) {
+                            CharSequence number ;
+
+                            if(txtPassword.length() < 20 ){
+                                txtPassword.setError(null);
+                                return chr;}
+                            else
+                            {
+                                txtPassword.setError("Password Should Not Be More Then 20 Character.");
+                                txtPassword.requestFocus();
+                                txtPassword.setText("");
+                                return "";
+                            }
+                        }
+                        else{
+                            txtPassword.setError("Password Should Not Contain Any Special Character.");
+                            txtPassword.requestFocus();
+                            txtPassword.setText("");
+                            return "";}
+                    }
+                }
+        });
+        
+        
+        
+        
+        
+        
+        
         txtReEnterPassword = (EditText) getActivity().findViewById(R.id.txtreEnterpassword);
+        txtReEnterPassword.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[a-zA-Z0-9]")) {
+                            CharSequence number ;
+
+                            if(txtReEnterPassword.length() < 20 ){
+                                txtReEnterPassword.setError(null);
+                                return chr;}
+                            else
+                            {
+                                txtReEnterPassword.setError("Password Should Not Be More Then 20 Character.");
+                                txtReEnterPassword.requestFocus();
+                                txtReEnterPassword.setText("");
+                                return "";
+                            }
+                        }
+                        else{
+                            txtReEnterPassword.setError("Password Should Not Contain Any Special Character.");
+                            txtReEnterPassword.requestFocus();
+                            txtReEnterPassword.setText("");
+                            return "";}
+                    }
+                }
+        });
         txtCaptchaAnswer = (EditText) getActivity().findViewById(R.id.txtAnswer);
         txtCaptchaText = (TextView) getActivity().findViewById(R.id.txtCaptchaText);
         rbMale = (RadioButton) getActivity().findViewById(R.id.rb_GenderMale);
@@ -95,7 +163,36 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
         btnRegister.setOnClickListener(this);
         txtSelectDate.setOnClickListener(this);
         controller = Controller.getControllerInstance();
-        txtPhoneNumber.getOnFocusChangeListener();
+        txtPhoneNumber.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence chr, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                  
+                        if (chr.equals("")) {
+                            return "";
+                        }
+                        if (chr.toString().matches("^[0-9]")) {
+                            CharSequence number ;
+                            
+                            if(txtPhoneNumber.length() < 12 ){
+                                txtCaptchaAnswer.setError(null);
+                                return chr;}
+                            else
+                            {
+                                txtPhoneNumber.setError("Phone Number Should Not Be More Then 12 Digits.");
+                                txtPhoneNumber.requestFocus();
+                                txtPhoneNumber.setText("");
+                                return "";
+                            }
+                        }
+                        else{
+                        txtPhoneNumber.setError("Please Enter Valid Phone Number.");
+                        txtPhoneNumber.requestFocus();
+                        txtPhoneNumber.setText("");
+                        return "";}
+                    }
+                }
+        });
         txtCaptchaAnswer.setFilters(new InputFilter[]{
                 new InputFilter() {
                     public CharSequence filter(CharSequence chr, int start,
@@ -170,7 +267,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                                         if (userAnswer == captcha.getAnswer()) {
                                             //generate parametrized user registration link method written in Connection class.
                                             if (new GeneralUtilities(getActivity()).validatePhoneNumber(txtPhoneNumber.getText().toString().trim())) {
-                                                if (GeneralUtilities.validatePassword(txtPassword.getText().toString()) || GeneralUtilities.validateEmailAddress(txtPassword.getText().toString())) {
+                                                if (GeneralUtilities.validatePassword(txtPassword.getText().toString()) && GeneralUtilities.validateEmailAddress(txtEmailAddress.getText().toString())) {
 
                                                     ArrayList<NameValuePair> userDetails = new ArrayList<NameValuePair>();
 
@@ -185,7 +282,7 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
                                                 } else {
                                                     txtPassword.setText("");
                                                     txtReEnterPassword.setText("");
-                                                    communicator.launchMessageDialog("Please Enter Valid Password Min 4 Character Max 8 Character.", "Error");
+                                                    communicator.launchMessageDialog("Please Enter Valid Password Min 8 Character Max 20 Character.", "Error");
                                                 }
 
                                                 ///////////
@@ -272,7 +369,18 @@ public class RegisterUser extends android.support.v4.app.Fragment implements Vie
     }
 
     public void showDate(String date) {
-        txtSelectDate.setText(date);
+        try {
+            if (date.equalsIgnoreCase("false") ) {
+                txtSelectDate.setText("");
+
+            } else {
+                txtSelectDate.setText(date);
+            }
+        }
+        catch (Exception e)
+        {
+            txtSelectDate.setText("");
+        }
     }
 
     private void showCaptcha() {

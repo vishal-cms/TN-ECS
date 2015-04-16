@@ -175,22 +175,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         //setting adapter to place spinner
         placeSpinner.setAdapter(adapter);
 
-        //Changing page title as per selected service.
-        /*txtChildName.setRawInputType(Configuration.KEYBOARD_QWERTY);
-        txtChildName.setFilters(new InputFilter[] {
-                new InputFilter() {
-                    public CharSequence filter(CharSequence src, int start,
-                                               int end, Spanned dst, int dstart, int dend) {
-                        if(src.equals("")){ // for backspace
-                            return src;
-                        }
-                        if(src.toString().matches("[a-zA-Z ]+")){
-                            return src;
-                        }
-                        return "";
-                    }
-                }
-        });*/
+      
 
     }
 
@@ -205,12 +190,12 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
             communicator.actionBarTitle(" Search Birth Certificate");
             txtChildName.setHint("Child Name");
-            txtSelectDate.setText("Enter Date Of Birth *");
+            txtSelectDate.setHint("Enter Date Of Birth *");
 
         } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
             communicator.actionBarTitle(" Search Death Certificate");
             txtChildName.setHint("Person Name");
-            txtSelectDate.setText("Enter Date Of Death *");
+            txtSelectDate.setHint("Enter Date Of Death *");
 
         }
 
@@ -247,7 +232,18 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
     }
 
     public void showDate(String date) {
-        txtSelectDate.setText(date);
+        try {
+            if (date.equalsIgnoreCase("false") ) {
+                txtSelectDate.setText("");
+
+            } else {
+                txtSelectDate.setText(date);
+            }
+        }
+        catch (Exception e)
+        {
+            txtSelectDate.setText("");
+        }
     }
 
     //based on the data provided by user generating requested url.
@@ -257,7 +253,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
         String requestedUrl = null;
         ArrayList<NameValuePair> parameterlsit = new ArrayList<NameValuePair>();
 
-
+         
         if (!txtChildName.getText().toString().trim().equals("")) {
             if (GeneralUtilities.validateUserName(txtChildName.getText().toString().trim())) {
                 if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
@@ -299,7 +295,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
 
         parameterlsit.add(new BasicNameValuePair("sex", sex));
         if (!place.equals("0")) {
-            if (controller.getSelectedDate() != null) {
+            if (!txtSelectDate.getText().toString().trim().equals("")) {
                 // parameterlsit.clear();
                 if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
                     parameterlsit.add(new BasicNameValuePair("dob", controller.getSelectedDate()));
@@ -308,6 +304,7 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
                     Log.d("Url new ", requestedUrl);
                     return requestedUrl;
                 } else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+                   
                     parameterlsit.add(new BasicNameValuePair("dod", controller.getSelectedDate()));
                     parameterlsit.add(new BasicNameValuePair("deathplace", place));
                     requestedUrl = connection.getParametriseUrl(parameterlsit);
@@ -315,10 +312,17 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
                     return requestedUrl;
                 }
             } else {
-                Toast.makeText(getActivity(), "Please select date", Toast.LENGTH_LONG).show();
-                return "false";
+                if (controller.getSelectedService() == SERVICE_TYPE.BIRTH_CERTIFICATE) {
+                 communicator.launchMessageDialog("Please Select Date Of Birth" , "Warning");
+                    return "false";
+                }
+                else if (controller.getSelectedService() == SERVICE_TYPE.DEATH_CERTIFICATE) {
+                        communicator.launchMessageDialog("Please Select Date Of Death" , "Warning");
+                        return "false";
+                    }
+                }
             }
-        } else {
+         else {
             Toast.makeText(getActivity(), "Please select Place Hospital/Home", Toast.LENGTH_LONG).show();
             return "false";
         }
@@ -378,6 +382,13 @@ public class CertificateSearch extends android.support.v4.app.Fragment implement
                 communicator.launchMessageDialog(Messages.SERVER_CONNECTIVITY_ERROR_MESSAGE, "Error");
             }
         }
+    }
+    
+    
+    
+    public void setDate(String date)
+    {
+        txtSelectDate.setText(date);
     }
 
 

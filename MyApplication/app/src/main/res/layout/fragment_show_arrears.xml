@@ -1,8 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="2dip"
+    
     android:background="@color/BackGroundColor"
     android:orientation="vertical"
     tools:context="cms.com.tn_ecs.fragments.PropertyTaxShow">
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_margin="3dip"
+        
         android:background="@drawable/edittextborderwhitebackground"
         android:gravity="left|top"
         android:padding="10dip">
@@ -71,20 +71,42 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/ListLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detailsPanel"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:background="@drawable/button_border"
-        android:gravity="center"
-        android:hint="Arrears"
-        android:padding="5dip"
-        android:textSize="20sp" />
+ <android.support.v4.view.ViewPager
+    android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:layout_margin="3dip"
+     android:id="@+id/pager_propertyTaxDetails"
+     >
+     <android.support.v4.view.PagerTabStrip
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:padding="10dip"
+         android:background="#ffffff"
+         android:id="@+id/tab_title"
+         
+         
+         >
+         
+     </android.support.v4.view.PagerTabStrip>
+   
+     </android.support.v4.view.ViewPager>
 
-    <ListView
+       
+
+    <!-- <TextView
+         android:id="@+id/ListLabel"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@id/detailsPanel"
+         android:layout_marginLeft="10dip"
+         android:layout_marginRight="10dip"
+         android:background="@drawable/button_border"
+         android:gravity="center"
+         android:hint="Arrears"
+         android:padding="5dip"
+         android:textSize="20sp" />-->
+
+ <!--   <ListView
         android:id="@+id/lst_assrers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -94,7 +116,7 @@
         android:layout_marginTop="5dip"
         android:divider="@null"
 
-        ></ListView>
+        ></ListView>-->
 
    <!-- <ListView
         android:id="@+id/lst_oldReceipt"
@@ -109,32 +131,6 @@
 
         ></ListView>-->
 
-    <RelativeLayout
-        android:id="@+id/panel_emptyView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/ListLabel"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:visibility="visible">
+  
 
-        <TextView
-            android:id="@+id/txtmainlabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="NO OLD RECEIPTS FOUND FOR GIVEN INPUTS"
-            android:textSize="25sp"
-            /><TextView
-            android:id="@+id/txtsecondlabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/txtmainlabel"
-            android:text="This Might Because Low Internet Connectivity Please Try After Some Time."
-            android:textSize="15sp"
-            />
-    </RelativeLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

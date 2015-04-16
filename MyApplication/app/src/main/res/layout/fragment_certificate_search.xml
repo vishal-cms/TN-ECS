@@ -121,7 +121,7 @@
                 android:background="@drawable/edittextborderwhitebackground"
                 android:gravity="center|left"
                 android:padding="10dip"
-                android:text="Enter Date Of Birth *" />
+                android:hint="Enter Date Of Birth *" />
 
             <Button
                 android:id="@+id/btn_Search"

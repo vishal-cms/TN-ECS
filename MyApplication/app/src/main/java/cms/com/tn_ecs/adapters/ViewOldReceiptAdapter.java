@@ -86,7 +86,17 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 controller.setRequestedUrl(URLConstants.PROPERTY_TAX_MASTER_URL);
-                String result = getRequeastUrls(viewholder.txtoldreceiptview.getText().toString().trim());
+                String propType = controller.getProprtyPropertyTaxSearchDetails().getPropertyType();
+                String result = "";
+                if(propType.equalsIgnoreCase("new"))
+                {
+                    result = getRequeastUrls(viewholder.txtoldreceiptview.getText().toString().trim());
+                }
+                else if(propType.equalsIgnoreCase("old"))
+                {
+                    result = getRequestUrlForOldPropertyTax(viewholder.txtoldreceiptview.getText().toString().trim());
+                }
+                
                 Log.d("receiptUrl", result);
 
                 String fileName = viewholder.txtoldreceiptview.getText().toString().trim().replace("/", "-");
@@ -112,14 +122,11 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
     class viewHolder {
         TextView txtoldreceiptview;
     }
-
-
+    
     private String getRequeastUrls(String receiptNo) {
 
         PropertyTaxSearchDetails propertyTaxSearchDetails = controller.getProprtyPropertyTaxSearchDetails();
-//channelID=4&serviceId=reprintRcpt&ZONE=04&DIV_CD=035&OLD_BILL=01193&OLD_SUB=000000&RCPT_NO=2014-15/N101/0012401
         parameterlsit = new ArrayList<NameValuePair>();
-        //parameterlsit.add(new BasicNameValuePair("PropertyTypeFlag", "New"));
         parameterlsit.add(new BasicNameValuePair("channelID", propertyTaxSearchDetails.getChannelID()));
         parameterlsit.add(new BasicNameValuePair("ZONE", propertyTaxSearchDetails.getZONE()));
         parameterlsit.add(new BasicNameValuePair("DIV_CD", propertyTaxSearchDetails.getDIV_CD()));
@@ -127,16 +134,23 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
         parameterlsit.add(new BasicNameValuePair("OLD_SUB", propertyTaxSearchDetails.getOLD_SUB()));
         parameterlsit.add(new BasicNameValuePair("RCPT_NO", receiptNo));
         parameterlsit.add(new BasicNameValuePair("serviceId", "reprintRcpt"));
-
-
         String result = new Connection(context).getParametriseUrl(parameterlsit);
-
         controller.setReceiptUrl(result);
         return result;
-
     }
-
-
+    
+    private String getRequestUrlForOldPropertyTax(String receiptNo)
+    {
+        PropertyTaxSearchDetails propertyTaxSearchDetails = controller.getProprtyPropertyTaxSearchDetails();
+        controller.setRequestedUrl(URLConstants.OLD_PROPERTY_TAX_MASTER_URL);
+        parameterlsit = new ArrayList<NameValuePair>();
+        parameterlsit.add(new BasicNameValuePair("channelID", propertyTaxSearchDetails.getChannelID()));
+        parameterlsit.add(new BasicNameValuePair("OLD_PROP_ID", propertyTaxSearchDetails.getOLD_BILL()));
+        parameterlsit.add(new BasicNameValuePair("RCPT_NO", receiptNo));
+        parameterlsit.add(new BasicNameValuePair("serviceId", "reprintRcpt"));
+        String result = new Connection(context).getParametriseUrl(parameterlsit);
+        return result;
+    }
     private class GetReceiptData extends AsyncTask<String, Void, String> {
         String requestUrl;
         String result;
@@ -151,10 +165,12 @@ public class ViewOldReceiptAdapter extends BaseAdapter {
 
             try {
                 result = new Connection(context).getResult(requestUrl);
+                Log.d("resylt" , result);
                 Log.d("receiptData", result);
                 if (result.contentEquals("ERROR")) {
                     communicator.launchMessageDialog("Error", "Sorry ! No Record Found This might Because Low Internet Connectivity Please Try After Some Time.");
                 } else {
+                  
                     ReceiptDetails receiptDetails = new ParseResult(result).parsePropertyTaxReceiptDetails();
                     controller.setReceiptDetails(receiptDetails);
                     isReceiptFileGenerated = new ViewFileGenerator().generatePropertyTaxReceiptHTML();

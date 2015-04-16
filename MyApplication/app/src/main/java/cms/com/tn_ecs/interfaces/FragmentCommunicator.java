@@ -51,5 +51,8 @@ public interface FragmentCommunicator {
     public void cleareBackStack();
 
     public void launchViewReceiptFragment();
+    
+
+    
 
 }

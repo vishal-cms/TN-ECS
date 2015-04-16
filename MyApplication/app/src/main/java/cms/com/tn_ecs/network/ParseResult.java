@@ -23,6 +23,7 @@ import cms.com.tn_ecs.controller.Controller;
 import cms.com.tn_ecs.objectholders.Certificate;
 import cms.com.tn_ecs.objectholders.CertificateList;
 import cms.com.tn_ecs.objectholders.HalfYear;
+import cms.com.tn_ecs.objectholders.InstallmentInfo;
 import cms.com.tn_ecs.objectholders.PropertyTaxArrears;
 import cms.com.tn_ecs.objectholders.ReceiptDetails;
 import cms.com.tn_ecs.objectholders.ZoneInfo;
@@ -360,6 +361,7 @@ public class ParseResult {
     public ReceiptDetails parsePropertyTaxReceiptDetails() {
         ReceiptDetails receiptDetails = new ReceiptDetails();
         try {
+            ArrayList<InstallmentInfo>  installmentInfos = new ArrayList<InstallmentInfo>();
             factory = DocumentBuilderFactory.newInstance();
             documentBuilder = factory.newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
@@ -399,19 +401,24 @@ public class ParseResult {
                         receiptDetails.setBane_branch(receipt.getTextContent());
                     } else if (receipt.getNodeName().equalsIgnoreCase("HY")) {
                         NodeList installmentList = receipt.getChildNodes();
+                        InstallmentInfo installmentInfo = new InstallmentInfo();
                         for (int j = 0; j < installmentList.getLength(); j++) {
                             Node installment = installmentList.item(j);
+                            
                             if (installment.getNodeName().equals("HALFYR")) {
-                                receiptDetails.setHalf_year(installment.getTextContent());
+                                installmentInfo.setInstallment(installment.getTextContent());
                             } else if (installment.getNodeName().equals("ADJAMT")) {
-                                receiptDetails.setAdjistment(installment.getTextContent());
+                              installmentInfo.setAdjistment(installment.getTextContent());
                             }
+                            
                         }
+                        installmentInfos.add(installmentInfo);
                     } else if (receipt.getNodeName().equalsIgnoreCase("BAL")) {
                         receiptDetails.setBalance(receipt.getTextContent());
                     }
                 }
             }
+            receiptDetails.setInstallmentInfos(installmentInfos);
             return receiptDetails;
 
         } catch (Exception e) {

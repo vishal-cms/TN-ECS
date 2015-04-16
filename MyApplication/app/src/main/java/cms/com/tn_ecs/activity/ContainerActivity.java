@@ -50,8 +50,9 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
     @Override
     public void showDate() {
         String date = null;
+        date = controller.getSelectedDate();
         if (controller.getSelectedDate() != null && !controller.getSelectedDate().equalsIgnoreCase("false")) {
-            date = controller.getSelectedDate();
+          
             if (certificateSearch != null) {
                 certificateSearch.showDate(date);
             } else if (registerUser != null) {
@@ -59,7 +60,14 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
             }
 
         } else {
-            launchMessageDialog("Please Select Correct Date.", "Error");
+            if (certificateSearch != null) {
+                certificateSearch.showDate(date);
+                launchMessageDialog("Please Select Correct Date.", "Error");
+            } else if (registerUser != null) {
+                registerUser.showDate(date);
+                launchMessageDialog("Please Select Correct Date.", "Error");
+            }
+           
         }
     }
 
@@ -85,7 +93,6 @@ public class ContainerActivity extends ActionBarActivity implements FragmentComm
         }
         launchSplashScreen();
         
-        //launchViewReceiptFragment();
     }
 
     @Override

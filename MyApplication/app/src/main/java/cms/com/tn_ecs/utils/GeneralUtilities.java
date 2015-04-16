@@ -3,6 +3,7 @@ package cms.com.tn_ecs.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by vishal_mokal on 3/2/15.
@@ -58,7 +59,7 @@ public class GeneralUtilities {
     public boolean validatePhoneNumber(String phonenumber) {
         boolean isValidPhoneNumber;
 
-        if (phonenumber.length() == 10 || phonenumber.length() == 12) {
+        if (phonenumber.length() >=10 && phonenumber.length() <= 12) {
 
             if (phonenumber.startsWith("91") || phonenumber.startsWith("7") || phonenumber.startsWith("8") || phonenumber.startsWith("9")) {
 
@@ -78,11 +79,18 @@ public class GeneralUtilities {
     }
 
     public static boolean validatePassword(String password) {
-        if (!(password.length() > 8) && !(password.length() < 4)) {
-            return true;
+        
+        if (!(password.length() < 8) && !(password.length() > 20)) {
+        return true;
+
         } else {
             return false;
         }
+    }
+    
+    public static void showToastMessage(Context context , String message)
+    {
+        Toast.makeText(context , message.toUpperCase() , Toast.LENGTH_LONG).show();
     }
 
 
